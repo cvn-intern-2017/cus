@@ -1,1 +1,1 @@
-# cus  The Cybozu URL Shortener 
+# cus  The Cybozu URL Shortener Project 
