@@ -1,0 +1,81 @@
+@CHARSET "ISO-8859-1";
+.center {
+    padding: 70px 0;
+	margin-top: 10%;
+	margin-left: 20%;
+}
+.txt {
+    color: #aaaaaa;
+    font-size: 16px;
+}
+.text {
+    font-size: 16px;
+    margin-left: 8px;
+    margin-top: 1px;
+}
+.mydiv2 {
+	padding: 1px 0;
+	width: 40%;
+	height:13%;
+	background-color: #F2F2F2;
+}
+.div-frame{
+    width: 100%;
+    height:100%;
+    background-color: #00acc1;
+}
+.div-btnDone {
+ position:absolute;
+    bottom: 5%;
+    right: 5%;
+}
+.frame {
+    width: 100px;
+    height: 100px;
+    border: none;
+    -moz-transform: scale(0.2);
+    -moz-transform-origin: 0 0;
+    -o-transform: scale(0.2);
+    -o-transform-origin: 0 0;
+    -webkit-transform: scale(0.2);
+    -webkit-transform-origin: 0 0;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 35%;
+	height: 300px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
