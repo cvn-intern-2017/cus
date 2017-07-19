@@ -1,8 +1,7 @@
 <?php
     class URL {
-        private $_key; 
+        private $_key;
         private $_oldLink;
-        private $_newLink;
         private $_created;
         private $_totalClick;
         private $_browser;
@@ -17,12 +16,6 @@
         }
         function setOldLink($link){
             $this->_oldLink = $link;
-        }
-        function getNewLink(){
-            return $this->_newLink;
-        }
-        function setNewLink($link){
-            $this->_newLink = $link;
         }
         function getCreatedTime(){
             return $this->_created;
