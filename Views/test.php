@@ -9,7 +9,7 @@
                             <input placeholder="Nhập link cần rút gọn" name="link" id="input_url" type="text" class="validate">
                         </div>
                         <div class="input-field col s3">
-                            <a data-target="modal1" class="waves-effect waves-light btn-large btn" >Shorten URL</a>
+                            <a name="submit" data-target="modal1" class="waves-effect waves-light btn-large btn">Shorten URL</a>
                         </div>
                     </div>
 
@@ -49,4 +49,3 @@
 <script src="UI/js/materialize.min.js">
 
 </script>
-

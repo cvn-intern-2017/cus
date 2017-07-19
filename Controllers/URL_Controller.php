@@ -11,6 +11,8 @@
             $this->loadView('test');
             $this->loadFooter();
         }
+
+
         function inputAction() {
             if (isset($_POST['link'])) {
                 if ($this->validateURL($_POST['link'])) {
@@ -25,27 +27,25 @@
             }
         }
         // Hàm trả về 1 chuổi random với mặc định là 6 kí tự.
-        function generateRandomString($length = 6) {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $charactersLength = strlen($characters);
-            $randomString = '';
-            for ($i = 0; $i < $length; $i++) {
-                $randomString .= $characters[rand(0, $charactersLength - 1)];
-            }
-            return $randomString;
+        private function generateRandomString() {
+            $characters = str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+            return substr($characters,0,6);
         }
         function validateKey($key){
             if($this->model->hasKey($key)){
                 return false;
-            }
-            else{
+            }else{
               return true;
             }
         }
+
         function addURL($url){
             // Kiểm tra xem key được tạo ra có bị trùng với key đã có trước đó chưa
-            while(!$this->validateKey($key=$this->generateRandomString()));
-            // add URL vào database
+            $key = $this->generateRandomString();
+            while(!$this->validateKey($key)){
+              $key = $this->generateRandomString();
+            }
+            return $this->model->addNewKeyRecord($key,$url);
         }
         // Hàm kiểm tra URL được user input vào form.
         function validateURL($url){

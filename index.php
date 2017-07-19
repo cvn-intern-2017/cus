@@ -5,7 +5,6 @@
     include_once PATH_CONTROLLER . '\URL_Controller.php';
     include_once PATH_CONTROLLER . '\Access_Controller.php';
     // Trường hợp vào giao diện input URL để nhận shortlink.
-/*
     if ($_SERVER['REQUEST_URI'] === '/cus/' || $_SERVER['REQUEST_URI'] === '/cus/index.php') { // cybozu.xyz/
     		if(isset($_POST['link'])) {
     			$controllerObject = new URL_Controller();
@@ -22,7 +21,7 @@
       	$controllerObject = new Access_Controller();
       	$controllerObject->indexAction();
     }
-*/
-	$object=(new Access_Controller());
-	$object->redirectURL("frj7d");
+/*$object = new URL_Controller();
+var_dump($object->addURL('addURLadasdfasbj.com'));*/
+
 ?>

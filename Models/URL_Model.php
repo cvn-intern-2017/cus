@@ -4,6 +4,7 @@
     //include_once 'Base_Model.php';
 
     class URL_Model extends Base_Model{
+
         public function __construct() {
             parent::__construct();
         }
@@ -12,6 +13,12 @@
             $this->setQuery("SELECT * FROM URL where key_link = ?");
             $result = $this->loadRow(array($key));
             return $result;
+        }
+
+        function addNewKeyRecord($key,$url_original){
+          $this->setQuery("INSERT INTO url (key_link, original_link) VALUES (?,?)");
+          $result = $this->execute(array($key,$url_original));
+          return $result; // success: lastID, fail: NULL
         }
 
    }
