@@ -21,11 +21,11 @@
 
 <div class="container">
     <div class="row">
-        <form class="col s12">
+        <form class="col s12" action="index.php">
             <div class="row">
 
                 <div class="input-field col s6">
-                    <input placeholder="Your original URL here" id="first_name" type="text" class="validate">
+                    <input placeholder="Your original URL here" type="text" class="validate">
                     <a class="waves-effect waves-light btn" id="myBtn">Shorten</a>
 
                 </div>
