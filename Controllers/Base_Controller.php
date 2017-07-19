@@ -2,11 +2,11 @@
     if ( ! defined('PATH_VIEW')) die ('Bad requested!');
     class Base_Controller {
         protected $model = NULL;
-        private $__content = array();
+        private $_content = array();
         function __construct() 
         {
-            require_once PATH_MODEL . '/CUS_Model.php';
-            $this->model = new CUS_Model();
+            require_once PATH_MODEL . '/Base_Model.php';
+            $this->model = new Base_Model();
         }
         /* Chức năng: Đổ dữ liệu vào view 
             $view : tham số view.
@@ -19,16 +19,17 @@
             require_once PATH_VIEW . '/' . $view . '.php';
             $content = ob_get_contents();
             ob_end_clean();
-            $this->__content[] = $content;
+            $this->_content[] = $content;
             
         }
-        // Sử dụng hàm loadView ở trên để loadView(header), loadView(footer)
+        // Sử dụng hàm loadView ở trên để loadView('header'), loadView('footer')
         function loadHeader() {
+            $this->loadView('header');
         }
         function loadFooter() {
         }
         function __destruct() {
-            foreach ($this->__content as $html){
+            foreach ($this->_content as $html){
                 echo $html;
             }
         }

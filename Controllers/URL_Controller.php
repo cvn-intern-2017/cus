@@ -1,15 +1,12 @@
 <?php
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
-    
+    include_once PATH_CONTROLLER . '\Base_Controller.php'; 
     class URL_Controller extends Base_Controller {
         function __construct() {
-            parent::__construct();
+            require_once PATH_MODEL . '/URL_Model.php';
+            $this->model = new URL_Model();
         }
         function indexAction() {
-           $model = $this->model;
-            
-           $data['test_para'] = "OK" ;
-           $this->loadView('test', $data);
         }
         // Hàm trả về 1 chuổi random với mặc định là 6 kí tự.
         function generateRandomString($length = 6) {

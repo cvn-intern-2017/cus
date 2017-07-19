@@ -1,10 +1,15 @@
 <?php
-class database{
-    var $_dbh = ''; //Giá trị trả về sau khi tạo object trên (được gán vào biến $DBH) được gọi là database handler và object này sẽ được dùng xuyên suốt trong quá trình kết nối với CSDL. 
-    var $_sql = '';
-    var $_cursor = NULL; // nhận kết quả sau khi prepare câu SQL       
+class Base_Model {
+    private $_dbh = ''; //Giá trị trả về sau khi tạo object trên (được gán vào biến $DBH) được gọi là database handler và object này sẽ được dùng xuyên suốt trong quá trình kết nối với CSDL. 
+    private $_sql = '';
+    private $_cursor = NULL; // nhận kết quả sau khi prepare câu SQL   
+    // Khai báo thông tin database và server kết nối.
+    private $_servername = "localhost";
+    private $_username = "root";
+    private $_password = "";
+    private $_database = "test";
     
-    public function database() {
+    public function __construct() {  
         try{
             $this->_dbh = new PDO('mysql:host=localhost; dbname=test','root','');
             $this->_dbh->query('set names "utf8"');
@@ -15,7 +20,7 @@ class database{
         }
     }
 	
-	public function disconnect() {
+	public function disconnect() { // ngắt kết nối
 	  	$this->_dbh = NULL;
 	}
 	
@@ -23,8 +28,8 @@ class database{
         $this->_sql = $sql;
     }
 	
-	public function getLastId() { // ngắt kết nối
-        return $this->_dbh->lastInsertId(); 
+	public function getLastId() { 
+        return $this->_dbh->lastInsertId();
     }
     
     // execute the query 
@@ -53,6 +58,7 @@ class database{
     }
     
     //Funtion load 1 data on the table
+    /*
     public function loadRow($option=array()) {
         if(!$option) {
             if(!$result = $this->execute())
@@ -63,6 +69,7 @@ class database{
         }
         return $result->fetch(PDO::FETCH_OBJ);
 	}
+     */
 	
 	
 	public function insert($table,$option = array()){
@@ -82,26 +89,4 @@ class database{
 	}
      
 }
-
-
-// dùng thử --------------
-function randomString6(){
-    $characters = str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-	//$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return substr($characters, 0, 6);
-}
-
-$newLink = 'http://cus.dev.cybozu.xyz/'.randomString6();
-$oldLink = 'http://localhost/test-github/pdo.php';
-//exit();
-$db     = new database();
-//$db->setQuery("SELECT * FROM url WHERE old_link LIKE ?");
-$result = $db->insert('url',array('',$newLink,$oldLink));
-echo "<pre>";
-print_r($result); 
-echo "</pre>";
-if($result>0){
-	echo 'Insert thành công';
-}
-//echo $result[0]->new_link;
 ?>  
