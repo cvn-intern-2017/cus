@@ -6,7 +6,7 @@
     include_once PATH_CONTROLLER . '\Access_Controller.php';
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/cus/' || $_SERVER['REQUEST_URI'] === '/cus/index.php') { // cybozu.xyz/
-    		if(isset($_POST['link']) {
+    		if(isset($_POST['link'])) {
     			$controllerObject = new URL_Controller();
     			$controllerObject->inputAction();
     		}

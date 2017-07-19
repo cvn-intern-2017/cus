@@ -7,7 +7,7 @@
         }
         // Hàm kiểm tra xem key được tạo có trong database chưa
         function hasKey($key){
-            if(/*dieu kien chi no true */) {
+            if(true /*dieu kien chi no true */) {
                 return true;
             }
             else {
