@@ -11,7 +11,7 @@ class Base_Model {
     
     public function __construct() {  
         try{
-            $this->_dbh = new PDO('mysql:host=localhost; dbname=test','root','');
+            $this->_dbh = new PDO('mysql:host=localhost; dbname=cus','root','');
             $this->_dbh->query('set names "utf8"');
             $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
@@ -86,7 +86,14 @@ class Base_Model {
 			return false;
 		}
 		//return $this->getLastId(); // >0 success !!
-	}
-     
+	}  
 }
+/*
+$db  = new Base_Model();
+$db->setQuery('SELEC * FROM url where key_link = 1');
+$results = $db->loadAllRows();
+echo "<pre>";
+print_r($results);
+echo "</pre>";
+*/
 ?>  
