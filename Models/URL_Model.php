@@ -1,18 +1,17 @@
 <?php
-    if ( ! defined('PATH_MODEL')) die ('Bad requested!');
+    if (!defined('PATH_MODEL')) die ('Bad requested!');
     include_once PATH_MODEL . '\Base_Model.php';
+    //include_once 'Base_Model.php';
+
     class URL_Model extends Base_Model{
         public function __construct() {
             parent::__construct();
         }
         // Hàm kiểm tra xem key được tạo có trong database chưa
-        function hasKey($key){
-            if(true /*dieu kien chi no true */) {
-                return true;
-            }
-            else {
-                return fasle;
-            }
+        public function hasKey($key){
+            $this->setQuery("SELECT * FROM URL where key_link = ?");
+            $result = $this->loadRow(array($key));
+            return $result;
         }
 
    }
