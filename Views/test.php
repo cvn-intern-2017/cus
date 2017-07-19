@@ -4,9 +4,10 @@
 <title>Page Title</title>
 </head>
 <body>
-<?php echo $test_para;?>
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+<form action="index.php?a=input" method="POST">
+    <input type="text" name="username" value="" required >
+    <input type="submit" name="ok" value="Đăng nhập">
+</form>
 
 </body>
 </html>
