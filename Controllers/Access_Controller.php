@@ -7,7 +7,7 @@
             $this->model = new Access_Model();
         }
         function indexAction() {
-            
+
         }
         function validateURL($key){
 

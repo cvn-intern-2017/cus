@@ -6,17 +6,16 @@
     include_once PATH_CONTROLLER . '\Access_Controller.php';
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/cus/' || $_SERVER['REQUEST_URI'] === '/cus/index.php') { // cybozu.xyz/
-		if(isset($_POST['link']) {
-			$controllerObject = new URL_Controller();
-			$controllerObject->inputAction();
-		}
-		else {
-			$controllerObject = new URL_Controller();
-      		$controllerObject->indexAction();	
-		}
-      	
+    		if(isset($_POST['link']) {
+    			$controllerObject = new URL_Controller();
+    			$controllerObject->inputAction();
+    		}
+    		else {
+    			$controllerObject = new URL_Controller();
+          		$controllerObject->indexAction();
+    		}
     }
-    
+
     // Trường hợp vào shortlink hoặc vào trang data analystics. (Nên xét kĩ 2 trường hợp này ==> có thể có bug)
     else {
       	$controllerObject = new Access_Controller();
