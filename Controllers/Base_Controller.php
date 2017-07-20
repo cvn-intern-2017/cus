@@ -29,6 +29,11 @@
         function loadFooter() {
             $this->loadView('footer');
         }
+        function loadPage($view, $data=array()) {
+            $this->loadHeader();
+            $this->loadView($view, $data);
+            $this->loadFooter();
+        }
         function __destruct() {
             foreach ($this->_content as $html){
                 echo $html;
