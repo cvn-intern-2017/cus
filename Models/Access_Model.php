@@ -7,7 +7,7 @@
             parent::__construct();
         }
 
-        function getURLbyKey($key){
+        function getURLByKey($key){
             $this->setQuery("SELECT original_link FROM URL where key_link = ?");
             $results = $this->loadRow(array($key));
             if($results){

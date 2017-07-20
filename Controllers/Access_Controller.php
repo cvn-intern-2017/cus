@@ -17,7 +17,7 @@
         }
         function redirectURL($key){
             // tìm trong database
-            $url= $this->model->getURlbyKey($key);
+            $url= $this->model->getURLByKey($key);
             header("Location: ".$url);
             /* Make sure that code below does not get executed when we redirect. */
             exit;

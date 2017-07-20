@@ -1,6 +1,6 @@
 <?php
 class Base_Model {
-    private $_dbh = ''; //Giá trị trả về sau khi tạo object trên (được gán vào biến $DBH) được gọi là database handler và object này sẽ được dùng xuyên suốt trong quá trình kết nối với CSDL.
+    private static $_dbh; //Giá trị trả về sau khi tạo object trên (được gán vào biến $DBH) được gọi là database handler và object này sẽ được dùng xuyên suốt trong quá trình kết nối với CSDL.
     private $_sql = '';
     private $_cursor = NULL; // nhận kết quả sau khi prepare câu SQL
     // Khai báo thông tin database và server kết nối.
@@ -11,9 +11,11 @@ class Base_Model {
 
     public function __construct() {
         try{
-            $this->_dbh = new PDO('mysql:host='.$this->_servername.'; dbname='.$this->_database,$this->_username,$this->_password);
-            $this->_dbh->query('set names "utf8"');
-            $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            if(!self::$_dbh) {
+              $this->_dbh = new PDO('mysql:host='.$this->_servername.'; dbname='.$this->_database,$this->_username,$this->_password);
+              $this->_dbh->query('set names "utf8"');
+              $this->_dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
         }
         catch(PDOException $e){
             exit('Không kết nối được cơ sở dữ liệu: '.$e->getMessage());
@@ -69,7 +71,7 @@ class Base_Model {
         }
         return $result->fetch(PDO::FETCH_OBJ);
 	}
-     
+
 
 
 	public function insert($table,$option = array()){

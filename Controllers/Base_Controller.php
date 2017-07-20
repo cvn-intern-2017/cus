@@ -3,11 +3,6 @@
     class Base_Controller {
         protected $model = NULL;
         private $_content = array();
-        function __construct()
-        {
-            require_once PATH_MODEL . '/Base_Model.php';
-            $this->model = new Base_Model();
-        }
         /* Chức năng: Đổ dữ liệu vào view
             $view : tham số view.
             $data: Dữ liệu cần nhứng vào view.
