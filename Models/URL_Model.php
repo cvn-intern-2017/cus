@@ -18,7 +18,12 @@
         function addNewKeyRecord($key,$url_original){
           $this->setQuery("INSERT INTO url (key_link, original_link) VALUES (?,?)");
           $result = $this->execute(array($key,$url_original));
-          return $result; // success: lastID, fail: NULL
+          if ($result){
+            return true;
+          }
+          else{
+            return false;
+          }
         }
 
    }

@@ -1,5 +1,6 @@
 <?php
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
+    if ( ! defined('DOMAIN')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '\Base_Controller.php';
     class URL_Controller extends Base_Controller {
         function __construct() {
@@ -7,16 +8,20 @@
             $this->model = new URL_Model();
         }
         function indexAction() {
-            $this->loadHeader();
-            $this->loadView('test');
-            $this->loadFooter();
+            $this->loadPage("test");
         }
-
 
         function inputAction() {
             if (isset($_POST['link'])) {
                 if ($this->validateURL($_POST['link'])) {
-                    $this->addURL($_POST['link']);
+                    $key_url = $this->addURL($_POST['link']);
+                    if ($key_url) {
+                        $data['new_link'] = DOMAIN . $key_url;
+                        $this->loadPage("test", $data);
+                    }
+                    else {
+                      // Báo lỗi do key không insert vào database được.
+                    }
                 }
                 else {
                     // Hiện pop up lỗi.
@@ -41,20 +46,25 @@
 
         function addURL($url){
             // Kiểm tra xem key được tạo ra có bị trùng với key đã có trước đó chưa
-            $key = $this->generateRandomString();
-            while(!$this->validateKey($key)){
+            do{
               $key = $this->generateRandomString();
+            } while(!$this->validateKey($key));
+            $result = $this->model->addNewKeyRecord($key,$url);
+            if ($result){
+              return $key;
             }
-            return $this->model->addNewKeyRecord($key,$url);
+            else{
+              return false;
+            }
         }
         // Hàm kiểm tra URL được user input vào form.
         function validateURL($url){
             $input_url = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
-            if (filter_var($url, FILTER_VALIDATE_URL)) {  // Kiểm tra xem input có phải URL không.
-                return True;
+            if (filter_var($input_url, FILTER_VALIDATE_URL)) {  // Kiểm tra xem input có phải URL không.
+                return true;
             }
             else {
-                return False;
+                return false;
             }
         }
     }
