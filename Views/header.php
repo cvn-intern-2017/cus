@@ -5,6 +5,7 @@
   <title>Shorten URL</title>
   <link rel="stylesheet" href="UI/css/materialize.min.css">
   <link rel="stylesheet" href="UI/css/style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
