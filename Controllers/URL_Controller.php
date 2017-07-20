@@ -16,7 +16,7 @@
                 if ($this->validateURL($_POST['link'])) {
                     $key_url = $this->addURL($_POST['link']);
                     if ($key_url) {
-                        $data['new_link'] = DOMAIN . $key_url;
+                        $data['newLink'] = DOMAIN . $key_url;
                         $this->loadPage("test", $data);
                     }
                     else {
@@ -30,6 +30,10 @@
             else {
                 // Hiện trang báo lỗi
             }
+        }
+        function getLinkInfo($key_url){
+
+
         }
         // Hàm trả về 1 chuổi random với mặc định là 6 kí tự.
         private function generateRandomString() {
