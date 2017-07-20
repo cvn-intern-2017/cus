@@ -35,5 +35,6 @@
         function setBrowser($browser){
             $this->_browser = $browser;
         }
+        /*************************************/
     }
 ?>
