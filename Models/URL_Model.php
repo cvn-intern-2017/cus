@@ -14,9 +14,6 @@
             $result = $this->loadRow(array($key));
             return $result;
         }
-
-
-
         function addNewKeyRecord($key,$url_original){
           $this->setQuery("INSERT INTO url (key_link, original_link) VALUES (?,?)");
           $result = $this->execute(array($key,$url_original));
@@ -27,7 +24,6 @@
             return false;
           }
         }
-
    }
 
 ?>
