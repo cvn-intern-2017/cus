@@ -9,11 +9,13 @@
             parent::__construct();
         }
         // Hàm kiểm tra xem key được tạo có trong database chưa
-        public function hasKey($key){
+        public function getInfoByKey($key){
             $this->setQuery("SELECT * FROM URL where key_link = ?");
             $result = $this->loadRow(array($key));
             return $result;
         }
+
+
 
         function addNewKeyRecord($key,$url_original){
           $this->setQuery("INSERT INTO url (key_link, original_link) VALUES (?,?)");

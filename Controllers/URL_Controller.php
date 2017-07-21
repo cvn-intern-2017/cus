@@ -3,6 +3,7 @@
     if ( ! defined('DOMAIN')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '\Base_Controller.php';
     class URL_Controller extends Base_Controller {
+        private $_infoLink;
         function __construct() {
             require_once PATH_MODEL . '/URL_Model.php';
             $this->model = new URL_Model();
@@ -16,7 +17,7 @@
                 if ($this->validateURL($_POST['link'])) {
                     $key_url = $this->addURL($_POST['link']);
                     if ($key_url) {
-                        $data['newLink'] = DOMAIN . $key_url;
+                        $data = $this->getLinkInfo($key_url);
                         $this->loadPage("test", $data);
                     }
                     else {
@@ -32,8 +33,11 @@
             }
         }
         function getLinkInfo($key_url){
-
-
+            $result = $this->model->getInfoByKey($key_url);
+            $data['newLink'] = DOMAIN . $key_url; //
+            $data['originalLink'] = $result->original_link;
+            $data['analysticDataLink'] = DOMAIN . $key_url . "+"; //
+            return $data;
         }
         // Hàm trả về 1 chuổi random với mặc định là 6 kí tự.
         private function generateRandomString() {
@@ -41,7 +45,7 @@
             return substr($characters,0,6);
         }
         function validateKey($key){
-            if($this->model->hasKey($key)){
+            if($this->model->getInfoByKey($key)){
                 return false;
             }else{
               return true;

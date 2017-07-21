@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col s6 offset-s3">
         <div class="row">
-          <form class="col s12" action="index.php" method="post">
+          <form class="col s12" action="" method="post">
             <div class="row">
               <div class="input-field col s9">
                 <input placeholder="Nhập link cần rút gọn" type="text" class="validate" id="input_url" name="link">
@@ -18,7 +18,7 @@
     </div>
 
 <?php
- if(isset($newLink) && isset($createdDate) && isset($originalLink) && isset($createdBrowser) ){
+ if(isset($newLink) && isset($originalLink) && isset($analysticDataLink)){
    ?>
    <div class="row">
      <div class="col s12">
@@ -26,21 +26,17 @@
        <table>
          <thead>
            <tr>
-               <th>Created Time</th>
-               <th>Original Link</th>
-               <th>Shorten Link</th>
-               <th>Browser</th>
-               <th></th>
+             <th>Original Link</th>
+             <th>Shorten Link</th>
+             <th>Analytics Data</th>
            </tr>
          </thead>
 
          <tbody>
            <tr>
-             <td><?php echo $createdDate;?></td>
              <td><?php echo $originalLink;?></td>
-             <td><a href=<?php echo htmlspecialchars($newLink);?>><?php echo $newLink;?></a></td>
-             <td><?php echo $createdBrowser;?></td>
-             <td><a class="btn-floating waves-effect waves-light red"><i class="tiny material-icons">insert_chart</i></a></td>
+             <td><a target="_blank" href="<?php echo $newLink ?>"><?php echo $newLink?></a></td>
+             <td class="centered"><a target="_blank" class="btn-floating waves-effect waves-light red"><i class="tiny material-icons">insert_chart</i></a></td>
            </tr>
          </tbody>
        </table>

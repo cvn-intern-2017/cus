@@ -15,7 +15,6 @@
             $content = ob_get_contents();
             ob_end_clean();
             $this->_content[] = $content;
-
         }
         // Sử dụng hàm loadView ở trên để loadView('header'), loadView('footer')
         function loadHeader() {

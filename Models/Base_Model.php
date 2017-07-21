@@ -22,28 +22,28 @@ class Base_Model {
         }
     }
 
-	public function disconnect() { // ngắt kết nối
-	  	$this->_dbh = NULL;
-	}
+      public function disconnect() { // ngắt kết nối
+  	  	$this->_dbh = NULL;
+  	  }
 
-	public function setQuery($sql) {
+	    public function setQuery($sql) {
         $this->_sql = $sql;
-    }
+      }
 
-	public function getLastId() {
+	    public function getLastId() {
         return $this->_dbh->lastInsertId();
-    }
+      }
 
     // execute the query
     public function execute($options=array()) {
         $this->_cursor = $this->_dbh->prepare($this->_sql);
-		if($options) {  // Bind Parameter
-			for($i=0;$i<count($options);$i++) {
-				$this->_cursor->bindParam($i+1,$options[$i]);
-			}
-		}
-		$this->_cursor->execute();
-		return $this->_cursor;
+    		if($options) {  // Bind Parameter
+      			for($i=0;$i<count($options);$i++) {
+      				$this->_cursor->bindParam($i+1,$options[$i]);
+      			}
+		    }
+    		$this->_cursor->execute();
+    		return $this->_cursor;
     }
 
 
@@ -75,18 +75,18 @@ class Base_Model {
 
 
 	public function insert($table,$option = array()){
-		$count = count($option);
-		//echo substr(str_repeat('?,', $count),0,-1); create number of ? commensurate with number of element in array
-		if ($count>0) {
-			$sql='Insert INTO '.$table.' values ('.substr(str_repeat('?,', $count),0,-1).')';
-			$this->setQuery($sql);
-			$result = $this->execute($option);
-		}
-		if($result){
-			return $this->getLastId();
-		}else{
-			return false;
-		}
+  		$count = count($option);
+  		//echo substr(str_repeat('?,', $count),0,-1); create number of ? commensurate with number of element in array
+  		if ($count>0) {
+  			$sql='Insert INTO '.$table.' values ('.substr(str_repeat('?,', $count),0,-1).')';
+  			$this->setQuery($sql);
+  			$result = $this->execute($option);
+  		}
+  		if($result){
+  			return $this->getLastId();
+  		}else{
+  			return false;
+  		}
 		//return $this->getLastId(); // >0 success !!
 	}
 }

@@ -9,10 +9,14 @@
             $this->model = new Access_Model();
         }
         function indexAction() {
+            $URLOnBar = $_SERVER['REQUEST_URI'];
+            $arr = explode('/',$URLOnBar);
+            $key = end($arr);
+            //giả sử key always ok
+            $this->redirectURL($key);
 
         }
         function validateURL($key){
-
 
         }
         function redirectURL($key){
@@ -21,7 +25,6 @@
             header("Location: ".$url);
             /* Make sure that code below does not get executed when we redirect. */
             exit;
-
         }
     }
 
