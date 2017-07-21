@@ -4,4 +4,6 @@ RewriteEngine on
 # Redirect everything in this directory to "index.php"
 RewriteRule UI/css/materialize.min.css UI/css/materialize.min.css
 RewriteRule UI/css/style.css UI/css/style.css
-RewriteRule .* index.php
+RewriteRule UI/js/materialize.min.js UI/js/materialize.min.js
+RewriteRule UI/js/jquery-2.1.1.min.js UI/js/jquery-2.1.1.min.js
+RewriteRule ^[^(UI/css/)(UI/js/)] index.php
