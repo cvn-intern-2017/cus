@@ -22,7 +22,7 @@
       	$controllerObject = new Access_Controller();
       	$controllerObject->indexAction();
     }
-/*$object = new Access_Controller();
-$object->indexAction();
-*/
+
+//$object = new Access_Controller();
+//$object->indexAction();
 ?>
