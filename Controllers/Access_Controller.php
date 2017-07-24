@@ -14,15 +14,20 @@
             $key      = end($arr);
             $isValid  = $this->validateURL($key);
             if($isValid){
-                $result = $this->model->addAccessRecord($key,$this->getCurrentBrowser());
-                if ($result){
-                    $this->redirectURL($key);
+                if (strlen($key) == 6){
+                    $result = $this->model->addAccessRecord($key,$this->getCurrentBrowser());
+                    if ($result){
+                        $this->redirectURL($key);
+                    }
+                    else {
+                        $this->loadView("maintenance");
+                    }
                 }
                 else {
-                    $this->loadPage("maintenance");
+                    $this->redirectURL($key);
                 }
             }else{
-                $this->loadPage("404");
+                $this->loadView("404");
             }
         }
         function validateURL($key){
@@ -67,15 +72,18 @@
             $data['created_time'] = $urlInfo->created_time;
             $accessInfo = $this->model->getAccessInfo($key);
             $data['total_click'] = $this->getTotalClick($accessInfo);
+            $data['ff_click'] = 0;
+            $data['gg_click'] = 0;
+            $data['other_click'] = 0;
             foreach ($accessInfo as $accessItem){
-                if($accessItem->browser == "Other") {
-                    $data['other_click'] = $accessItem->number_of_clicks;
+                if($accessItem->browser == "Firefox") {
+                    $data['ff_click'] = $accessItem->number_of_clicks;
                 }
                 else if($accessItem->browser == "Chrome") {
                     $data['gg_click'] = $accessItem->number_of_clicks;
                 }
                 else {
-                    $data['ff_click'] = $accessItem->number_of_clicks;
+                    $data['other_click'] = $accessItem->number_of_clicks;
                 }
             }
             return $data;
@@ -88,12 +96,12 @@
             return $result;
         }
         function getCurrentBrowser(){
-            // Tìm browser
-           return "Chrome";
+            $browser = new Browser();
+            return $browser->getBrowser();
         }
         function gotoAnalyticsPage($key){
-          $data = $this->getAnalysticsData($key);
-          $this->loadView("analytics",$data);
+            $data = $this->getAnalysticsData($key);
+            $this->loadView("analytics",$data);
         }
 
 
