@@ -2,7 +2,7 @@
     function check(){
       var txt = document.getElementById('input_url');
       var a = txt.value;
-      var res = a.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+        var res = a.match(/(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
       if(a.length<=256){
         if(res == null){
             alert("This is NOT url");

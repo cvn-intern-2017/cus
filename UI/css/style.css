@@ -2,3 +2,12 @@
   clear: both;
   height: 100px;
 }
+.page_404, .maintenance {
+    padding-top: 10%;
+    color: #888;
+    display: table;
+    font-family: sans-serif;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}

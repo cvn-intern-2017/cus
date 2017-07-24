@@ -9,31 +9,31 @@
             $this->model = new URL_Model();
         }
         function indexAction() {
-            $this->loadPage("test");
+            $this->loadPage("home");
         }
 
         function inputAction() {
-            if (isset($_POST['link']) && $_POST['link'] !== '') {
-                if ($this->validateURL($_POST['link'])) {
-                    $key_url = $this->addURL($_POST['link']);
-                    if ($key_url) {
-                        $data = $this->getLinkInfo($key_url);
-                        $this->loadPage("test", $data);
-                    }
-                    else {
-                      // Báo lỗi do key không insert vào database được.
-                        echo "Database Insertion has Error";
-                    }
-                }
-                else {
-                    // Hiện pop up lỗi.
-                    echo "Invalid URL";
-                }
-            }
-            else {
-                echo "Input nothing";
-                // Hiện trang báo lỗi
-            }
+              if (isset($_POST['link']) && $_POST['link'] !== '') {
+                  if ($this->validateURL($_POST['link'])) {
+                      $key_url = $this->addURL($_POST['link']);
+                      if ($key_url) {
+                          $data = $this->getLinkInfo($key_url);
+                          $this->loadPage("home", $data);
+                      }
+                      else {
+                        // Báo lỗi do key không insert vào database được.
+                          $this->loadPage("maintenance");
+                      }
+                  }
+                  else {
+                        // Hiện pop up lỗi.
+                      $this->loadPage("home");
+                  }
+              }
+              else {
+                  $this->loadPage("home");
+                    // Hiện trang báo lỗi
+              }
         }
         function getLinkInfo($key_url){
             $result = $this->model->getInfoByKey($key_url);

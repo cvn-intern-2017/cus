@@ -9,15 +9,15 @@
             $this->model = new Access_Model();
         }
         function indexAction() {
-          $URLOnBar = $_SERVER['REQUEST_URI'];
-          $arr      = explode('/',$URLOnBar);
-          $key      = end($arr);
-          $isValid  = $this->validateURL($key);
-          if($isValid){
-            $this->redirectURL($key);
-          }else{
-            $this->goTo404Page();
-          }
+            $URLOnBar = $_SERVER['REQUEST_URI'];
+            $arr      = explode('/',$URLOnBar);
+            $key      = end($arr);
+            $isValid  = $this->validateURL($key);
+            if($isValid){
+                $this->redirectURL($key);
+            }else{
+                $this->loadPage("404");
+            }
         }
         function validateURL($key){
           $lengKey = strlen($key);
@@ -41,23 +41,18 @@
             $this->gotoAnalyticsPage($key);
           }
           else{
-            $this->goTo404Page();
+            $this->loadPage("404");
           }
-        }
-
-        function goTo404Page(){
-          echo "go to 404 page";
         }
 
         function goToOriginalLink($key){
-          $originalUrl = $this->model->getURLByKey($key);
-          if($originalUrl){
-            header("Location: ".$originalUrl);
-            exit;
-          }else{
-            $this->goTo404Page();
-          }
-
+            $originalUrl = $this->model->getURLByKey($key);
+            if($originalUrl){
+              header("Location: ".$originalUrl);
+              exit;
+            }else{
+              $this->loadPage("404");
+            }
         }
 
         function gotoAnalyticsPage(){

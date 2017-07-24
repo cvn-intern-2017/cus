@@ -1,7 +1,6 @@
 # Enable Rewriting
 Options +FollowSymLinks
 RewriteEngine On
-#RewriteBase /cus
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
