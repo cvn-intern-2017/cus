@@ -14,9 +14,15 @@
             $key      = end($arr);
             $isValid  = $this->validateURL($key);
             if($isValid){
-                $this->redirectURL($key);
+                $result = $this->model->addAccessRecord($key,$this->getCurrentBrowser());
+                if ($result){
+                    $this->redirectURL($key);
+                }
+                else {
+                    $this->loadPage("maintenance");
+                }
             }else{
-                $this->loadView("404");
+                $this->loadPage("404");
             }
         }
         function validateURL($key){
@@ -54,9 +60,40 @@
               $this->loadView("404");
             }
         }
-
+        function getAnalysticsData($key) {
+            $key = substr($key,0,6);
+            $urlInfo = $this->model->getURLInfo($key);
+            $data['original_link'] = $urlInfo->original_link;
+            $data['created_time'] = $urlInfo->created_time;
+            $accessInfo = $this->model->getAccessInfo($key);
+            $data['total_click'] = $this->getTotalClick($accessInfo);
+            foreach ($accessInfo as $accessItem){
+                if($accessItem->browser == "Other") {
+                    $data['other_click'] = $accessItem->number_of_clicks;
+                }
+                else if($accessItem->browser == "Chrome") {
+                    $data['gg_click'] = $accessItem->number_of_clicks;
+                }
+                else {
+                    $data['ff_click'] = $accessItem->number_of_clicks;
+                }
+            }
+            return $data;
+        }
+        function getTotalClick($accessInfo){
+            $result = 0;
+            foreach ($accessInfo as $accessItem){
+                $result = $result + $accessItem->number_of_clicks;
+            }
+            return $result;
+        }
+        function getCurrentBrowser(){
+            // Tìm browser
+           return "Chrome";
+        }
         function gotoAnalyticsPage($key){
-          $this->loadView("analytics",array('key'=>$key));
+          $data = $this->getAnalysticsData($key);
+          $this->loadView("analytics",$data);
         }
 
 

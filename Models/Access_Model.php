@@ -12,7 +12,35 @@
             if($results){
                 return $results->original_link;
             }else{
-                return null; 
+                return null;
+            }
+        }
+        function addAccessRecord($key, $browser){
+            $this->setQuery("INSERT INTO access (key_short_link, browser) VALUES (?,?)");
+            $result = $this->execute(array($key,$browser));
+            if ($result){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        function getURLInfo($key){
+            $this->setQuery("SELECT original_link, created_time FROM URL where key_link = ?");
+            $results = $this->loadRow(array($key));
+            if($results){
+                return $results;
+            }else{
+                return null;
+            }
+        }
+        function getAccessInfo($key){
+            $this->setQuery("SELECT count(id) AS number_of_clicks, browser FROM ACCESS WHERE key_short_link =  ? GROUP BY browser");
+            $results = $this->loadAllRows(array($key));
+            if($results){
+                return $results;
+            }else{
+                return null;
             }
         }
     }
