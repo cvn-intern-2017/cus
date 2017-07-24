@@ -34,9 +34,9 @@
 
          <tbody>
            <tr>
-             <td><?php echo $originalLink;?></td>
+             <td><?php echo (strlen($originalLink) >= 52)?substr($originalLink,0,52) . "..." : $originalLink;?></td>
              <td><a target="_blank" href="<?php echo $newLink ?>"><?php echo $newLink?></a></td>
-             <td class="centered"><a target="_blank" class="btn-floating waves-effect waves-light red"><i class="tiny material-icons">insert_chart</i></a></td>
+             <td class="centered"><a target="_blank" class="btn-floating waves-effect waves-light red" href=<?php echo $newLink . "+";?>><i class="tiny material-icons">insert_chart</i></a></td>
            </tr>
          </tbody>
        </table>
