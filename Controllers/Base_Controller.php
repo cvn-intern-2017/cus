@@ -41,7 +41,9 @@
         require_once PATH_SMARTY . '/cusSmarty.php';
         $this->smarty = new cusSmarty();
         $this->smarty->assign('view', PATH_VIEW.'/'.$view.'/'.$view.'.tpl');
-        $this->smarty->assign('data', $data);
+        if (!empty($data)) {
+          $this->smarty->assign('data', $data);
+        }
         $this->smarty->display("master_layout.tpl");
       }
     }

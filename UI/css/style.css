@@ -2,3 +2,38 @@
   clear: both;
   height: 100px;
 }
+.page_404, .maintenance {
+    padding-top: 10%;
+    color: #888;
+    display: table;
+    font-family: sans-serif;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+}
+.documentation {
+    margin-top : 2%;
+    margin-bottom: 2%;
+    margin-left: 20%;
+    margin-right:20%;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: white;
+}
+footer {
+   border-top: 1px solid black;
+   background-color: ;
+   position: absolute;
+   height: 50px;
+   width:100%;
+   bottom:0;
+}
+p.copyright {
+       width: 100%;
+       text-align: center;
+       color:white;
+   }
+.sub-section {
+    padding-left: 6%;
+    padding-right: 6%;
+}

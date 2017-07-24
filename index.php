@@ -1,4 +1,15 @@
 <?php
+function debug($key){
+  echo "<script>alert(".$key.")</script>";
+}
+function showArr($arr){
+  if (is_array($arr)) {
+    echo "<pre>";
+    print_r($arr);
+    echo "</pre>";
+  }
+}
+
     define ('PATH_CONTROLLER', __DIR__.'\Controllers');
     define ('PATH_VIEW', __DIR__.'\Views');
     define ('PATH_MODEL', __DIR__.'\Models');
@@ -10,6 +21,7 @@
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
     		if(isset($_POST['link'])) {
+
     			$controllerObject = new URL_Controller();
           $controllerObject->inputAction();
     		}
