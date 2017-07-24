@@ -56,7 +56,7 @@
         }
 
         function gotoAnalyticsPage($key){
-          $this->loadView("404");
+          $this->loadView("analytics",array('key'=>$key));
         }
 
 

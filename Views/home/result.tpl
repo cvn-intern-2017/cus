@@ -13,7 +13,7 @@
 
       <tbody>
         <tr>
-          <td>{$data.originalLink}</td>
+          <td>{$data.originalLink64}</td>
           <td><a target="_blank" href="{$data.newLink}">{$data.newLink}</a></td>
           <td class="centered"><a target="_blank" class="btn-floating waves-effect waves-light red"><i class="tiny material-icons">insert_chart</i></a></td>
         </tr>

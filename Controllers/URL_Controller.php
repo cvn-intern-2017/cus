@@ -42,6 +42,7 @@
             $result = $this->model->getInfoByKey($key_url);
             $data['newLink'] = DOMAIN . $key_url; //
             $data['originalLink'] = $result->original_link;
+            $data['originalLink64'] = substr($result->original_link,0,64).'[...]';
             $data['analysticDataLink'] = DOMAIN . $key_url . "+"; //
             return $data;
         }
