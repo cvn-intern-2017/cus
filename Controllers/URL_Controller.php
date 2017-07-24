@@ -9,7 +9,8 @@
             $this->model = new URL_Model();
         }
         function indexAction() {
-            $this->loadPage("test");
+            //$this->loadPage("test");
+            $this->loadView('home');
         }
 
         function inputAction() {
@@ -18,7 +19,7 @@
                     $key_url = $this->addURL($_POST['link']);
                     if ($key_url) {
                         $data = $this->getLinkInfo($key_url);
-                        $this->loadPage("test", $data);
+                        $this->loadView("home", $data);
                     }
                     else {
                       // Báo lỗi do key không insert vào database được.

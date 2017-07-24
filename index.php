@@ -3,7 +3,8 @@
     define ('PATH_VIEW', __DIR__.'\Views');
     define ('PATH_MODEL', __DIR__.'\Models');
     define ('DOMAIN','http://cus.dev.cybozu.xyz/');
-    define ('LIBS', __DIR__.'\libs');
+    define ('PATH_SMARTY', __DIR__.'\smarty');
+    include_once PATH_SMARTY .'\cusSmarty.php';
     include_once PATH_CONTROLLER . '\URL_Controller.php';
     include_once PATH_CONTROLLER . '\Access_Controller.php';
     // Trường hợp vào giao diện input URL để nhận shortlink.
@@ -23,6 +24,5 @@
       	$controllerObject->indexAction();
     }
 
-//$object = new Access_Controller();
-//$object->indexAction();
+
 ?>
