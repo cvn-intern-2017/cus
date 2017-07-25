@@ -18,5 +18,5 @@
 </div>
 
 {if isset($data)}
-{include file="Views/home/result.tpl"}
+  {include file="Views/home/result.tpl"}
 {/if}

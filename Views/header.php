@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-
   <nav class="light-blue lighten-1">
     <div class="container">
       <div class="nav-wrapper">

@@ -6,16 +6,18 @@
             parent::__construct();
         }
 
-        function getURLByKey($key){
+        function getOriginalLinkByKey($key){
             $this->setQuery("SELECT original_link FROM URL where key_link = ?");
-            $results = $this->loadRow(array($key));
-            if($results){
+            $result = $this->loadRow(array($key));
+            if($result){
                 return $results->original_link;
-            }else{
+            }
+            else{
                 return null;
             }
         }
-        function addAccessRecord($key, $browser){
+
+        function insertNewAccessRecord($key, $browser){
             $this->setQuery("INSERT INTO access (key_short_link, browser) VALUES (?,?)");
             $result = $this->execute(array($key,$browser));
             if ($result){
@@ -25,21 +27,25 @@
                 return false;
             }
         }
+
         function getURLInfo($key){
             $this->setQuery("SELECT original_link, created_time FROM URL where key_link = ?");
-            $results = $this->loadRow(array($key));
-            if($results){
-                return $results;
-            }else{
+            $result = $this->loadRow(array($key));
+            if($result){
+                return $result;
+            }
+            else{
                 return null;
             }
         }
+
         function getAccessInfo($key){
             $this->setQuery("SELECT count(id) AS number_of_clicks, browser FROM ACCESS WHERE key_short_link =  ? GROUP BY browser");
             $results = $this->loadAllRows(array($key));
             if($results){
                 return $results;
-            }else{
+            }
+            else{
                 return null;
             }
         }

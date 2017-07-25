@@ -8,13 +8,14 @@
         public function __construct() {
             parent::__construct();
         }
-        // Hàm kiểm tra xem key được tạo có trong database chưa
-        public function getInfoByKey($key){
+
+        public function getURLInfoByKey($key){
             $this->setQuery("SELECT * FROM URL where key_link = ?");
             $result = $this->loadRow(array($key));
             return $result;
         }
-        function addNewKeyRecord($key,$url_original){
+
+        function insertNewURLRecord($key,$url_original){
           $this->setQuery("INSERT INTO url (key_link, original_link) VALUES (?,?)");
           $result = $this->execute(array($key,$url_original));
           if ($result){

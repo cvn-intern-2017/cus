@@ -1,80 +1,76 @@
 <?php
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '\Base_Controller.php';
-
     include_once 'Base_Controller.php';
     class Access_Controller extends Base_Controller {
         function __construct() {
             require_once PATH_MODEL . '/Access_Model.php';
             $this->model = new Access_Model();
         }
+
         function indexAction() {
-            $URLOnBar = $_SERVER['REQUEST_URI'];
-            $arr      = explode('/',$URLOnBar);
-            $key      = end($arr);
-            $isValid  = $this->validateURL($key);
-            if($isValid){
-                if (strlen($key) == 6){
-                    $result = $this->model->addAccessRecord($key,$this->getCurrentBrowser());
-                    if ($result){
-                        $this->redirectURL($key);
+            $URIOnAddressBar = $_SERVER['REQUEST_URI'];
+            // Key của trang web được lấy từ URL
+            $keyFromURL  = end(explode('/',$URIOnAddressBar));
+            if($this->isValidURL($keyFromURL)){
+                if (strlen($keyFromURL) == 6){
+                    $insertSuccess = $this->model->insertNewAccessRecord($keyFromURL,$this->detectCurrentBrowser());
+                    if ($insertSuccess){
+                        $this->redirectToRealURL($keyFromURL);
                     }
                     else {
-                        $this->loadView("maintenance");
+                        $this->goToMaintenancePage();
                     }
                 }
                 else {
-                    $this->redirectURL($key);
+                    $this->redirectToRealURL($keyFromURL);
                 }
-            }else{
-                $this->loadView("404");
+            }
+            else{
+                $this->goTo404Page();
             }
         }
-        function validateURL($key){
-          $lengKey = strlen($key);
-          if($lengKey == 6){
-            return preg_match("/([A-Za-z0-9]){6}/",$key);
-          }
-          else if($lengKey == 7){
-            return preg_match("/([A-Za-z0-9]){6}\+/",$key);
-          }
-          else{
-            return false;
-          }
-        }
 
-        function redirectURL($key){
-          $lengKey = strlen($key);
-          if ($lengKey==6) {
-            $this->goToOriginalLink($key);
-          }
-          else if ($lengKey==7) {
-            $this->gotoAnalyticsPage($key);
-          }
-          else{
-            $this->loadView("404");
-          }
-        }
-
-        function goToOriginalLink($key){
-            $originalUrl = $this->model->getURLByKey($key);
-            if($originalUrl){
-              header("Location: ".$originalUrl);
-              exit;
-            }else{
-              $this->loadView("404");
+        function isValidURL($keyFromURL){
+            $lengthKey = strlen($keyFromURL);
+            if($lengthKey == 6){
+                return preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
+            }
+            else if($lengthKey == 7){
+                return preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
+            }
+            else{
+                return false;
             }
         }
-        function getAnalysticsData($key) {
-            $key = substr($key,0,6);
-            $urlInfo = $this->model->getURLInfo($key);
+
+        function redirectToRealURL($keyFromURL){
+            $lengthKey = strlen($keyFromURL);
+            if ($lengthKey==6) {
+              $this->goToOriginalLink($keyFromURL);
+            }
+            else if ($lengthKey==7) {
+              $this->goToAnalyticsPage($keyFromURL);
+            }
+            else{
+              $this->goTo404Page();
+            }
+        }
+
+        function getAnalysticsData($keyWithPlusChar) {
+            $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
+
+            $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
+            $data['short_link'] = DOMAIN . $keyWithoutPlusChar;
             $data['original_link'] = $urlInfo->original_link;
             $data['created_time'] = $urlInfo->created_time;
-            $accessInfo = $this->model->getAccessInfo($key);
-            $data['total_click'] = $this->getTotalClick($accessInfo);
+
+            $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
+            $data['total_click'] = $this->computeTotalClick($accessInfo);
             $data['ff_click'] = 0;
             $data['gg_click'] = 0;
             $data['other_click'] = 0;
+
             foreach ($accessInfo as $accessItem){
                 if($accessItem->browser == "Firefox") {
                     $data['ff_click'] = $accessItem->number_of_clicks;
@@ -88,23 +84,39 @@
             }
             return $data;
         }
-        function getTotalClick($accessInfo){
-            $result = 0;
+
+        function computeTotalClick($accessInfo){
+            $totalClick = 0;
             foreach ($accessInfo as $accessItem){
-                $result = $result + $accessItem->number_of_clicks;
+                $totalClick = $totalClick + $accessItem->number_of_clicks;
             }
-            return $result;
+            return $totalClick;
         }
-        function getCurrentBrowser(){
+
+        function detectCurrentBrowser(){
             $browser = new Browser();
             return $browser->getBrowser();
         }
-        function gotoAnalyticsPage($key){
+        function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);
             $this->loadView("analytics",$data);
         }
-
-
+        function goToMaintenancePage(){
+            $this->loadView("maintenance");
+        }
+        function goTo404Page(){
+            $this->loadView("404");
+        }
+        function goToOriginalLink($keyWithoutPlusChar){
+            $originalLink = $this->model->getOriginalLinkByKey($keyWithoutPlusChar);
+            if($originalLink){
+                header("Location: ".$originalLink);
+                exit;
+            }
+            else{
+                $this->goTo404Page();
+            }
+        }
     }
 
 ?>
