@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2017 at 05:48 AM
--- Server version: 10.1.24-MariaDB
--- PHP Version: 7.1.6
+-- Generation Time: Jul 25, 2017 at 09:48 AM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,20 +30,18 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `access` (
   `id` int(11) NOT NULL,
-  `key_short_link` char(6) NOT NULL,
-  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `browser` varchar(256) NOT NULL DEFAULT 'Other'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id_short_link` int(11) NOT NULL,
+  `browser` varchar(256) NOT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 --
 -- Dumping data for table `access`
 --
 
-INSERT INTO `access` (`id`, `key_short_link`, `created_time`, `browser`) VALUES
-(1, 'frj78D', '2017-07-19 05:18:02', 'Other'),
-(2, 'rfD56g', '2017-07-19 03:46:36', 'Other'),
-(3, 'frj78D', '2017-07-19 03:18:17', 'Fire Fox'),
-(4, 'frj78D', '2017-07-19 04:15:22', 'Chrome');
+INSERT INTO `access` (`id`, `id_short_link`, `browser`, `created_time`) VALUES
+(1, 2, 'Chrome', '2017-07-25 07:48:02'),
+(2, 1, 'Firefox', '2017-07-25 07:48:02');
 
 -- --------------------------------------------------------
 
@@ -52,18 +50,18 @@ INSERT INTO `access` (`id`, `key_short_link`, `created_time`, `browser`) VALUES
 --
 
 CREATE TABLE `url` (
-  `key_link` char(6) NOT NULL,
-  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Giá trị này sẽ được chuyển đổi từ múi giờ hiện tại sang UTC trong khi lưu trữ, và sẽ chuyển trở lại múi giờ hiện tại khi lấy dữ liệu ra.',
-  `original_link` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL,
+  `original_link` varchar(256) NOT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 --
 -- Dumping data for table `url`
 --
 
-INSERT INTO `url` (`key_link`, `created_time`, `original_link`) VALUES
-('frj78D', '2017-07-18 18:16:16', 'http://wiki.dev.cybozu.co.jp/pages/viewpage.action?pageId=24617004'),
-('rfD56g', '2017-07-18 21:09:14', 'https://bozuman.cybozu.com/k/18936/show#record=16');
+INSERT INTO `url` (`id`, `original_link`, `created_time`) VALUES
+(1, 'https://www.w3schools.com/sql/sql_foreignkey.asp', '2017-07-25 07:40:45'),
+(2, 'https://github.com/cvn-intern-2017/cus', '2017-07-25 07:40:45');
 
 --
 -- Indexes for dumped tables
@@ -73,14 +71,14 @@ INSERT INTO `url` (`key_link`, `created_time`, `original_link`) VALUES
 -- Indexes for table `access`
 --
 ALTER TABLE `access`
-  ADD PRIMARY KEY (`id`,`key_short_link`),
-  ADD KEY `FK_key6` (`key_short_link`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_short_link` (`id_short_link`);
 
 --
 -- Indexes for table `url`
 --
 ALTER TABLE `url`
-  ADD PRIMARY KEY (`key_link`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -90,7 +88,12 @@ ALTER TABLE `url`
 -- AUTO_INCREMENT for table `access`
 --
 ALTER TABLE `access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `url`
+--
+ALTER TABLE `url`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
@@ -99,7 +102,7 @@ ALTER TABLE `access`
 -- Constraints for table `access`
 --
 ALTER TABLE `access`
-  ADD CONSTRAINT `FK_key6` FOREIGN KEY (`key_short_link`) REFERENCES `url` (`key_link`);
+  ADD CONSTRAINT `access_ibfk_1` FOREIGN KEY (`id_short_link`) REFERENCES `url` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
