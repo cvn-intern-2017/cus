@@ -11,7 +11,7 @@
 
         public function getURLInfoByKey($key){
             $this->setQuery("SELECT * FROM URL where key_link = ?");
-            $result = $this->loadRow(array($key));
+            $result = $this->loadOneRecord(array($key));
             return $result;
         }
 
@@ -22,6 +22,16 @@
             return true;
           }
           else{
+            return false;
+          }
+        }
+        function checkURLexistDB($url){
+          $this->setQuery("SELECT * FROM URL where original_link = ?");
+          $result = $this->loadOneRecord(array($url));
+          if($result){
+            return $result->key_link;
+          }
+          else {
             return false;
           }
         }

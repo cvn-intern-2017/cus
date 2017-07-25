@@ -86,5 +86,20 @@
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
+
+        // kiểm tra url có trong database chưa
+        function checkURLexist($url){
+            $key = $this->model->checkURLexistDB($url);
+            if ($key){
+              // tạo key mới
+            }
+            else {
+                return $key;
+            }
+
+        }
+
+
+
     }
 ?>
