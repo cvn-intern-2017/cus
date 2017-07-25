@@ -16,10 +16,10 @@
         function inputAction() {
             if (isset($_POST['link']) && $_POST['link'] !== '') {
                 if ($this->validateURL($_POST['link'])) {
-                    $keyUrl = $this->addNewURLRecordToDatabase($_POST['link']);
-                    if ($keyUrl) {
-                        $data = $this->getLinkInfo($key_url);
-                        $this->goToHomePage($data);
+                    $idURL = $this->getIdOfURL($_POST['link']);
+                    if ($idURL) {
+                        $data = $this->getLinkInfo($idURL);
+                        $this->loadURLInfoToHomePage($data);
                     }
                     else {
                       $this->goToMaintenancePage();
@@ -33,41 +33,30 @@
                 $this->goToHomePage();
             }
         }
-        function getLinkInfo($keyFromURL){
-            $result = $this->model->getURLInfoByKey($keyFromURL);
-            $data['newLink'] = DOMAIN . $keyFromURL; //
+        function getLinkInfo($idFromURL){
+            $result = $this->model->getURLInfoById($idFromURL);
+            $keyShortenedURL = $this->computeKeyByIdURL($idFromURL);
+            $data['newLink'] = DOMAIN . $keyShortenedURL;
             $data['originalLink'] = $result->original_link;
-            $data['originalLinkDisplayed'] = (strlen($result->original_link) > 52)?substr($result->original_link,0,52).'[...]' : $result->original_link;
-            $data['analysticDataLink'] = DOMAIN . $keyFromURL . "+";
+            $data['originalLinkDisplayed'] = (strlen($result->original_link) > 52)?substr($result->original_link,0,52).' [...]' : $result->original_link;
+            $data['analysticDataLink'] = DOMAIN . $keyShortenedURL . "+";
             return $data;
         }
-        // Hàm trả về 1 chuổi random với mặc định là 6 kí tự.
-        private function generateRandomString() {
-            $characters = str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            return substr($characters,0,6);
-        }
-
-        function  hadKeyInDatabase ($key){
-            if($this->model->getURLInfoByKey($key)){
-                return false;
-            }
-            else{
-              return true;
-            }
-        }
-
-        function addNewURLRecordToDatabase($url){
+        // Hàm return id của url được user input
+        function getIdOfURL($url){
             // Kiểm tra xem key được tạo ra có bị trùng với key đã có trước đó chưa
-            do{
-              $newKey = $this->generateRandomString();
-            } while(!$this->hadKeyInDatabase($newKey));
-            $insertSuccess = $this->model->insertNewURLRecord($newKey,$url);
-            if ($insertSuccess){
-              return $newKey;
+            $idURL = $this->hadURLInDatabase($url);
+            if($idURL) {
+                return $idURL;
             }
-            else{
-              return false;
+            else {
+                $lastIdOfURLRecord = $this->model->insertNewURLRecord($url);
+                return $lastIdOfURLRecord;
             }
+        }
+        // get key from id of url, convert id (10-base) to key (62-base)
+        function computeKeyByIdURL($id){
+            return convert10BaseTo62Base($id);
         }
         // Hàm kiểm tra URL được user input vào form.
         function validateURL($url){
@@ -80,26 +69,24 @@
             }
         }
 
-        function goToHomePage($data=array()) {
+        function loadURLInfoToHomePage($data) {
             $this->loadView("home",$data);
+        }
+        function goToHomePage(){
+            $this->loadView("home");
         }
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
 
-        // kiểm tra url có trong database chưa
-        function checkURLexist($url){
-            $key = $this->model->checkURLexistDB($url);
-            if ($key){
-              // tạo key mới
+        function hadURLInDatabase($originalURL){
+            $record = $this->model->findIdRecordOfURL($originalURL);
+            if ($record){
+                return $record->id;
             }
             else {
-                return $key;
+                return false;
             }
-
         }
-
-
-
     }
 ?>

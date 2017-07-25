@@ -14,6 +14,7 @@
             $keyFromURL  = end(explode('/',$URIOnAddressBar));
             if($this->isValidURL($keyFromURL)){
                 if (strlen($keyFromURL) == 6){
+                    $idFromKey = $this->
                     $insertSuccess = $this->model->insertNewAccessRecord($keyFromURL,$this->detectCurrentBrowser());
                     if ($insertSuccess){
                         $this->redirectToRealURL($keyFromURL);
@@ -30,7 +31,6 @@
                 $this->goTo404Page();
             }
         }
-
         function isValidURL($keyFromURL){
             $lengthKey = strlen($keyFromURL);
             if($lengthKey == 6){

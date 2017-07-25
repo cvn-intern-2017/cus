@@ -3,10 +3,10 @@
     if ( ! defined('PATH_SMARTY')) die ('Bad requested!');
 
     class Base_Controller {
-      protected $model  = NULL;
+      public $model  = NULL;
       protected $smarty = NULL;
       /*
-        
+
       */
       function loadView($view, $data=array()){
           require_once PATH_SMARTY . '/cusSmarty.php';
