@@ -15,6 +15,7 @@
             return $result;
         }
 
+<<<<<<< HEAD
         function insertNewURLRecord($key,$url_original){
           $this->setQuery("INSERT INTO url (original_link) VALUES (?)");
           $result = $this->execute(array($url_original));
@@ -40,6 +41,24 @@
         //     return false;
         //   }
         // }
+=======
+        function insertNewURLRecord($originalLink){
+            $this->setQuery("INSERT INTO url (original_link) VALUES (?)");
+            $result = $this->execute(array($originalLink));
+            if ($result){
+              return $this->getLastID();
+            }
+            else{
+              return false;
+            }
+        }
+
+        function findIdRecordOfURL($url){
+            $this->setQuery("SELECT id FROM URL where original_link = ?");
+            $result = $this->loadOneRecord(array($url));
+            return $result;
+        }
+>>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
    }
 
 ?>

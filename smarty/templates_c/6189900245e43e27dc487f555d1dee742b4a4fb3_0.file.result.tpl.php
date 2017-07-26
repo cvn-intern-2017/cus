@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-07-24 09:43:40
+/* Smarty version 3.1.30, created on 2017-07-25 11:18:43
   from "C:\xampp\htdocs\cus\Views\home\result.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5975a52c722c84_11552823',
+  'unifunc' => 'content_59770cf354ad63_74014718',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6189900245e43e27dc487f555d1dee742b4a4fb3' => 
     array (
       0 => 'C:\\xampp\\htdocs\\cus\\Views\\home\\result.tpl',
-      1 => 1500882100,
+      1 => 1500974320,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5975a52c722c84_11552823 (Smarty_Internal_Template $_smarty_tpl) {
+function content_59770cf354ad63_74014718 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
 <div class="row">
@@ -37,7 +37,7 @@ function content_5975a52c722c84_11552823 (Smarty_Internal_Template $_smarty_tpl)
 
       <tbody>
         <tr>
-          <td><?php echo $_smarty_tpl->tpl_vars['data']->value['originalLink64'];?>
+          <td><?php echo $_smarty_tpl->tpl_vars['data']->value['originalLinkDisplayed'];?>
 </td>
           <td><a target="_blank" href="<?php echo $_smarty_tpl->tpl_vars['data']->value['newLink'];?>
 "><?php echo $_smarty_tpl->tpl_vars['data']->value['newLink'];?>
