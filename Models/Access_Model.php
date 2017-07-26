@@ -10,21 +10,27 @@
             $this->setQuery("SELECT original_link FROM URL where key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
-                return $results->original_link;
+                return $result->original_link;
             }
             else{
                 return null;
             }
         }
 
-<<<<<<< HEAD
-        function insertAccessRecordToDatabase($key,$browser,$clickedTimes){
+        function insertAccessRecord($key,$browser,$clickedTimes){
             $this->setQuery("INSERT INTO access (key_url,browser,clicked_time) VALUES (?,?,?)");
-=======
-        function insertNewAccessRecord($key, $browser){
-            $this->setQuery("INSERT INTO access (key_url, browser) VALUES (?,?)");
->>>>>>> 4095955302dde6967a1b3c56be60be0d90a83c79
-            $result = $this->execute(array($key,$browser));
+            $result = $this->execute(array($key,$browser,$clickedTimes));
+            if ($result){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        function updateClickedTimeAccessRecord($key,$browser,$clickedTimes){
+            $this->setQuery("UPDATE access SET clicked_time = ? WHERE key_url = ? AND browser = ?");
+            $result = $this->execute(array($clickedTimes,$key,$browser,));
             if ($result){
                 return true;
             }

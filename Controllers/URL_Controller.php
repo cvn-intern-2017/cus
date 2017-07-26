@@ -8,11 +8,9 @@
             require_once PATH_MODEL . '/URL_Model.php';
             $this->model = new URL_Model();
         }
-
         function indexAction() {
             $this->goToHomePage();
         }
-
         function inputAction() {
             if (isset($_POST['link']) && $_POST['link'] !== '') {
                 if ($this->validateURL($_POST['link'])) {
@@ -68,7 +66,6 @@
                 return false;
             }
         }
-
         function loadURLInfoToHomePage($data) {
             $this->loadView("home",$data);
         }
@@ -78,7 +75,6 @@
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
-
         function hadURLInDatabase($originalURL){
             $record = $this->model->findIdRecordOfURL($originalURL);
             if ($record){
