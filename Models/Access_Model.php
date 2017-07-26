@@ -17,14 +17,25 @@
             }
         }
 
-        function insertNewAccessRecord($key, $browser){
-            $this->setQuery("INSERT INTO access (key_short_link, browser) VALUES (?,?)");
+        function insertAccessRecordToDatabase($key,$browser,$clickedTimes){
+            $this->setQuery("INSERT INTO access (key_url,browser,clicked_time) VALUES (?,?,?)");
             $result = $this->execute(array($key,$browser));
             if ($result){
                 return true;
             }
             else{
                 return false;
+            }
+        }
+
+        function findClickedTimeShortenURL($key, $browser) {
+            $this->setQuery("SELECT clicked_time FROM access where key_url = ? and browser = ?");
+            $result = $this->loadOneRecord(array($key,$browser));
+            if($result){
+                return $result->clicked_time;
+            }
+            else{
+                return null;
             }
         }
 
