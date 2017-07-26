@@ -16,9 +16,9 @@
         function inputAction() {
             if (isset($_POST['link']) && $_POST['link'] !== '') {
                 if ($this->validateURL($_POST['link'])) {
-                    $keyUrl = $this->addNewURLRecordToDatabase($_POST['link']);
-                    if ($keyUrl) {
-                        $data = $this->getLinkInfo($key_url);
+                    $idURL = $this->addNewURLRecordToDatabase($_POST['link']);
+                    if ($idURL) {
+                        $data = $this->getLinkInfo($idURL);
                         $this->goToHomePage($data);
                     }
                     else {
@@ -33,9 +33,9 @@
                 $this->goToHomePage();
             }
         }
-        function getLinkInfo($keyFromURL){
-            $result = $this->model->getURLInfoByKey($keyFromURL);
-            $data['newLink'] = DOMAIN . $keyFromURL; //
+        function getLinkInfo($idFromURL){
+            $result = $this->model->getURLInfoById($idFromURL);
+            $data['newLink'] = DOMAIN . $idFromURL; //
             $data['originalLink'] = $result->original_link;
             $data['originalLinkDisplayed'] = (strlen($result->original_link) > 52)?substr($result->original_link,0,52).'[...]' : $result->original_link;
             $data['analysticDataLink'] = DOMAIN . $keyFromURL . "+";
@@ -55,7 +55,9 @@
               return true;
             }
         }
-
+        function computeKeyByIdURL($id){
+            return convert10BaseTo62Base($id);
+        }
         function addNewURLRecordToDatabase($url){
             // Kiểm tra xem key được tạo ra có bị trùng với key đã có trước đó chưa
             do{
