@@ -1,33 +1,5 @@
 <?php
-<<<<<<< HEAD
-function debug($key){
-  echo "<script>alert(".$key.")</script>";
-}
-function showArr($arr){
-  if (is_array($arr)) {
-    echo "<pre>";
-    print_r($arr);
-    echo "</pre>";
-  }
-}
-function convert10BaseTo62Base($number10Base){
-    $string62BaseChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $number62Base = '';
-    while($number10Base >= 1){
-        $remainder = $number10Base % 62;
-        $number10Base = $number10Base / 62;
-        $number62Base = substr($string62BaseChars,$remainder,1) . $number62Base;
-    }
-    while(strlen($number62Base)<6){
-        if($number62Base){
-            $number62Base = '0' . $number62Base;
-        }
-    }
-    return $number62Base;
-}
 
-=======
->>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
     define ('PATH_CONTROLLER', __DIR__.'\Controllers');
     define ('PATH_VIEW', __DIR__.'\Views');
     define ('PATH_MODEL', __DIR__.'\Models');
@@ -38,24 +10,16 @@ function convert10BaseTo62Base($number10Base){
     include_once PATH_CONTROLLER . '\URL_Controller.php';
     include_once PATH_CONTROLLER . '\Access_Controller.php';
     include_once PATH_LIB . '\Browser.php';
-<<<<<<< HEAD
-    if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
-    		if(isset($_POST['link'])) {
-
-    			 $controllerObject = new URL_Controller();
-=======
     include_once PATH_LIB . '\Utils.php';
     //Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
     		if(isset($_POST['link'])) {
-
     			  $controllerObject = new URL_Controller();
->>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
-           $controllerObject->inputAction();
+            $controllerObject->inputAction();
     		}
     		else {
-    			  $controllerObject = new URL_Controller();
-           $controllerObject->indexAction();
+    		    $controllerObject = new URL_Controller();
+            $controllerObject->indexAction();
        }
     }
     // Trường hợp vào shortlink hoặc vào trang data analystics. (Nên xét kĩ 2 trường hợp này ==> có thể có bug)
@@ -63,10 +27,4 @@ function convert10BaseTo62Base($number10Base){
       	$controllerObject = new Access_Controller();
       	$controllerObject->indexAction();
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
-
 ?>
