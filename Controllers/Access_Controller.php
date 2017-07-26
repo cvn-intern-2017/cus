@@ -11,8 +11,9 @@
         function indexAction() {
             $URIOnAddressBar = $_SERVER['REQUEST_URI'];
             // Key của trang web được lấy từ URL
-            $keyFromURL  = end(explode('/',$URIOnAddressBar));
-            if($this->isValidURL($keyFromURL)){
+            $arrayOfURI = explode('/',$URIOnAddressBar);
+            $keyFromURL  = end($arrayOfURI);
+            if($this->isValidURI($arrayOfURI) && $this->isValidKey($keyFromURL)){
                 if (strlen($keyFromURL) == 6){
                     $idFromKey = $this->
                     $insertSuccess = $this->model->insertNewAccessRecord($keyFromURL,$this->detectCurrentBrowser());
@@ -31,7 +32,12 @@
                 $this->goTo404Page();
             }
         }
-        function isValidURL($keyFromURL){
+
+        function isValidURI($arrayOfURI){
+            return sizeof($arrayOfURI) === 1;
+        }
+
+        function isValidKey($keyFromURL){
             $lengthKey = strlen($keyFromURL);
             if($lengthKey == 6){
                 return preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);

@@ -16,17 +16,10 @@
         function inputAction() {
             if (isset($_POST['link']) && $_POST['link'] !== '') {
                 if ($this->validateURL($_POST['link'])) {
-<<<<<<< HEAD
-                    $idURL = $this->addNewURLRecordToDatabase($_POST['link']);
-                    if ($idURL) {
-                        $data = $this->getLinkInfo($idURL);
-                        $this->goToHomePage($data);
-=======
                     $idURL = $this->getIdOfURL($_POST['link']);
                     if ($idURL) {
                         $data = $this->getLinkInfo($idURL);
                         $this->loadURLInfoToHomePage($data);
->>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
                     }
                     else {
                       $this->goToMaintenancePage();
@@ -42,40 +35,15 @@
         }
         function getLinkInfo($idFromURL){
             $result = $this->model->getURLInfoById($idFromURL);
-<<<<<<< HEAD
-            $data['newLink'] = DOMAIN . $idFromURL; //
-=======
             $keyShortenedURL = $this->computeKeyByIdURL($idFromURL);
             $data['newLink'] = DOMAIN . $keyShortenedURL;
->>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
             $data['originalLink'] = $result->original_link;
             $data['originalLinkDisplayed'] = (strlen($result->original_link) > 52)?substr($result->original_link,0,52).' [...]' : $result->original_link;
             $data['analysticDataLink'] = DOMAIN . $keyShortenedURL . "+";
             return $data;
         }
-<<<<<<< HEAD
-        // Hàm trả về 1 chuổi random với mặc định là 6 kí tự.
-        private function generateRandomString() {
-            $characters = str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
-            return substr($characters,0,6);
-        }
-
-        function  hadKeyInDatabase ($key){
-            if($this->model->getURLInfoByKey($key)){
-                return false;
-            }
-            else{
-              return true;
-            }
-        }
-        function computeKeyByIdURL($id){
-            return convert10BaseTo62Base($id);
-        }
-        function addNewURLRecordToDatabase($url){
-=======
         // Hàm return id của url được user input
         function getIdOfURL($url){
->>>>>>> 651bff5fe0142bac2492cf3968cf01751333b01b
             // Kiểm tra xem key được tạo ra có bị trùng với key đã có trước đó chưa
             $idURL = $this->hadURLInDatabase($url);
             if($idURL) {
