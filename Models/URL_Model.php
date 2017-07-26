@@ -9,23 +9,6 @@
             parent::__construct();
         }
 
-        public function getURLInfoById($id){
-            $this->setQuery("SELECT * FROM URL where id = ?");
-            $result = $this->loadOneRecord(array($id));
-            return $result;
-        }
-
-        function insertNewURLRecord($originalLink){
-            $this->setQuery("INSERT INTO url (original_link) VALUES (?)");
-            $result = $this->execute(array($originalLink));
-            if ($result){
-              return $this->getLastID();
-            }
-            else{
-              return false;
-            }
-        }
-
         function findIdRecordOfURL($url){
             $this->setQuery("SELECT id FROM URL where original_link = ?");
             $result = $this->loadOneRecord(array($url));
