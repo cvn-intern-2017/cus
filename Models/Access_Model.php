@@ -7,7 +7,7 @@
         }
 
         function getOriginalLinkByKey($key){
-            $this->setQuery("SELECT original_link FROM URL where key_link = ?");
+            $this->setQuery("SELECT original_link FROM URL where key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $results->original_link;
@@ -18,7 +18,7 @@
         }
 
         function insertNewAccessRecord($key, $browser){
-            $this->setQuery("INSERT INTO access (key_short_link, browser) VALUES (?,?)");
+            $this->setQuery("INSERT INTO access (key_url, browser) VALUES (?,?)");
             $result = $this->execute(array($key,$browser));
             if ($result){
                 return true;
@@ -29,7 +29,7 @@
         }
 
         function getURLInfo($key){
-            $this->setQuery("SELECT original_link, created_time FROM URL where key_link = ?");
+            $this->setQuery("SELECT original_link, created_time FROM URL where key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $result;
@@ -40,7 +40,7 @@
         }
 
         function getAccessInfo($key){
-            $this->setQuery("SELECT count(id) AS number_of_clicks, browser FROM ACCESS WHERE key_short_link =  ? GROUP BY browser");
+            $this->setQuery("SELECT count(key_url) AS number_of_clicks, browser FROM ACCESS WHERE key_short_link =  ? GROUP BY browser");
             $results = $this->loadAllRecords(array($key));
             if($results){
                 return $results;
