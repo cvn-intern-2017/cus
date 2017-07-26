@@ -1,4 +1,5 @@
 <?php
+
     define ('PATH_CONTROLLER', __DIR__.'\Controllers');
     define ('PATH_VIEW', __DIR__.'\Views');
     define ('PATH_MODEL', __DIR__.'\Models');
@@ -13,13 +14,12 @@
     //Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
     		if(isset($_POST['link'])) {
-
     			  $controllerObject = new URL_Controller();
-           $controllerObject->inputAction();
+            $controllerObject->inputAction();
     		}
     		else {
-    			  $controllerObject = new URL_Controller();
-           $controllerObject->indexAction();
+    		    $controllerObject = new URL_Controller();
+            $controllerObject->indexAction();
        }
     }
     // Trường hợp vào shortlink hoặc vào trang data analystics. (Nên xét kĩ 2 trường hợp này ==> có thể có bug)
@@ -27,5 +27,4 @@
       	$controllerObject = new Access_Controller();
       	$controllerObject->indexAction();
     }
-
 ?>
