@@ -38,3 +38,7 @@ p.copyright {
     padding-left: 6%;
     padding-right: 6%;
 }
+#error_client{
+  width: 10px;
+  height: 10px;
+}

@@ -17,6 +17,7 @@
             try {
                 if (isset($_POST['link']) && $_POST['link'] !== '') {
                     $linkInput = $_POST['link'];
+                    //exit($linkInput.' !!! server');
                     if ($this->validateURL($linkInput)) {
                         $existKey = $this->hadURLInDatabase($linkInput);
                         if($existKey){
