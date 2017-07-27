@@ -62,7 +62,7 @@
         // From input form.
         function validateURL($url){
             $inputURLWithoutScriptTags = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
-            if (filter_var($inputURLWithoutScriptTags, FILTER_VALIDATE_URL)) {  // Kiểm tra xem input có phải URL không.
+            if (filter_var($inputURLWithoutScriptTags, FILTER_VALIDATE_URL) && strlen($url) < 65234) {  // Kiểm tra xem input có phải URL không.
                 return true;
             }
             else {
