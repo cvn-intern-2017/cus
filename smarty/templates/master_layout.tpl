@@ -1,3 +1,4 @@
+{config_load file="define.conf"}
 <!DOCTYPE html>
 <html>
   {include file="head.tpl"}

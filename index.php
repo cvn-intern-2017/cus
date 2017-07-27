@@ -11,7 +11,7 @@
     include_once PATH_CONTROLLER . '\Access_Controller.php';
     include_once PATH_LIB . '\Browser.php';
     include_once PATH_LIB . '\Utils.php';
-    //Trường hợp vào giao diện input URL để nhận shortlink.
+    // Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
     		if(isset($_POST['link'])) {
     			  $controllerObject = new URL_Controller();

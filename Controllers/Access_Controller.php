@@ -4,37 +4,69 @@
     include_once 'Base_Controller.php';
     class Access_Controller extends Base_Controller {
         function __construct() {
-            require_once PATH_MODEL . '/Access_Model.php';
-            $this->model = new Access_Model();
+            try{
+              require_once PATH_MODEL . '/Access_Model.php';
+              $this->model = new Access_Model();
+            }
+            catch (PDOException $e){
+                $this->goToMaintenancePage();
+                exit();
+            }
         }
 
         function indexAction() {
-            $URIOnAddressBar = $_SERVER['REQUEST_URI'];
-            // Key của trang web được lấy từ URL
-            $arrayOfURI = explode('/',$URIOnAddressBar);
-            $keyFromURL  = end($arrayOfURI);
-            if($this->isValidURI($arrayOfURI) && $this->isValidKey($keyFromURL)){
-                if (strlen($keyFromURL) == 6){
-                    $idFromKey = $this->
-                    $insertSuccess = $this->model->insertNewAccessRecord($keyFromURL,$this->detectCurrentBrowser());
-                    if ($insertSuccess){
-                        $this->redirectToRealURL($keyFromURL);
+            try{
+                $URIOnAddressBar = $_SERVER['REQUEST_URI'];
+                // Key của trang web được lấy từ URL
+                $arrayOfURI = explode('/',$URIOnAddressBar);
+                $keyFromURL  = end($arrayOfURI);
+                if($this->isValidURI($arrayOfURI) && $this->isValidKey($keyFromURL)){
+                    if (strlen($keyFromURL) == 6){
+                        $browserAccessURL = $this->detectCurrentBrowser();
+                        $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
+                        if($clickedTimes) {
+                            $clickedTimes = $clickedTimes . " " . strval(time());
+                            $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
+                            if($updateSuccess) {
+                                $this->redirectToRealURL($keyFromURL);
+                            }
+                        }
+                        else {
+                            $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
+                            if($insertSuccess) {
+                                $this->redirectToRealURL($keyFromURL);
+                            }
+                        }
                     }
                     else {
-                        $this->goToMaintenancePage();
+                        $this->redirectToRealURL($keyFromURL);
                     }
                 }
-                else {
-                    $this->redirectToRealURL($keyFromURL);
+                else{
+                    $this->goTo404Page();
                 }
             }
-            else{
-                $this->goTo404Page();
+            catch (PDOException $e){
+                $this->goToMaintenancePage();
+                exit();
             }
         }
 
+        function editClickedTimeShortenURL($key,$browser,$clickedTime){
+            return $this->model->updateClickedTimeAccessRecord($key,$browser,$clickedTime);
+        }
+
+        function getClickedTimeShortenURL($key, $browser) {
+
+            return $this->model->findClickedTimeShortenURL($key,$browser);
+        }
+
+        function addNewAccessRecord($key,$browser,$time) {
+            return $this->model->insertAccessRecord($key,$browser,$time);
+        }
+
         function isValidURI($arrayOfURI){
-            return sizeof($arrayOfURI) === 1;
+            return sizeof($arrayOfURI) === 2;
         }
 
         function isValidKey($keyFromURL){
@@ -77,7 +109,7 @@
             $data['gg_click'] = 0;
             $data['other_click'] = 0;
 
-            foreach ($accessInfo as $accessItem){
+            foreach($accessInfo as $accessItem){
                 if($accessItem->browser == "Firefox") {
                     $data['ff_click'] = $accessItem->number_of_clicks;
                 }
@@ -101,7 +133,20 @@
 
         function detectCurrentBrowser(){
             $browser = new Browser();
-            return $browser->getBrowser();
+            switch ($browser->getBrowser()){
+                case 'Chrome':
+                    return 0;
+                case 'Firefox':
+                    return 1;
+                case 'Safari':
+                    return 2;
+                case 'Edge':
+                    return 3;
+                case 'IE':
+                    return 4;
+                default:
+                    return 5;
+            }
         }
         function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);

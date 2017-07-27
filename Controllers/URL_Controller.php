@@ -14,35 +14,39 @@
         }
 
         function inputAction() {
-            if (isset($_POST['link']) && $_POST['link'] !== '') {
-                $linkInput = $_POST['link'];
-                if ($this->validateURL($linkInput)) {
-                  $existKey = $this->hadURLInDatabase($linkInput);
-                  if($existKey){
-
-                      //exit('Trả về full shorten Link --> load giao diện');
-                      $data = $this->getLinkInfo($existKey);
-                      $this->loadURLInfoToHomePage($data);
-                  }
-                  else{ //link mới
-
-                      $lastKey  = $this->model->findLastKeyURLTable();
-                      $newId    = $this->computeIdURLByKey($lastKey) + 1;
-                      $newKey   = $this->computeKeyByIdURL($newId);
-                      $insertSuccess = $this->model->insertRecordToURLTable($newKey, $linkInput);
-                      if($insertSuccess){
-                          $data = $this->getLinkInfo($newKey);
-                          $this->loadURLInfoToHomePage($data);
-                      }
-                  }
+            try {
+                if (isset($_POST['link']) && $_POST['link'] !== '') {
+                    $linkInput = $_POST['link'];
+                    if ($this->validateURL($linkInput)) {
+                        $existKey = $this->hadURLInDatabase($linkInput);
+                        if($existKey){
+                            $data = $this->getLinkInfo($existKey);
+                            $this->loadURLInfoToHomePage($data);
+                        }
+                        else{
+                            $lastKey  = $this->model->findLastKeyURLTable();
+                            $newId    = $this->computeIdURLByKey($lastKey) + 1;
+                            $newKey   = $this->computeKeyByIdURL($newId);
+                            $insertSuccess = $this->model->insertURLRecord($newKey, $linkInput);
+                            if($insertSuccess){
+                                $data = $this->getLinkInfo($newKey);
+                                $this->loadURLInfoToHomePage($data);
+                            }
+                        }
+                    }
+                    else {
+                        $this->goToHomePage();
+                    }
                 }
                 else {
                     $this->goToHomePage();
                 }
             }
-            else {
-                $this->goToHomePage();
+            catch (PDOException $e){
+                $this->goToMaintenancePage();
+                exit();
             }
+
         }
         function getLinkInfo($key){
             return $this->model->findDataByKey($key);

@@ -10,16 +10,16 @@
             $this->setQuery("SELECT original_link FROM URL where key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
-                return $results->original_link;
+                return $result->original_link;
             }
             else{
                 return null;
             }
         }
 
-        function insertNewAccessRecord($key, $browser){
-            $this->setQuery("INSERT INTO access (key_url, browser) VALUES (?,?)");
-            $result = $this->execute(array($key,$browser));
+        function insertAccessRecord($key,$browser,$clickedTimes){
+            $this->setQuery("INSERT INTO access (key_url,browser,clicked_time) VALUES (?,?,?)");
+            $result = $this->execute(array($key,$browser,$clickedTimes));
             if ($result){
                 return true;
             }
@@ -28,8 +28,30 @@
             }
         }
 
+        function updateClickedTimeAccessRecord($key,$browser,$clickedTimes){
+            $this->setQuery("UPDATE access SET clicked_time = ? WHERE key_url = ? AND browser = ?");
+            $result = $this->execute(array($clickedTimes,$key,$browser,));
+            if ($result){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        function findClickedTimeShortenURL($key, $browser) {
+            $this->setQuery("SELECT clicked_time FROM access WHERE key_url = ? AND browser = ?");
+            $result = $this->loadOneRecord(array($key,$browser));
+            if($result){
+                return $result->clicked_time;
+            }
+            else{
+                return null;
+            }
+        }
+
         function getURLInfo($key){
-            $this->setQuery("SELECT original_link, created_time FROM URL where key_url = ?");
+            $this->setQuery("SELECT original_link, created_time FROM URL WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $result;

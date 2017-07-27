@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-07-24 08:56:25
+/* Smarty version 3.1.30, created on 2017-07-27 04:33:25
   from "E:\installed\xampp\htdocs\cus\smarty\templates\navigation.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_59759a19c02c95_14825215',
+  'unifunc' => 'content_597950f5771553_51414542',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '44846cdbdcd1dc2563e0d875795d755ea7c847ac' => 
     array (
       0 => 'E:\\installed\\xampp\\htdocs\\cus\\smarty\\templates\\navigation.tpl',
-      1 => 1500879379,
+      1 => 1500966892,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_59759a19c02c95_14825215 (Smarty_Internal_Template $_smarty_tpl) {
+function content_597950f5771553_51414542 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <nav class="light-blue lighten-1">
   <div class="container">

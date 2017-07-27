@@ -13,8 +13,8 @@
 
       <tbody>
         <tr>
-          <td>{$data.originalLinkDisplayed}</td>
-          <td><a target="_blank" href="{$data.newLink}">{$data.newLink}</a></td>
+          <td>{$data->original_link}</td>
+          <td><a target="_blank" href="{#DOMAIN#}{$data->key_url}">{#DOMAIN#}{$data->key_url}</a></td>
           <td class="centered"><a target="_blank" class="btn-floating waves-effect waves-light red"><i class="tiny material-icons">insert_chart</i></a></td>
         </tr>
       </tbody>
