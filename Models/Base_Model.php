@@ -11,15 +11,10 @@ class Base_Model {
     private $_database = "cus";
 
     public function __construct() {
-        try{
-            if(!self::$_databaseHandle) {
-                $this->_databaseHandle = new PDO('mysql:host='.$this->_servername.'; dbname='.$this->_database,$this->_username,$this->_password);
-                $this->_databaseHandle->query('set names "utf8"');
-                $this->_databaseHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }
-        }
-        catch(PDOException $e){
-            exit('Không kết nối được cơ sở dữ liệu: '.$e->getMessage());
+        if(!self::$_databaseHandle) {
+            $this->_databaseHandle = new PDO('mysql:host='.$this->_servername.'; dbname='.$this->_database,$this->_username,$this->_password);
+            $this->_databaseHandle->query('set names "utf8"');
+            $this->_databaseHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
     }
 
