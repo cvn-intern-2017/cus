@@ -2,7 +2,6 @@
   clear: both;
   height: 100px;
 }
-
 .page_404, .maintenance {
   padding-top: 10%;
   color: #888;
@@ -12,7 +11,6 @@
   text-align: center;
   width: 100%;
 }
-
 .documentation {
   margin-top : 2%;
   margin-bottom: 2%;
