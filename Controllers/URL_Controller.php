@@ -15,15 +15,26 @@
 
         function inputAction() {
             if (isset($_POST['link']) && $_POST['link'] !== '') {
-                if ($this->validateURL($_POST['link'])) {
-                    $idURL = $this->getIdOfURL($_POST['link']);
-                    if ($idURL) {
-                        $data = $this->getLinkInfo($idURL);
-                        $this->loadURLInfoToHomePage($data);
-                    }
-                    else {
-                      $this->goToMaintenancePage();
-                    }
+                $linkInput = $_POST['link'];
+                if ($this->validateURL($linkInput)) {
+                  $existKey = $this->hadURLInDatabase($linkInput);
+                  if($existKey){
+
+                      //exit('Trả về full shorten Link --> load giao diện');
+                      $data = $this->getLinkInfo($existKey);
+                      $this->loadURLInfoToHomePage($data);
+                  }
+                  else{ //link mới
+
+                      $lastKey  = $this->model->findLastKeyURLTable();
+                      $newId    = $this->computeIdURLByKey($lastKey) + 1;
+                      $newKey   = $this->computeKeyByIdURL($newId);
+                      $insertSuccess = $this->model->insertRecordToURLTable($newKey, $linkInput);
+                      if($insertSuccess){
+                          $data = $this->getLinkInfo($newKey);
+                          $this->loadURLInfoToHomePage($data);
+                      }
+                  }
                 }
                 else {
                     $this->goToHomePage();
@@ -33,32 +44,18 @@
                 $this->goToHomePage();
             }
         }
-        function getLinkInfo($idFromURL){
-            $result = $this->model->getURLInfoById($idFromURL);
-            $keyShortenedURL = $this->computeKeyByIdURL($idFromURL);
-            $data['newLink'] = DOMAIN . $keyShortenedURL;
-            $data['originalLink'] = $result->original_link;
-            $data['originalLinkDisplayed'] = (strlen($result->original_link) > 52)?substr($result->original_link,0,52).' [...]' : $result->original_link;
-            $data['analysticDataLink'] = DOMAIN . $keyShortenedURL . "+";
-            return $data;
+        function getLinkInfo($key){
+            return $this->model->findDataByKey($key);
         }
-        // Hàm return id của url được user input
-        function getIdOfURL($url){
-            // Kiểm tra xem key được tạo ra có bị trùng với key đã có trước đó chưa
-            $idURL = $this->hadURLInDatabase($url);
-            if($idURL) {
-                return $idURL;
-            }
-            else {
-                $lastIdOfURLRecord = $this->model->insertNewURLRecord($url);
-                return $lastIdOfURLRecord;
-            }
-        }
+
         // get key from id of url, convert id (10-base) to key (62-base)
         function computeKeyByIdURL($id){
             return convert10BaseTo62Base($id);
         }
-        // Hàm kiểm tra URL được user input vào form.
+        function computeIdURLByKey($key){
+            return convert62BaseTo10Base($key);
+        }
+        // From input form.
         function validateURL($url){
             $inputURLWithoutScriptTags = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
             if (filter_var($inputURLWithoutScriptTags, FILTER_VALIDATE_URL)) {  // Kiểm tra xem input có phải URL không.
@@ -80,9 +77,9 @@
         }
 
         function hadURLInDatabase($originalURL){
-            $record = $this->model->findIdRecordOfURL($originalURL);
-            if ($record){
-                return $record->id;
+            $key = $this->model->findKeyRecordOfURL($originalURL);
+            if ($key){
+                return $key;
             }
             else {
                 return false;
