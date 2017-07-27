@@ -16,11 +16,11 @@
         }
 
         function findLastKeyURLTable(){
-            $this->setQuery("SELECT key_url FROM URL WHERE created_time = (SELECT MAX('created_time') AS 'max_created_time' FROM URL )");
+            $this->setQuery("SELECT key_url FROM URL WHERE created_time = (SELECT MAX(created_time) FROM URL )");
             $result = $this->execute();
             return $result;
         }
-        function insertRecordToURLTable($key,$originalLink){
+        function insertURRecord($key,$originalLink){
             $this->setQuery("INSERT INTO url (key_url, original_link) VALUES (?,?)");
             $result = $this->execute(array($key,$originalLink));
             if ($result){
