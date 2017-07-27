@@ -7,7 +7,7 @@ function check(){
     return false;
   }
 
-  if(validateURLType(valueInputUrl) != null){
+  if(validateURLType(valueInputUrl)){
     if(valueInputUrl.length >= 65234){
       document.getElementById("error_client").innerHTML = 'Make sure the URL is less than 65234 characters';
       return false;
@@ -22,8 +22,13 @@ function check(){
 }
 
 function validateURLType(value){
-  var result = value.match(/(http(s)?:\/\/.)(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-  return result;
+  var result = value.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+  if(result == null){
+    return false;
+  }
+  else{
+    return true;
+  }
 }
 /*
 $(document).ready(function(){

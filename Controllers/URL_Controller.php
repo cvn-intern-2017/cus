@@ -31,15 +31,15 @@
                             $lastKey  = $this->model->findLastKeyURLTable();
                             $newId    = $this->computeIdURLByKey($lastKey) + 1;
                             $newKey   = $this->computeKeyByIdURL($newId);
-                            $insertSuccess = $this->model->insertURLRecord($newKey, $linkInput);
+                            $insertSuccess = $this->model->insertURLRecord($newKey,$linkInput);
                             if($insertSuccess){
-                              $data = $this->getLinkInfo($existKey);
-                              if($data){
-                                if(strlen($data->original_link) > 64){
-                                    $data->original_link = substr($data->original_link,0,64).'[...]';
+                                $data = $this->getLinkInfo($newKey);
+                                if($data){
+                                    if(strlen($data->original_link) > 64){
+                                        $data->original_link = substr($data->original_link,0,64).'[...]';
+                                    }
+                                    $this->loadURLInfoToHomePage($data);
                                 }
-                                $this->loadURLInfoToHomePage($data);
-                              }
                             }
                         }
                     }
