@@ -9,16 +9,16 @@
             parent::__construct();
         }
 
-        function findIdRecordOfURL($url){
-            $this->setQuery("SELECT id FROM URL where original_link = ?");
+        function findKeyRecordOfURL($url){
+            $this->setQuery("SELECT key_url FROM URL where original_link = ?");
             $result = $this->loadOneRecord(array($url));
-            return $result;
+            return $result->key_url;
         }
 
         function findLastKeyURLTable(){
             $this->setQuery("SELECT key_url FROM URL WHERE created_time = (SELECT MAX(created_time) FROM URL )");
             $result = $this->execute();
-            return $result;
+            return $result->key_url;
         }
         function insertURRecord($key,$originalLink){
             $this->setQuery("INSERT INTO url (key_url, original_link) VALUES (?,?)");
