@@ -19,10 +19,10 @@
         $size = strlen($number62Base);
         $number10Base = strpos($string62BaseChars,$number62Base[0]);
         for ($i = 1; $i < $size; $i++ ){
-          $number10Base = 62*$number10Base+strpos($string62BaseChars,$number62Base[$i]);
+            $number10Base = 62*$number10Base+strpos($string62BaseChars,$number62Base[$i]);
         }
         return $number10Base;
     }
 
-    
+
  ?>

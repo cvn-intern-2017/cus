@@ -1,6 +1,6 @@
 <?php
     if (!defined('PATH_MODEL')) die ('Bad requested!');
-    include_once PATH_MODEL . '\Base_Model.php';
+    include_once PATH_MODEL . '/Base_Model.php';
     //include_once 'Base_Model.php';
 
     class URL_Model extends Base_Model{
@@ -10,7 +10,7 @@
         }
 
         function findKeyRecordOfURL($url){
-            $this->setQuery("SELECT key_url FROM URL where original_link = ?");
+            $this->setQuery("SELECT key_url FROM url where original_link = ?");
             $result = $this->loadOneRecord(array($url));
             if($result){
                 return $result->key_url;
@@ -21,7 +21,7 @@
         }
 
         function findLastKeyURLTable(){
-            $this->setQuery("SELECT key_url FROM URL WHERE created_time = (SELECT MAX(created_time) FROM URL )");
+            $this->setQuery("SELECT key_url FROM url WHERE created_time = (SELECT MAX(created_time) FROM url )");
             $result = $this->loadOneRecord();
             if($result){
                 return $result->key_url;
@@ -42,7 +42,7 @@
 
         }
         function findDataByKey($key){
-            $this->setQuery("SELECT * FROM URL WHERE key_url = ?");
+            $this->setQuery("SELECT * FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $result;

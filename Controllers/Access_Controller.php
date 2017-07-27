@@ -1,6 +1,6 @@
 <?php
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
-    include_once PATH_CONTROLLER . '\Base_Controller.php';
+    include_once PATH_CONTROLLER . '/Base_Controller.php';
     include_once 'Base_Controller.php';
     class Access_Controller extends Base_Controller {
         function __construct() {

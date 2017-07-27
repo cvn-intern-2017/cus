@@ -9,14 +9,14 @@
 
       */
       function loadView($view, $data=array()){
-          require_once PATH_SMARTY . '/cusSmarty.php';
-          $this->smarty = new cusSmarty();
+          require_once PATH_SMARTY . '/Cus_Smarty.php';
+          $this->smarty = new Cus_Smarty();
           $this->smarty->assign('view', PATH_VIEW.'/'.$view.'/'.$view.'.tpl');
           if (!empty($data)) {
               $this->smarty->assign('data', $data);
           }
           $this->smarty->display("master_layout.tpl");
       }
-      
+
     }
 ?>

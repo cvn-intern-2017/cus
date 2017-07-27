@@ -1,7 +1,7 @@
 <?php
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
     if ( ! defined('DOMAIN')) die ('Bad requested!');
-    include_once PATH_CONTROLLER . '\Base_Controller.php';
+    include_once PATH_CONTROLLER . '/Base_Controller.php';
     class URL_Controller extends Base_Controller {
         private $_infoLink;
         function __construct() {
@@ -22,6 +22,9 @@
                         $existKey = $this->hadURLInDatabase($linkInput);
                         if($existKey){
                             $data = $this->getLinkInfo($existKey);
+                            if(strlen($data->original_link) > 64){
+                                $data->original_link = substr($data->original_link,0,64).'[...]';
+                            }
                             $this->loadURLInfoToHomePage($data);
                         }
                         else{
@@ -30,8 +33,13 @@
                             $newKey   = $this->computeKeyByIdURL($newId);
                             $insertSuccess = $this->model->insertURLRecord($newKey, $linkInput);
                             if($insertSuccess){
-                                $data = $this->getLinkInfo($newKey);
+                              $data = $this->getLinkInfo($existKey);
+                              if($data){
+                                if(strlen($data->original_link) > 64){
+                                    $data->original_link = substr($data->original_link,0,64).'[...]';
+                                }
                                 $this->loadURLInfoToHomePage($data);
+                              }
                             }
                         }
                     }
@@ -80,6 +88,7 @@
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
+
 
         function hadURLInDatabase($originalURL){
             $key = $this->model->findKeyRecordOfURL($originalURL);

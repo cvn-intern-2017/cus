@@ -1,13 +1,13 @@
 <?php
     if ( ! defined('PATH_MODEL')) die ('Bad requested!');
-    include_once PATH_MODEL . '\Base_Model.php';
+    include_once PATH_MODEL . '/Base_Model.php';
     class Access_Model extends Base_Model{
         function __construct(){
             parent::__construct();
         }
 
         function getOriginalLinkByKey($key){
-            $this->setQuery("SELECT original_link FROM URL where key_url = ?");
+            $this->setQuery("SELECT original_link FROM url where key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $result->original_link;
@@ -51,7 +51,7 @@
         }
 
         function getURLInfo($key){
-            $this->setQuery("SELECT original_link, created_time FROM URL WHERE key_url = ?");
+            $this->setQuery("SELECT original_link, created_time FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $result;
@@ -62,7 +62,7 @@
         }
 
         function getAccessInfo($key){
-            $this->setQuery("SELECT count(key_url) AS number_of_clicks, browser FROM ACCESS WHERE key_short_link =  ? GROUP BY browser");
+            $this->setQuery("SELECT count(key_url) AS number_of_clicks, browser FROM access WHERE key_short_link =  ? GROUP BY browser");
             $results = $this->loadAllRecords(array($key));
             if($results){
                 return $results;
