@@ -39,3 +39,7 @@ p.copyright {
 input[type=submit]{
   display: block;
 }
+.height_20px {
+  height: 20px;
+  width: 100%;
+}

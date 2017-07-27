@@ -4,7 +4,9 @@
   <div class="col s6 offset-s3">
     <div class="row">
       <div class="col s12">
-        <span class="pink-text" id='error_client'></span>
+        <div class="height_20px">
+          <span class="pink-text" id='error_client'></span>
+        </div>
       </div>
     </div>
     <div class="row">
