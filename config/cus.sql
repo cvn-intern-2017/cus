@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2017 at 09:50 AM
+-- Generation Time: Jul 27, 2017 at 06:39 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -40,7 +40,8 @@ CREATE TABLE `access` (
 
 INSERT INTO `access` (`key_url`, `browser`, `clicked_time`) VALUES
 ('000000', 1, '1501055244'),
-('000001', 2, '1501055246');
+('000001', 2, '1501055246'),
+('000004', 0, '1501123869');
 
 -- --------------------------------------------------------
 
@@ -60,7 +61,11 @@ CREATE TABLE `url` (
 
 INSERT INTO `url` (`key_url`, `original_link`, `created_time`) VALUES
 ('000000', 'https://bozuman.cybozu.com/g/schedule/index.csp?', '2017-07-26 07:24:10'),
-('000001', 'http://localhost/phpmyadmin/tbl_change.php?db=cus&table=url', '2017-07-26 07:24:35');
+('000001', 'http://localhost/phpmyadmin/tbl_change.php?db=cus&table=url', '2017-07-26 07:24:35'),
+('000002', 'https://github.com/namnguyen95?tab=overview&from=2017-07-01&to=2017-07-26', '2017-07-26 09:57:11'),
+('000003', 'https://github.com/', '2017-07-27 02:12:09'),
+('000004', 'https://translate.google.com/?hl=vi', '2017-07-27 02:32:16'),
+('000005', 'https://github.com/cvn-intern-2017/cus', '2017-07-27 03:21:24');
 
 --
 -- Indexes for dumped tables
@@ -70,7 +75,8 @@ INSERT INTO `url` (`key_url`, `original_link`, `created_time`) VALUES
 -- Indexes for table `access`
 --
 ALTER TABLE `access`
-  ADD PRIMARY KEY (`key_url`,`browser`);
+  ADD PRIMARY KEY (`key_url`,`browser`),
+  ADD KEY `index_browser` (`browser`);
 
 --
 -- Indexes for table `url`
