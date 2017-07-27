@@ -5,32 +5,42 @@
     class URL_Controller extends Base_Controller {
         private $_infoLink;
         function __construct() {
-            require_once PATH_MODEL . '/URL_Model.php';
-            $this->model = new URL_Model();
+            try {
+              require_once PATH_MODEL . '/URL_Model.php';
+              $this->model = new URL_Model();
+            }
+            catch (PDOException $e){
+                $this->goToMaintenancePage();
+                exit();
+            }
         }
         function indexAction() {
             $this->goToHomePage();
         }
         function inputAction() {
-            if (isset($_POST['link']) && $_POST['link'] !== '') {
-                if ($this->validateURL($_POST['link'])) {
-                    $idURL = $this->getIdOfURL($_POST['link']);
-                    if ($idURL) {
-                        $data = $this->getLinkInfo($idURL);
-                        $this->loadURLInfoToHomePage($data);
+            try {
+                if (isset($_POST['link']) && $_POST['link'] !== '') {
+                    if ($this->validateURL($_POST['link'])) {
+                        $idURL = $this->getIdOfURL($_POST['link']);
+                        if ($idURL) {
+                            $data = $this->getLinkInfo($idURL);
+                            $this->loadURLInfoToHomePage($data);
+                        }
                     }
                     else {
-                      $this->goToMaintenancePage();
+                        $this->goToHomePage();
                     }
                 }
                 else {
                     $this->goToHomePage();
                 }
             }
-            else {
-                $this->goToHomePage();
+            catch (PDOException $e){
+                $this->goToMaintenancePage();
+                exit();
             }
         }
+
         function getLinkInfo($idFromURL){
             $result = $this->model->getURLInfoById($idFromURL);
             $keyShortenedURL = $this->computeKeyByIdURL($idFromURL);

@@ -17,5 +17,6 @@
           }
           $this->smarty->display("master_layout.tpl");
       }
+      
     }
 ?>
