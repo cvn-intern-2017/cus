@@ -3,8 +3,8 @@
     include_once PATH_CONTROLLER . '/Base_Controller.php';
     include_once 'Base_Controller.php';
 
-    class Access_Controller extends Base_Controller {
-        function __construct() {
+    class Access_Controller extends Base_Controller{
+        function __construct(){
             try{
                 require_once PATH_MODEL . '/Access_Model.php';
                 $this->model = new Access_Model();
@@ -97,16 +97,15 @@
         function getAnalysticsData($keyWithPlusChar) {
             $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
             $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
-
             $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
             $data['original_link']  = $urlInfo->original_link;
             $data['created_time']   = $urlInfo->created_time;
 
             $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
-            $data['total_click'] = $this->computeTotalClick($accessInfo);
-            $data['ff_click'] = 0;
-            $data['gg_click'] = 0;
-            $data['other_click'] = 0;
+            $data['total_click']  = $this->computeTotalClick($accessInfo);
+            $data['ff_click']     = 0;
+            $data['gg_click']     = 0;
+            $data['other_click']  = 0;
 
             foreach($accessInfo as $accessItem){
                 if($accessItem->browser == "Firefox") {

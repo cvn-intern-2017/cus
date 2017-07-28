@@ -2,8 +2,10 @@
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
     if ( ! defined('DOMAIN')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '/Base_Controller.php';
+
     class URL_Controller extends Base_Controller {
         private $_infoLink;
+
         function __construct() {
             require_once PATH_MODEL . '/URL_Model.php';
             $this->model = new URL_Model();
@@ -22,7 +24,7 @@
                         if($existKey){
                             $data = $this->getLinkInfo($existKey);
                             if(strlen($data->original_link) > 64){
-                                $data->original_link = substr($data->original_link,0,64).'[...]';
+                                $data->original_link = substr($data->original_link,0,64) . '[...]';
                             }
                             $this->loadURLInfoToHomePage($data);
                         }
@@ -35,7 +37,7 @@
                                 $data = $this->getLinkInfo($newKey);
                                 if($data){
                                     if(strlen($data->original_link) > 64){
-                                        $data->original_link = substr($data->original_link,0,64).'[...]';
+                                        $data->original_link = substr($data->original_link,0,64) . '[...]';
                                     }
                                     $this->loadURLInfoToHomePage($data);
                                 }
@@ -54,8 +56,8 @@
                 $this->goToMaintenancePage();
                 exit();
             }
-
         }
+
         function getLinkInfo($key){
             return $this->model->findDataByKey($key);
         }
@@ -64,13 +66,14 @@
         function computeKeyByIdURL($id){
             return convert10BaseTo62Base($id);
         }
+
         function computeIdURLByKey($key){
             return convert62BaseTo10Base($key);
         }
-        // From input form.
+
         function validateURL($url){
             $inputURLWithoutScriptTags = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
-            if (filter_var($inputURLWithoutScriptTags, FILTER_VALIDATE_URL) && strlen($url) < 65234) {  // Kiểm tra xem input có phải URL không.
+            if (filter_var($inputURLWithoutScriptTags,FILTER_VALIDATE_URL) && strlen($url) < 65234) {  // Kiểm tra xem input có phải URL không.
                 return true;
             }
             else {
@@ -81,13 +84,14 @@
         function loadURLInfoToHomePage($data) {
             $this->loadView("home",$data);
         }
+
         function goToHomePage(){
             $this->loadView("home");
         }
+
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
-
 
         function hadURLInDatabase($originalURL){
             $key = $this->model->findKeyRecordOfURL($originalURL);

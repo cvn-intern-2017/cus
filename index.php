@@ -16,7 +16,7 @@
 
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
-    		if(isset($_POST['link'])) {
+    		if(isset($_POST['link'])){
             $_POST['link'] = trim($_POST['link']);
     			  $controllerObject = new URL_Controller();
             $controllerObject->inputAction();
