@@ -71,14 +71,22 @@
         function isValidKey($keyFromURL){
             $lengthKey = strlen($keyFromURL);
             if($lengthKey == 6){
-                return preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
+                $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
+                if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
+                    return true;
+                }
             }
             else if($lengthKey == 7){
-                return preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
+                $hasRightPattern = preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
+                if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,6))){
+                    return true;
+                }
             }
-            else{
-                return false;
-            }
+            return false;
+        }
+
+        function hasURLKeyInDatabase($key){
+            return $this->model->checkURLKey($key);
         }
 
         function redirectToRealURL($keyFromURL){
