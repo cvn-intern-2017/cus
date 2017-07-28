@@ -17,7 +17,6 @@
             try {
                 if (isset($_POST['link']) && $_POST['link'] !== '') {
                     $linkInput = $_POST['link'];
-                    //exit($linkInput.' !!! server');
                     if ($this->validateURL($linkInput)) {
                         $existKey = $this->hadURLInDatabase($linkInput);
                         if($existKey){
@@ -31,7 +30,6 @@
                             $lastKey  = $this->model->findLastKeyURLTable();
                             $newId    = $this->computeIdURLByKey($lastKey) + 1;
                             $newKey   = $this->computeKeyByIdURL($newId);
-                            var_dump($newKey);
                             $insertSuccess = $this->model->insertURLRecord($newKey,$linkInput);
                             if($insertSuccess){
                                 $data = $this->getLinkInfo($newKey);

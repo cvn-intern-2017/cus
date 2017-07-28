@@ -34,8 +34,8 @@ class Base_Model {
     public function execute($options=array()) {
         $this->_cursor = $this->_databaseHandle->prepare($this->_sql);
     		if($options) {  // Bind Parameter
-      			for($i=0;$i<count($options);$i++) {
-      			     $this->_cursor->bindParam($i+1,$options[$i]);
+      			for($i = 0; $i < count($options); $i++) {
+      			     $this->_cursor->bindParam($i + 1,$options[$i]);
       			}
 		    }
     		$this->_cursor->execute();
@@ -43,25 +43,29 @@ class Base_Model {
     }
 
 	//Funtion load tất cả Rows ở table
-    public function loadAllRecords($options=array()) {
+    public function loadAllRecords($options=array()){
         if(!$options) {
-            if(!$result = $this->execute())
+            if(!$result = $this->execute()){
                 return false;
+            }
         }else {
-            if(!$result = $this->execute($options))
+            if(!$result = $this->execute($options)){
                 return false;
+            }
         }
         return $result->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function loadOneRecord($option=array()) {
+    public function loadOneRecord($option=array()){
         if(!$option) {
-            if(!$result = $this->execute())
+            if(!$result = $this->execute()){
                 return false;
+            }
         }
         else {
-            if(!$result = $this->execute($option))
+            if(!$result = $this->execute($option)){
                 return false;
+            }
         }
         return $result->fetch(PDO::FETCH_OBJ);
 	}

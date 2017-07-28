@@ -39,7 +39,7 @@
             }
         }
 
-        function findClickedTimeShortenURL($key, $browser) {
+        function findClickedTimeShortenURL($key,$browser){
             $this->setQuery("SELECT clicked_time FROM access WHERE key_url = ? AND browser = ?");
             $result = $this->loadOneRecord(array($key,$browser));
             if($result){

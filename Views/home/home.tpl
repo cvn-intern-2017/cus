@@ -1,4 +1,3 @@
-
 <div class="clean100"></div>
 <div class="row">
   <div class="col s6 offset-s3">
@@ -13,7 +12,7 @@
       <form class="col s12" action="" method="post" onsubmit="return check()">
         <div class="row">
           <div class="input-field col s9">
-            <input  placeholder="Input your link here" type="url" class="validate" id="input_url" name="link">
+            <input  placeholder="Input your link here" type="text" class="validate" id="input_url" name="link">
           </div>
           <div class="input-field col s3">
             <input type="submit" class="waves-light btn" value="Shorten URL"/>
@@ -21,11 +20,8 @@
         </div>
       </form>
     </div>
-
-
   </div>
 </div>
-
 {if isset($data)}
   {include file="Views/home/result.tpl"}
 {/if}

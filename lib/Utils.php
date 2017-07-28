@@ -7,7 +7,7 @@
             $number10Base = $number10Base / 62;
             $number62Base = substr($string62BaseChars,$remainder,1) . $number62Base;
         }
-        while(strlen($number62Base)<6){
+        while(strlen($number62Base) < 6){
             if($number62Base){
                 $number62Base = '0' . $number62Base;
             }
@@ -18,7 +18,7 @@
         $string62BaseChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $size = strlen($number62Base);
         $number10Base = strpos($string62BaseChars,$number62Base[0]);
-        for ($i = 1; $i < $size; $i++ ){
+        for ($i = 1; $i < $size; $i++){
             $number10Base = 62*$number10Base+strpos($string62BaseChars,$number62Base[$i]);
         }
         return $number10Base;

@@ -6,7 +6,6 @@ function check(){
     document.getElementById("error_client").innerHTML = 'Please input your link';
     return false;
   }
-
   if(validateURLType(valueInputUrl)){
     if(valueInputUrl.length >= 65234){
       document.getElementById("error_client").innerHTML = 'Make sure the URL is less than 65234 characters';

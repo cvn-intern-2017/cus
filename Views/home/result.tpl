@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="col s12">
     <div class="clean100"></div>
@@ -10,7 +9,6 @@
           <th>Analytics Data</th>
         </tr>
       </thead>
-
       <tbody>
         <tr>
           <td width="50%">{$data->original_link}</td>

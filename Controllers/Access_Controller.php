@@ -2,11 +2,12 @@
     if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '/Base_Controller.php';
     include_once 'Base_Controller.php';
+
     class Access_Controller extends Base_Controller {
         function __construct() {
             try{
-              require_once PATH_MODEL . '/Access_Model.php';
-              $this->model = new Access_Model();
+                require_once PATH_MODEL . '/Access_Model.php';
+                $this->model = new Access_Model();
             }
             catch (PDOException $e){
                 $this->goToMaintenancePage();
@@ -17,9 +18,8 @@
         function indexAction() {
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
-                // Key của trang web được lấy từ URL
                 $arrayOfURI = explode('/',$URIOnAddressBar);
-                $keyFromURL  = end($arrayOfURI);
+                $keyFromURL = end($arrayOfURI);
                 if($this->isValidURI($arrayOfURI) && $this->isValidKey($keyFromURL)){
                     if (strlen($keyFromURL) == 6){
                         $browserAccessURL = $this->detectCurrentBrowser();
@@ -33,7 +33,7 @@
                         }
                         else {
                             $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
-                            if($insertSuccess) {
+                            if($insertSuccess){
                                 $this->redirectToRealURL($keyFromURL);
                             }
                         }
@@ -56,8 +56,7 @@
             return $this->model->updateClickedTimeAccessRecord($key,$browser,$clickedTime);
         }
 
-        function getClickedTimeShortenURL($key, $browser) {
-
+        function getClickedTimeShortenURL($key,$browser){
             return $this->model->findClickedTimeShortenURL($key,$browser);
         }
 
@@ -84,10 +83,10 @@
 
         function redirectToRealURL($keyFromURL){
             $lengthKey = strlen($keyFromURL);
-            if ($lengthKey==6) {
+            if ($lengthKey == 6) {
               $this->goToOriginalLink($keyFromURL);
             }
-            else if ($lengthKey==7) {
+            else if ($lengthKey == 7) {
               $this->goToAnalyticsPage($keyFromURL);
             }
             else{
@@ -97,11 +96,11 @@
 
         function getAnalysticsData($keyWithPlusChar) {
             $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
-
             $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
-            $data['short_link'] = DOMAIN . $keyWithoutPlusChar;
-            $data['original_link'] = $urlInfo->original_link;
-            $data['created_time'] = $urlInfo->created_time;
+
+            $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
+            $data['original_link']  = $urlInfo->original_link;
+            $data['created_time']   = $urlInfo->created_time;
 
             $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
             $data['total_click'] = $this->computeTotalClick($accessInfo);
@@ -133,7 +132,7 @@
 
         function detectCurrentBrowser(){
             $browser = new Browser();
-            switch ($browser->getBrowser()){
+            switch($browser->getBrowser()){
                 case 'Chrome':
                     return 0;
                 case 'Firefox':
@@ -148,20 +147,24 @@
                     return 5;
             }
         }
+
         function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);
             $this->loadView("analytics",$data);
         }
+
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
+
         function goTo404Page(){
             $this->loadView("404");
         }
+
         function goToOriginalLink($keyWithoutPlusChar){
             $originalLink = $this->model->getOriginalLinkByKey($keyWithoutPlusChar);
             if($originalLink){
-                header("Location: ".$originalLink);
+                header("Location: " . $originalLink);
                 exit;
             }
             else{
