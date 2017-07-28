@@ -31,6 +31,7 @@
                             $lastKey  = $this->model->findLastKeyURLTable();
                             $newId    = $this->computeIdURLByKey($lastKey) + 1;
                             $newKey   = $this->computeKeyByIdURL($newId);
+                            var_dump($newKey);
                             $insertSuccess = $this->model->insertURLRecord($newKey,$linkInput);
                             if($insertSuccess){
                                 $data = $this->getLinkInfo($newKey);

@@ -5,10 +5,10 @@ class Base_Model {
     private $_sql = '';
     private $_cursor = NULL; // nhận kết quả sau khi prepare câu SQL
     // Khai báo thông tin database và server kết nối.
-    private $_servername = "localhost";
-    private $_username = "root";
-    private $_password = "";
-    private $_database = "cus";
+    private $_servername  = INI_DATABSE['servername'];
+    private $_username    = INI_DATABSE['username'];
+    private $_password    = INI_DATABSE['password'];
+    private $_database    = INI_DATABSE['dbname'];
 
     public function __construct() {
         if(!self::$_databaseHandle) {
