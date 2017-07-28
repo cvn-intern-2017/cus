@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 28, 2017 at 07:51 AM
+-- Generation Time: Jul 28, 2017 at 09:06 AM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -49,7 +49,7 @@ INSERT INTO `access` (`key_url`, `browser`, `clicked_time`) VALUES
 
 CREATE TABLE `url` (
   `key_url` char(6) CHARACTER SET utf32 COLLATE utf32_bin NOT NULL,
-  `original_link` text NOT NULL,
+  `original_link` text CHARACTER SET utf32 COLLATE utf32_bin NOT NULL,
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
