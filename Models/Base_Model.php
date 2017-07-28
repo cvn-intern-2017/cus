@@ -18,17 +18,17 @@ class Base_Model {
         }
     }
 
-      public function disconnect() { // ngắt kết nối
-  	  	  $this->_databaseHandle = NULL;
-  	  }
+    public function disconnect() { // ngắt kết nối
+	  	  $this->_databaseHandle = NULL;
+	  }
 
-	    public function setQuery($sql) {
-          $this->_sql = $sql;
-      }
+    public function setQuery($sql) {
+        $this->_sql = $sql;
+    }
 
-	    public function getLastId() {
-          return $this->_databaseHandle->lastInsertId();
-      }
+    public function getLastId() {
+        return $this->_databaseHandle->lastInsertId();
+    }
 
     // execute the query
     public function execute($options=array()) {

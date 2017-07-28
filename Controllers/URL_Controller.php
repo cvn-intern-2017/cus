@@ -7,8 +7,14 @@
         private $_infoLink;
 
         function __construct() {
-            require_once PATH_MODEL . '/URL_Model.php';
-            $this->model = new URL_Model();
+            try{
+                require_once PATH_MODEL . '/URL_Model.php';
+                $this->model = new URL_Model();
+            }
+            catch (PDOException $e){
+                $this->goToMaintenancePage();
+                exit();
+            }
         }
 
         function indexAction() {
