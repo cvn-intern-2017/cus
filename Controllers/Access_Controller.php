@@ -109,7 +109,7 @@
         }
 // Loc
         function getAnalysticsData($keyWithPlusChar) {
-            
+
         }
 
         function computeTotalClick($accessInfo){
@@ -131,7 +131,7 @@
                     return 2;
                 case 'Edge':
                     return 3;
-                case 'IE':
+                case 'Internet Explorer':
                     return 4;
                 default:
                     return 5;
