@@ -61,5 +61,25 @@
             }
         }
 // Hang
+        function findCreatedTimeShortenURL($key){
+            $this->setQuery("SELECT original_link, created_time FROM url where key_url = ?");
+            $result = $this->loadOneRecord(array($key));
+            return $result;
+        }
+
+        function getBrowserShortenURL($key){
+            $result = $this->setQuery("SELECT browser FROM access where key_url = ?");
+            $browser_array = Array();
+            while ($row = mysql_fetch_array($result,MYSQL_ASSOC)){
+              $browser_array[] =  $row['browser'];
+            }
+        }
+
+        function findClickedTimeShortenURL($key){
+            $this->setQuery("SELECT browser, clicked_time FROM access where key_url = ?");
+            $creatime_array = $this->
+
+        }
+
     }
 ?>
