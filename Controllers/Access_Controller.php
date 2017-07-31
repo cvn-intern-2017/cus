@@ -64,7 +64,6 @@
         }
 
         //Nam
-        // Fix .........
         /*
           + Kiem tra URI
           + Kiem tra pattern cua key_url
@@ -110,30 +109,7 @@
         }
 // Loc
         function getAnalysticsData($keyWithPlusChar) {
-            $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
-            $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
-            $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
-            $data['original_link']  = $urlInfo->original_link;
-            $data['created_time']   = $urlInfo->created_time;
-
-            $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
-            $data['total_click']  = $this->computeTotalClick($accessInfo);
-            $data['ff_click']     = 0;
-            $data['gg_click']     = 0;
-            $data['other_click']  = 0;
-
-            foreach($accessInfo as $accessItem){
-                if($accessItem->browser == "Firefox") {
-                    $data['ff_click'] = $accessItem->number_of_clicks;
-                }
-                else if($accessItem->browser == "Chrome") {
-                    $data['gg_click'] = $accessItem->number_of_clicks;
-                }
-                else {
-                    $data['other_click'] = $accessItem->number_of_clicks;
-                }
-            }
-            return $data;
+            
         }
 
         function computeTotalClick($accessInfo){

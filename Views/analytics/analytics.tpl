@@ -1,23 +1,37 @@
-<style>
-.analystic_page{
-  padding-top: 2%;
-  color: #888;
-  display: table;
-  font-family: sans-serif;
-  height: 100%;
-  width: 100%;
-}
-</style>
-
-<div class="analystic_page">
-      <h4>Analytics Data for <a href="#">{$data.short_link}</a></h4>
-      <p>Created Date: <b>{$data.created_time}</b></p>
-      <p>Original URL: <b><a href="#">{$data.original_link}</a></b></p>
-      <p>Total Clicks: <b>{$data.total_click}</b></p>
+<div class="row">
+  <div class="col s12">
+    <blockquote>
+    <p><b>Creation time of the short URL: </b>2017-07-31 09:26:20</p>
+    <p>
+      <b>Original URL: </b>
+      <a target="_blank" href="https://github.com/cvn-intern-2017/cus/wiki/Specification:-Feature-3---Chart">https://github.com/cvn-intern-2017/cus/wiki/Specification:-Feature-3---Chart</a>
+    </p>
+  </blockquote>
+    <table>
+      <thead>
+        <tr>
+          <th>Chrome</th>
+          <th>Firefox</th>
+          <th>Safari</th>
+          <th>Opera</th>
+          <th>Edge</th>
+          <th>IE</th>
+          <th>Other</th>
+          <th class="grey lighten-2 center-align">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr>
+         <td>100</td>
+         <td>100</td>
+         <td>100</td>
+         <td>100</td>
+         <td>100</td>
+         <td>100</td>
+         <td>100</td>
+         <td class="grey lighten-2 center-align">700</td>
+       </tr>
+     </tbody>
+    </table>
+  </div>
 </div>
-
-<!--
-      <p>Chrome: <b>{if isset($data.gg_click)}{$data.gg_click}{/if}</b></p>
-      <p>Firefox: <b>{if isset($data.ff_click)}{$data.ff_click}{/if}</b></p>
-      <p>Others: <b>{if isset($data.other_click)}{$data.other_click}{/if}</b></p>
--->

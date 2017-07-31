@@ -11,7 +11,7 @@ class Base_Model {
     private $_password    = INI_DATABSE['password'];
     private $_database    = INI_DATABSE['dbname'];
 
-    public function __construct() {
+    public function __construct(){
         if(!self::$_databaseHandle) {
             $this->_databaseHandle = new PDO('mysql:host='.$this->_servername.'; dbname='.$this->_database,$this->_username,$this->_password);
             $this->_databaseHandle->query('set names "utf8"');
@@ -19,20 +19,20 @@ class Base_Model {
         }
     }
 
-    public function disconnect() { // ngắt kết nối
+    public function disconnect(){ // ngắt kết nối
 	  	  $this->_databaseHandle = NULL;
 	  }
 
-    public function setQuery($sql) {
+    public function setQuery($sql){
         $this->_sql = $sql;
     }
 
-    public function getLastId() {
+    public function getLastId(){
         return $this->_databaseHandle->lastInsertId();
     }
 
     // execute the query
-    public function execute($options=array()) {
+    public function execute($options=array()){
         $this->_cursor = $this->_databaseHandle->prepare($this->_sql);
     		if($options) {  // Bind Parameter
       			for($i = 0; $i < count($options); $i++) {
@@ -74,7 +74,7 @@ class Base_Model {
 	public function insert($table,$option = array()){
   		$count = count($option);
   		if ($count>0) {
-    			$sql='INSERT INTO '.$table.' VALUES ('.substr(str_repeat('?,', $count),0,-1).')';
+    			$sql='INSERT INTO ' . $table . ' VALUES (' . substr(str_repeat('?,', $count),0,-1) . ')';
     			$this->setQuery($sql);
     			$result = $this->execute($option);
   		}
