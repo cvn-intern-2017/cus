@@ -8,7 +8,7 @@
         public function __construct() {
             parent::__construct();
         }
-
+// Loc
         function findKeyRecordOfURL($url){
             $this->setQuery("SELECT key_url FROM url where original_link = ?");
             $result = $this->loadOneRecord(array($url));
@@ -19,7 +19,7 @@
                 return false;
             }
         }
-
+// Hang
         function findLastKeyURLTable(){
             $this->setQuery("SELECT key_url FROM url WHERE created_time = (SELECT MAX(created_time) FROM url )");
             $result = $this->loadOneRecord();

@@ -1,6 +1,6 @@
 <?php
-    if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
-    if ( ! defined('DOMAIN')) die ('Bad requested!');
+    if (!defined('PATH_CONTROLLER')) die ('Bad requested!');
+    if (!defined('DOMAIN')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '/Base_Controller.php';
 
     class URL_Controller extends Base_Controller {
@@ -20,7 +20,7 @@
         function indexAction() {
             $this->goToHomePage();
         }
-
+// Nam
         function inputAction() {
             try {
                 if (isset($_POST['link']) && $_POST['link'] !== '') {
@@ -76,7 +76,7 @@
         function computeIdURLByKey($key){
             return convert62BaseTo10Base($key);
         }
-
+//Loc
         function validateURL($url){
             $inputURLWithoutScriptTags = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
             if (filter_var($inputURLWithoutScriptTags,FILTER_VALIDATE_URL) && strlen($url) < 65234) {  // Kiểm tra xem input có phải URL không.
@@ -98,7 +98,7 @@
         function goToMaintenancePage(){
             $this->loadView("maintenance");
         }
-
+// Loc
         function hadURLInDatabase($originalURL){
             $key = $this->model->findKeyRecordOfURL($originalURL);
             if ($key){

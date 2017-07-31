@@ -1,4 +1,5 @@
 <?php
+//Nam
 class Base_Model {
     //Giá trị trả về sau khi tạo object trên (được gán vào biến $_databaseHandle) được gọi là database handler và object này sẽ được dùng xuyên suốt trong quá trình kết nối với CSDL.
     private static $_databaseHandle;

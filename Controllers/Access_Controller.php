@@ -14,7 +14,7 @@
                 exit();
             }
         }
-
+        // Lov
         function indexAction() {
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
@@ -67,7 +67,7 @@
         function isValidURI($arrayOfURI){
             return sizeof($arrayOfURI) === 2;
         }
-
+        //Nam
         function isValidKey($keyFromURL){
             $lengthKey = strlen($keyFromURL);
             if($lengthKey == 6){
@@ -101,60 +101,60 @@
               $this->goTo404Page();
             }
         }
-
-        function getAnalysticsData($keyWithPlusChar) {
-            $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
-            $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
-            $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
-            $data['original_link']  = $urlInfo->original_link;
-            $data['created_time']   = $urlInfo->created_time;
-
-            $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
-            $data['total_click']  = $this->computeTotalClick($accessInfo);
-            $data['ff_click']     = 0;
-            $data['gg_click']     = 0;
-            $data['other_click']  = 0;
-
-            foreach($accessInfo as $accessItem){
-                if($accessItem->browser == "Firefox") {
-                    $data['ff_click'] = $accessItem->number_of_clicks;
-                }
-                else if($accessItem->browser == "Chrome") {
-                    $data['gg_click'] = $accessItem->number_of_clicks;
-                }
-                else {
-                    $data['other_click'] = $accessItem->number_of_clicks;
-                }
-            }
-            return $data;
-        }
-
-        function computeTotalClick($accessInfo){
-            $totalClick = 0;
-            foreach ($accessInfo as $accessItem){
-                $totalClick = $totalClick + $accessItem->number_of_clicks;
-            }
-            return $totalClick;
-        }
-
-        function detectCurrentBrowser(){
-            $browser = new Browser();
-            switch($browser->getBrowser()){
-                case 'Chrome':
-                    return 0;
-                case 'Firefox':
-                    return 1;
-                case 'Safari':
-                    return 2;
-                case 'Edge':
-                    return 3;
-                case 'IE':
-                    return 4;
-                default:
-                    return 5;
-            }
-        }
-
+// Loc
+        // function getAnalysticsData($keyWithPlusChar) {
+        //     $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
+        //     $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
+        //     $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
+        //     $data['original_link']  = $urlInfo->original_link;
+        //     $data['created_time']   = $urlInfo->created_time;
+        //
+        //     $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
+        //     $data['total_click']  = $this->computeTotalClick($accessInfo);
+        //     $data['ff_click']     = 0;
+        //     $data['gg_click']     = 0;
+        //     $data['other_click']  = 0;
+        //
+        //     foreach($accessInfo as $accessItem){
+        //         if($accessItem->browser == "Firefox") {
+        //             $data['ff_click'] = $accessItem->number_of_clicks;
+        //         }
+        //         else if($accessItem->browser == "Chrome") {
+        //             $data['gg_click'] = $accessItem->number_of_clicks;
+        //         }
+        //         else {
+        //             $data['other_click'] = $accessItem->number_of_clicks;
+        //         }
+        //     }
+        //     return $data;
+        // }
+        //
+        // function computeTotalClick($accessInfo){
+        //     $totalClick = 0;
+        //     foreach ($accessInfo as $accessItem){
+        //         $totalClick = $totalClick + $accessItem->number_of_clicks;
+        //     }
+        //     return $totalClick;
+        // }
+        //
+        // function detectCurrentBrowser(){
+        //     $browser = new Browser();
+        //     switch($browser->getBrowser()){
+        //         case 'Chrome':
+        //             return 0;
+        //         case 'Firefox':
+        //             return 1;
+        //         case 'Safari':
+        //             return 2;
+        //         case 'Edge':
+        //             return 3;
+        //         case 'IE':
+        //             return 4;
+        //         default:
+        //             return 5;
+        //     }
+        // }
+// Loc
         function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);
             $this->loadView("analytics",$data);

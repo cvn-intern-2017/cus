@@ -1,6 +1,7 @@
 <?php
-    if ( ! defined('PATH_VIEW')) die ('Bad requested!');
-    if ( ! defined('PATH_SMARTY')) die ('Bad requested!');
+    // Anh Nam
+    if (!defined('PATH_VIEW')) die ('Bad requested!');
+    if (!defined('PATH_SMARTY')) die ('Bad requested!');
 
     class Base_Controller {
       public $model  = NULL;

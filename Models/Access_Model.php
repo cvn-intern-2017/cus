@@ -5,7 +5,7 @@
         function __construct(){
             parent::__construct();
         }
-
+// Loc
         function getOriginalLinkByKey($key){
             $this->setQuery("SELECT original_link FROM url where key_url = ?");
             $result = $this->loadOneRecord(array($key));
@@ -60,27 +60,6 @@
                 return null;
             }
         }
-
-        function getURLInfo($key){
-            $this->setQuery("SELECT original_link, created_time FROM url WHERE key_url = ?");
-            $result = $this->loadOneRecord(array($key));
-            if($result){
-                return $result;
-            }
-            else{
-                return null;
-            }
-        }
-
-        function getAccessInfo($key){
-            $this->setQuery("SELECT count(key_url) AS number_of_clicks, browser FROM access WHERE key_short_link =  ? GROUP BY browser");
-            $results = $this->loadAllRecords(array($key));
-            if($results){
-                return $results;
-            }
-            else{
-                return null;
-            }
-        }
+// Hang
     }
 ?>
