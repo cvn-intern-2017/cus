@@ -61,5 +61,18 @@
             }
         }
 // Hang
+        function findInfoLinkFromURL($key){
+            $this->setQuery("SELECT original_link, created_time FROM url where key_url = ?");
+            $result = $this->loadOneRecord(array($key));
+            return $result;
+        }
+
+        function findInfoLinkFromAccess($key){
+            $this->setQuery("SELECT browser, clicked_time FROM access where key_url = ?");
+            $result = $this->loadAllRecords(array($key));
+            return $result;
+
+        }
+// Hang
     }
 ?>

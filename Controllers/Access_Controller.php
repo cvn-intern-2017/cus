@@ -107,10 +107,45 @@
               $this->goTo404Page();
             }
         }
-// Loc
-        function getAnalysticsData($keyWithPlusChar) {
-
+// Loc $data['0_1'] 1 all time, 2 years, 3 month, 4 day, 5 2-hours
+        function getAnalysticsData($keyWithPlusChar){
+            $infosLinkFromAccess = $this->model->findInfoLinkFromAccess(substr($keyWithPlusChar,0,-1));
+            if (count($infosLinkFromAccess) > 0) {
+                $data = array();
+                foreach ($infosLinkFromAccess as $info) {
+                    $timeArray = explode(' ',$info->clicked_time);
+                    //$data['type']['browser'] = 0;
+                    $data['2hours'][$info->browser] = 0;
+                    $data['day'][$info->browser]    = 0;
+                    $data['month'][$info->browser]  = 0;
+                    $data['year'][$info->browser]   = 0;
+                    $data['alltime'][$info->browser]= 0;
+                    foreach($timeArray as $time){
+                        $period = time() - $time;
+                        if ($period < 7200){
+                          $data['2hours'][$info->browser]++;
+                        }
+                        if($period < 86400){
+                            $data['day'][$info->browser]++;
+                        }
+                        if($period < 86400*30){
+                            $data['month'][$info->browser]++;
+                        }
+                        if($period < 86400*365){
+                            $data['year'][$info->browser]++;
+                        }
+                        $data['alltime'][$info->browser]++;
+                    }
+                }
+            }
+            echo "<pre>";
+            print_r($data);
+            echo "</pre>";
+            return $data;
         }
+
+
+
 
         function computeTotalClick($accessInfo){
             $totalClick = 0;
