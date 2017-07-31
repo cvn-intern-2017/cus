@@ -50,16 +50,27 @@
             }
         }
 
+        function findClickedTimeShortenURL($key,$browser){
+            $this->setQuery("SELECT clicked_time FROM access WHERE key_url = ? AND browser = ?");
+            $result = $this->loadOneRecord(array($key,$browser));
+            if($result){
+                return $result->clicked_time;
+            }
+            else{
+                return null;
+            }
+        }
 // Hang
-        function findCreatedTimeShortenURL($key){
+        function findInfoLinkFromURL($key){
             $this->setQuery("SELECT original_link, created_time FROM url where key_url = ?");
             $result = $this->loadOneRecord(array($key));
             return $result;
         }
 
-        function findClickedTimeShortenURL($key){
+        function findInfoLinkFromAccess($key){
             $this->setQuery("SELECT browser, clicked_time FROM access where key_url = ?");
-            $creatime_array = $this->
+            $result = $this->loadOneRecord(array($key));
+            return $result;
 
         }
 
