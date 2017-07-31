@@ -74,7 +74,7 @@ class Base_Model {
 	public function insert($table,$option = array()){
   		$count = count($option);
   		if ($count>0) {
-    			$sql='Insert INTO '.$table.' values ('.substr(str_repeat('?,', $count),0,-1).')';
+    			$sql='INSERT INTO '.$table.' VALUES ('.substr(str_repeat('?,', $count),0,-1).')';
     			$this->setQuery($sql);
     			$result = $this->execute($option);
   		}

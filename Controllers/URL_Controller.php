@@ -28,8 +28,9 @@
                     if ($this->validateURL($linkInput)) {
                         $existKey = $this->hadURLInDatabase($linkInput);
                         if($existKey){
+                          // Sủa thêm đoạn code này vào hàm loadURLInfo
                             $data = $this->getLinkInfo($existKey);
-                            if(strlen($data->original_link) > 64){
+                            if($data && strlen($data->original_link) > 64){
                                 $data->original_link = substr($data->original_link,0,64) . '[...]';
                             }
                             $this->loadURLInfoToHomePage($data);
@@ -41,12 +42,11 @@
                             $insertSuccess = $this->model->insertURLRecord($newKey,$linkInput);
                             if($insertSuccess){
                                 $data = $this->getLinkInfo($newKey);
-                                if($data){
-                                    if(strlen($data->original_link) > 64){
-                                        $data->original_link = substr($data->original_link,0,64) . '[...]';
-                                    }
-                                    $this->loadURLInfoToHomePage($data);
+                                if($data && strlen($data->original_link) > 64){
+                                    $data->original_link = substr($data->original_link,0,64) . '[...]';
                                 }
+                                $this->loadURLInfoToHomePage($data);
+
                             }
                         }
                     }

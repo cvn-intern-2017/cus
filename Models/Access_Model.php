@@ -7,7 +7,7 @@
         }
 // Loc
         function getOriginalLinkByKey($key){
-            $this->setQuery("SELECT original_link FROM url where key_url = ?");
+            $this->setQuery("SELECT original_link FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return $result->original_link;
@@ -30,7 +30,7 @@
 
         function updateClickedTimeAccessRecord($key,$browser,$clickedTimes){
             $this->setQuery("UPDATE access SET clicked_time = ? WHERE key_url = ? AND browser = ?");
-            $result = $this->execute(array($clickedTimes,$key,$browser,));
+            $result = $this->execute(array($clickedTimes,$key,$browser));
             if ($result){
                 return true;
             }
@@ -40,7 +40,7 @@
         }
 
         function checkURLKey($key) {
-            $this->setQuery("SELECT 1 FROM url where key_url = ?");
+            $this->setQuery("SELECT 1 FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
             if($result){
                 return true;

@@ -18,14 +18,13 @@
         function indexAction() {
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
-                $arrayOfURI = explode('/',$URIOnAddressBar);
-                $keyFromURL = end($arrayOfURI);
-                if($this->isValidURI($arrayOfURI) && $this->isValidKey($keyFromURL)){
+                $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
+                if($keyFromURL){
                     if (strlen($keyFromURL) == 6){
                         $browserAccessURL = $this->detectCurrentBrowser();
                         $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
                         if($clickedTimes) {
-                            $clickedTimes = $clickedTimes . " " . strval(time());
+                            $clickedTimes = $clickedTimes . " " . time();
                             $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
                             if($updateSuccess) {
                                 $this->redirectToRealURL($keyFromURL);
@@ -64,25 +63,33 @@
             return $this->model->insertAccessRecord($key,$browser,$time);
         }
 
-        function isValidURI($arrayOfURI){
-            return sizeof($arrayOfURI) === 2;
-        }
         //Nam
-        function isValidKey($keyFromURL){
-            $lengthKey = strlen($keyFromURL);
-            if($lengthKey == 6){
-                $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
-                if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
-                    return true;
+        // Fix .........
+        /*
+          + Kiem tra URI
+          + Kiem tra pattern cua key_url
+          + Kiem tra key co trong database khong.
+          return key or null
+        */
+        function verifyKeyFromURI($URIOnAddressBar){
+            $arrayOfURI = explode('/',$URIOnAddressBar);
+            $keyFromURL = end($arrayOfURI);
+            if(sizeof($arrayOfURI) === 2) {
+                $lengthKey = strlen($keyFromURL);
+                if($lengthKey == 6){
+                    $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
+                    if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
+                        return $keyFromURL;
+                    }
+                }
+                else if($lengthKey == 7){
+                    $hasRightPattern = preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
+                    if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,6))){
+                        return $keyFromURL;
+                    }
                 }
             }
-            else if($lengthKey == 7){
-                $hasRightPattern = preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
-                if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,6))){
-                    return true;
-                }
-            }
-            return false;
+            return null;
         }
 
         function hasURLKeyInDatabase($key){
@@ -102,58 +109,58 @@
             }
         }
 // Loc
-        // function getAnalysticsData($keyWithPlusChar) {
-        //     $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
-        //     $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
-        //     $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
-        //     $data['original_link']  = $urlInfo->original_link;
-        //     $data['created_time']   = $urlInfo->created_time;
-        //
-        //     $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
-        //     $data['total_click']  = $this->computeTotalClick($accessInfo);
-        //     $data['ff_click']     = 0;
-        //     $data['gg_click']     = 0;
-        //     $data['other_click']  = 0;
-        //
-        //     foreach($accessInfo as $accessItem){
-        //         if($accessItem->browser == "Firefox") {
-        //             $data['ff_click'] = $accessItem->number_of_clicks;
-        //         }
-        //         else if($accessItem->browser == "Chrome") {
-        //             $data['gg_click'] = $accessItem->number_of_clicks;
-        //         }
-        //         else {
-        //             $data['other_click'] = $accessItem->number_of_clicks;
-        //         }
-        //     }
-        //     return $data;
-        // }
-        //
-        // function computeTotalClick($accessInfo){
-        //     $totalClick = 0;
-        //     foreach ($accessInfo as $accessItem){
-        //         $totalClick = $totalClick + $accessItem->number_of_clicks;
-        //     }
-        //     return $totalClick;
-        // }
-        //
-        // function detectCurrentBrowser(){
-        //     $browser = new Browser();
-        //     switch($browser->getBrowser()){
-        //         case 'Chrome':
-        //             return 0;
-        //         case 'Firefox':
-        //             return 1;
-        //         case 'Safari':
-        //             return 2;
-        //         case 'Edge':
-        //             return 3;
-        //         case 'IE':
-        //             return 4;
-        //         default:
-        //             return 5;
-        //     }
-        // }
+        function getAnalysticsData($keyWithPlusChar) {
+            $keyWithoutPlusChar = substr($keyWithPlusChar,0,6);
+            $urlInfo = $this->model->getURLInfo($keyWithoutPlusChar);
+            $data['short_link']     = DOMAIN . $keyWithoutPlusChar;
+            $data['original_link']  = $urlInfo->original_link;
+            $data['created_time']   = $urlInfo->created_time;
+
+            $accessInfo = $this->model->getAccessInfo($keyWithoutPlusChar);
+            $data['total_click']  = $this->computeTotalClick($accessInfo);
+            $data['ff_click']     = 0;
+            $data['gg_click']     = 0;
+            $data['other_click']  = 0;
+
+            foreach($accessInfo as $accessItem){
+                if($accessItem->browser == "Firefox") {
+                    $data['ff_click'] = $accessItem->number_of_clicks;
+                }
+                else if($accessItem->browser == "Chrome") {
+                    $data['gg_click'] = $accessItem->number_of_clicks;
+                }
+                else {
+                    $data['other_click'] = $accessItem->number_of_clicks;
+                }
+            }
+            return $data;
+        }
+
+        function computeTotalClick($accessInfo){
+            $totalClick = 0;
+            foreach ($accessInfo as $accessItem){
+                $totalClick = $totalClick + $accessItem->number_of_clicks;
+            }
+            return $totalClick;
+        }
+
+        function detectCurrentBrowser(){
+            $browser = new Browser();
+            switch($browser->getBrowser()){
+                case 'Chrome':
+                    return 0;
+                case 'Firefox':
+                    return 1;
+                case 'Safari':
+                    return 2;
+                case 'Edge':
+                    return 3;
+                case 'IE':
+                    return 4;
+                default:
+                    return 5;
+            }
+        }
 // Loc
         function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);

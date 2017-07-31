@@ -4,7 +4,7 @@
     if (!defined('PATH_SMARTY')) die ('Bad requested!');
 
     class Base_Controller {
-      public $model  = NULL;
+      protected $model  = NULL;
       protected $smarty = NULL;
 
       function loadView($view, $data=array()){

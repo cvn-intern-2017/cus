@@ -5,12 +5,12 @@
 
     class URL_Model extends Base_Model{
 
-        public function __construct() {
+        function __construct() {
             parent::__construct();
         }
 // Loc
         function findKeyRecordOfURL($url){
-            $this->setQuery("SELECT key_url FROM url where original_link = ?");
+            $this->setQuery("SELECT key_url FROM url WHERE original_link = ?");
             $result = $this->loadOneRecord(array($url));
             if($result){
                 return $result->key_url;
@@ -21,7 +21,7 @@
         }
 // Hang
         function findLastKeyURLTable(){
-            $this->setQuery("SELECT key_url FROM url WHERE created_time = (SELECT MAX(created_time) FROM url )");
+            $this->setQuery('SELECT key_url FROM url WHERE created_time = (SELECT MAX(created_time) FROM url)');
             $result = $this->loadOneRecord();
             if($result){
                 return $result->key_url;
@@ -34,7 +34,8 @@
             $this->setQuery("INSERT INTO url (key_url, original_link) VALUES (?,?)");
             $result = $this->execute(array($key,$originalLink));
             if ($result){
-              return $this->findLastKeyURLTable();
+              //return $this->findLastKeyURLTable();
+              return true;
             }
             else{
               return false;
@@ -44,12 +45,7 @@
         function findDataByKey($key){
             $this->setQuery("SELECT * FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
-            if($result){
-                return $result;
-            }
-            else{
-                return false;
-            }
+            return $result;
         }
 
    }
