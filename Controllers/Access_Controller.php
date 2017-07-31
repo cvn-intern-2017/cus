@@ -111,10 +111,25 @@
         function getAnalysticsData($keyWithPlusChar){
             $infosLinkFromAccess = $this->model->findInfoLinkFromAccess(substr($keyWithPlusChar,0,-1));
             if (count($infosLinkFromAccess) > 0) {
-                $data = array();
+                $data = array('total'=>0);
                 foreach ($infosLinkFromAccess as $info) {
                     $timeArray = explode(' ',$info->clicked_time);
-                    //$data['type']['browser'] = 0;
+                    switch ($info->browser) {
+                      case 0: $info->browser = 'Chrome';
+                        break;
+                      case 1: $info->browser = 'Firefox';
+                        break;
+                      case 2: $info->browser = 'Safari';
+                        break;
+                      case 3: $info->browser = 'Opera';
+                        break;
+                      case 4: $info->browser = 'Edge';
+                        break;
+                      case 5: $info->browser = 'IE';
+                        break;
+                      default: $info->browser = 'Other';
+                        break;
+                    }
                     $data['2hours'][$info->browser] = 0;
                     $data['day'][$info->browser]    = 0;
                     $data['month'][$info->browser]  = 0;
@@ -135,12 +150,16 @@
                             $data['year'][$info->browser]++;
                         }
                         $data['alltime'][$info->browser]++;
+                        $data['total']++;
                     }
                 }
             }
-            echo "<pre>";
-            print_r($data);
-            echo "</pre>";
+          /*echo "<pre>";
+            print_r($infosLinkFromAccess);
+            echo "</pre>";*/
+            // echo "<pre>";
+            // print_r($data);
+            // echo "</pre>";
             return $data;
         }
 

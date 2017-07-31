@@ -10,28 +10,27 @@
     <table>
       <thead>
         <tr>
-          <th>Chrome</th>
-          <th>Firefox</th>
-          <th>Safari</th>
-          <th>Opera</th>
-          <th>Edge</th>
-          <th>IE</th>
-          <th>Other</th>
+          {foreach from=$data.alltime key=browser item=num}
+            <th>
+              {$browser}
+            </th>
+          {/foreach}
           <th class="grey lighten-2 center-align">Total</th>
         </tr>
       </thead>
       <tbody>
-       <tr>
-         <td>100</td>
-         <td>100</td>
-         <td>100</td>
-         <td>100</td>
-         <td>100</td>
-         <td>100</td>
-         <td>100</td>
-         <td class="grey lighten-2 center-align">700</td>
-       </tr>
-     </tbody>
+          <tr>
+            {foreach from=$data.alltime item=num}
+              <td>
+                {$num}
+              </td>
+            {/foreach}
+            <td class="grey lighten-2 center-align">{$data.total}</td>
+          </tr>
+      </tbody>
     </table>
+
+
+
   </div>
 </div>
