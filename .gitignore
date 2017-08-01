@@ -1,5 +1,2 @@
-# ignore everything
-templates_c/*
-
-# Exception to keep templates_c folder in git
-!templates_c/.gitkeep
+/smarty/templates_c/*
+!/smarty/templates_c/.gitkeep
