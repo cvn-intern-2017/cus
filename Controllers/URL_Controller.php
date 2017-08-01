@@ -3,10 +3,10 @@
     if (!defined('DOMAIN')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '/Base_Controller.php';
 
-    class URL_Controller extends Base_Controller {
+    class URL_Controller extends Base_Controller{
         private $_infoLink;
 
-        function __construct() {
+        function __construct(){
             try{
                 require_once PATH_MODEL . '/URL_Model.php';
                 $this->model = new URL_Model();
@@ -22,10 +22,10 @@
         }
 // Nam
         function inputAction() {
-            try {
-                if (isset($_POST['link']) && $_POST['link'] !== '') {
+            try{
+                if(isset($_POST['link']) && $_POST['link'] !== ''){
                     $linkInput = $_POST['link'];
-                    if ($this->validateURL($linkInput)) {
+                    if($this->validateURL($linkInput)){
                         $existKey = $this->hadURLInDatabase($linkInput);
                         if($existKey){
                           // Sủa thêm đoạn code này vào hàm loadURLInfo
@@ -50,15 +50,15 @@
                             }
                         }
                     }
-                    else {
+                    else{
                         $this->goToHomePage();
                     }
                 }
-                else {
+                else{
                     $this->goToHomePage();
                 }
             }
-            catch (PDOException $e){
+            catch(PDOException $e){
                 $this->goToMaintenancePage();
                 exit();
             }
@@ -79,15 +79,15 @@
 //Loc
         function validateURL($url){
             $inputURLWithoutScriptTags = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
-            if (filter_var($inputURLWithoutScriptTags,FILTER_VALIDATE_URL) && strlen($url) < 65234) {  // Kiểm tra xem input có phải URL không.
+            if(filter_var($inputURLWithoutScriptTags,FILTER_VALIDATE_URL) && strlen($url) < 65234){  // Kiểm tra xem input có phải URL không.
                 return true;
             }
-            else {
+            else{
                 return false;
             }
         }
 
-        function loadURLInfoToHomePage($data) {
+        function loadURLInfoToHomePage($data){
             $this->loadView("home",$data);
         }
 
@@ -101,10 +101,10 @@
 // Loc
         function hadURLInDatabase($originalURL){
             $key = $this->model->findKeyRecordOfURL($originalURL);
-            if ($key){
+            if($key){
                 return $key;
             }
-            else {
+            else{
                 return false;
             }
         }

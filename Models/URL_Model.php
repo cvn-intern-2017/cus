@@ -1,11 +1,11 @@
 <?php
-    if (!defined('PATH_MODEL')) die ('Bad requested!');
+    if(!defined('PATH_MODEL')) die ('Bad requested!');
     include_once PATH_MODEL . '/Base_Model.php';
     //include_once 'Base_Model.php';
 
     class URL_Model extends Base_Model{
 
-        function __construct() {
+        function __construct(){
             parent::__construct();
         }
 // Loc
@@ -33,7 +33,7 @@
         function insertURLRecord($key,$originalLink){
             $this->setQuery("INSERT INTO url (key_url, original_link) VALUES (?,?)");
             $result = $this->execute(array($key,$originalLink));
-            if ($result){
+            if($result){
               //return $this->findLastKeyURLTable();
               return true;
             }

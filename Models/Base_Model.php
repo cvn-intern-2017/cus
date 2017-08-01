@@ -1,6 +1,6 @@
 <?php
 //Nam
-class Base_Model {
+class Base_Model{
     //Giá trị trả về sau khi tạo object trên (được gán vào biến $_databaseHandle) được gọi là database handler và object này sẽ được dùng xuyên suốt trong quá trình kết nối với CSDL.
     private static $_databaseHandle;
     private $_sql = '';
@@ -12,7 +12,7 @@ class Base_Model {
     private $_database    = INI_DATABSE['dbname'];
 
     public function __construct(){
-        if(!self::$_databaseHandle) {
+        if(!self::$_databaseHandle){
             $this->_databaseHandle = new PDO('mysql:host='.$this->_servername.'; dbname='.$this->_database,$this->_username,$this->_password);
             $this->_databaseHandle->query('set names "utf8"');
             $this->_databaseHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -34,7 +34,7 @@ class Base_Model {
     // execute the query
     public function execute($options=array()){
         $this->_cursor = $this->_databaseHandle->prepare($this->_sql);
-    		if($options) {  // Bind Parameter
+    		if($options){  // Bind Parameter
       			for($i = 0; $i < count($options); $i++) {
       			     $this->_cursor->bindParam($i + 1,$options[$i]);
       			}
@@ -49,7 +49,7 @@ class Base_Model {
             if(!$result = $this->execute()){
                 return false;
             }
-        }else {
+        }else{
             if(!$result = $this->execute($options)){
                 return false;
             }
@@ -63,7 +63,7 @@ class Base_Model {
                 return false;
             }
         }
-        else {
+        else{
             if(!$result = $this->execute($option)){
                 return false;
             }
@@ -73,7 +73,7 @@ class Base_Model {
 
 	public function insert($table,$option = array()){
   		$count = count($option);
-  		if ($count>0) {
+  		if($count>0){
     			$sql='INSERT INTO ' . $table . ' VALUES (' . substr(str_repeat('?,', $count),0,-1) . ')';
     			$this->setQuery($sql);
     			$result = $this->execute($option);

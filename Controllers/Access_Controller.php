@@ -1,5 +1,5 @@
 <?php
-    if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
+    if (!defined('PATH_CONTROLLER')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '/Base_Controller.php';
     include_once 'Base_Controller.php';
 
@@ -9,35 +9,35 @@
                 require_once PATH_MODEL . '/Access_Model.php';
                 $this->model = new Access_Model();
             }
-            catch (PDOException $e){
+            catch(PDOException $e){
                 $this->goToMaintenancePage();
                 exit();
             }
         }
         // Lov
-        function indexAction() {
+        function indexAction(){
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
                 if($keyFromURL){
-                    if (strlen($keyFromURL) == 6){
+                    if(strlen($keyFromURL) == 6){
                         $browserAccessURL = $this->detectCurrentBrowser();
                         $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
-                        if($clickedTimes) {
-                            $clickedTimes = $clickedTimes . " " . time();
+                        if($clickedTimes){
+                            $clickedTimes = $clickedTimes." ".time();
                             $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
-                            if($updateSuccess) {
+                            if($updateSuccess){
                                 $this->redirectToRealURL($keyFromURL);
                             }
                         }
-                        else {
+                        else{
                             $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
                             if($insertSuccess){
                                 $this->redirectToRealURL($keyFromURL);
                             }
                         }
                     }
-                    else {
+                    else{
                         $this->redirectToRealURL($keyFromURL);
                     }
                 }
@@ -45,7 +45,7 @@
                     $this->goTo404Page();
                 }
             }
-            catch (PDOException $e){
+            catch(PDOException $e){
                 $this->goToMaintenancePage();
                 exit();
             }
@@ -59,7 +59,7 @@
             return $this->model->findClickedTimeShortenURL($key,$browser);
         }
 
-        function addNewAccessRecord($key,$browser,$time) {
+        function addNewAccessRecord($key,$browser,$time){
             return $this->model->insertAccessRecord($key,$browser,$time);
         }
 
@@ -73,7 +73,7 @@
         function verifyKeyFromURI($URIOnAddressBar){
             $arrayOfURI = explode('/',$URIOnAddressBar);
             $keyFromURL = end($arrayOfURI);
-            if(sizeof($arrayOfURI) === 2) {
+            if(sizeof($arrayOfURI) === 2){
                 $lengthKey = strlen($keyFromURL);
                 if($lengthKey == 6){
                     $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
@@ -129,10 +129,10 @@
                         break;
                     }
                     $data['twohours'][$info->browser] = 0;
-                    $data['day'][$info->browser]    = 0;
-                    $data['month'][$info->browser]  = 0;
-                    $data['year'][$info->browser]   = 0;
-                    $data['alltime'][$info->browser]= 0;
+                    $data['day'][$info->browser] = 0;
+                    $data['month'][$info->browser] = 0;
+                    $data['year'][$info->browser] = 0;
+                    $data['alltime'][$info->browser] = 0;
                     foreach($timeArray as $time){
                         $period = time() - $time;
                         if ($period < 7200){
@@ -141,10 +141,10 @@
                         if($period < 86400){
                             $data['day'][$info->browser]++;
                         }
-                        if($period < 86400*30){
+                        if($period < 86400 * 30){
                             $data['month'][$info->browser]++;
                         }
-                        if($period < 86400*365){
+                        if($period < 86400 * 365){
                             $data['year'][$info->browser]++;
                         }
                         $data['alltime'][$info->browser]++;
@@ -152,12 +152,14 @@
                     }
                 }
             }
-          /*echo "<pre>";
-            print_r($infosLinkFromAccess);
-            echo "</pre>";*/
-            // echo "<pre>";
-            // print_r($data);
-            // echo "</pre>";
+
+            $infosLinkFromURL = $this->model->findInfoLinkFromURL(substr($keyWithPlusChar,0,-1));
+            $data['originallink'] = $infosLinkFromURL->original_link;
+            $data['createdtime'] = $infosLinkFromURL->created_time;
+
+              // echo "<pre>";
+              // print_r($data);
+              // echo "</pre>";
             return $data;
         }
 
@@ -166,7 +168,7 @@
 
         function computeTotalClick($accessInfo){
             $totalClick = 0;
-            foreach ($accessInfo as $accessItem){
+            foreach($accessInfo as $accessItem){
                 $totalClick = $totalClick + $accessItem->number_of_clicks;
             }
             return $totalClick;
