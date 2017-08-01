@@ -9,27 +9,7 @@
     define('INI_DATABSE',ARR_INI['database']);
     include_once PATH_LIB . 'Utils.php';
 
-    function __autoload($className){
-        if(preg_match('/(_Model)$/',$className)) {
-            $pathFile =  PATH_MODEL . $className . '.php';
-        }
-        else if(preg_match("/(_Controller)$/",$className)) {
-            $pathFile =  PATH_CONTROLLER . $className . '.php';
-
-        }
-        else if($className === 'Browser'){
-            $pathFile = PATH_LIB . 'Browser.php';
-        }
-        else if($className === 'Cus_Smarty') {
-            $pathFile = PATH_SMARTY . 'Cus_Smarty.php';
-        }
-        else {
-            $pathFile = "";
-        }
-        if(file_exists($pathFile)){
-            include_once $pathFile;
-        }
-    }
+    
 
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/

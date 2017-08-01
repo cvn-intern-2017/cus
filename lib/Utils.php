@@ -1,4 +1,26 @@
 <?php
+    function __autoload($className){
+        if(preg_match('/(_Model)$/',$className)) {
+            $pathFile =  PATH_MODEL . $className . '.php';
+        }
+        else if(preg_match("/(_Controller)$/",$className)) {
+            $pathFile =  PATH_CONTROLLER . $className . '.php';
+
+        }
+        else if($className === 'Browser'){
+            $pathFile = PATH_LIB . 'Browser.php';
+        }
+        else if($className === 'Cus_Smarty') {
+            $pathFile = PATH_SMARTY . 'Cus_Smarty.php';
+        }
+        else {
+            $pathFile = "";
+        }
+        if(file_exists($pathFile)){
+            include_once $pathFile;
+        }
+    }
+
     function convert10BaseTo62Base($number10Base){
         $string62BaseChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $number62Base = '';
@@ -14,6 +36,7 @@
         }
         return $number62Base;
     }
+
     function convert62BaseTo10Base($number62Base){
         $string62BaseChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $size = strlen($number62Base);
@@ -23,6 +46,7 @@
         }
         return $number10Base;
     }
+
 
 
  ?>
