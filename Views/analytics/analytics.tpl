@@ -110,7 +110,7 @@
       packages: ['corechart', 'bar']
     });
     google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries() {
+    function drawMultSeries(){
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.day key=browser item=num}
@@ -146,7 +146,7 @@
       packages: ['corechart', 'bar']
     });
     google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries() {
+    function drawMultSeries(){
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.month key=browser item=num}
@@ -182,7 +182,7 @@
       packages: ['corechart', 'bar']
     });
     google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries() {
+    function drawMultSeries(){
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.year key=browser item=num}

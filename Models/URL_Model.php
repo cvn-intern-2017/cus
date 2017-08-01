@@ -1,10 +1,9 @@
 <?php
-<<<<<<< HEAD
+
     if(!defined('PATH_MODEL')) die ('Bad requested!');
     include_once PATH_MODEL . '/Base_Model.php';
-=======
-    if (!defined('PATH_MODEL')) die ('Bad requested!');
->>>>>>> e5669e116a9748160b1bcdbd6276df104f4e9f00
+
+    if(!defined('PATH_MODEL')) die ('Bad requested!');
     //include_once 'Base_Model.php';
 
     class URL_Model extends Base_Model{

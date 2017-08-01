@@ -1,15 +1,14 @@
 <?php
-<<<<<<< HEAD
+
     if (!defined('PATH_MODEL')) die ('Bad requested!');
     include_once PATH_MODEL . '/Base_Model.php';
-=======
     if ( ! defined('PATH_MODEL')) die ('Bad requested!');
->>>>>>> e5669e116a9748160b1bcdbd6276df104f4e9f00
+
     class Access_Model extends Base_Model{
         function __construct(){
             parent::__construct();
         }
-// Loc
+
         function getOriginalLinkByKey($key){
             $this->setQuery("SELECT original_link FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
@@ -64,7 +63,7 @@
                 return null;
             }
         }
-// Hang
+
         function findInfoLinkFromURL($key){
             $this->setQuery("SELECT original_link, created_time FROM url where key_url = ?");
             $result = $this->loadOneRecord(array($key));
@@ -77,6 +76,5 @@
             return $result;
 
         }
-// Hang
     }
 ?>
