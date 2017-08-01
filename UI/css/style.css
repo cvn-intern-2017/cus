@@ -1,6 +1,6 @@
 .clean100{
   clear: both;
-  height: 100px;
+  height: 90px;
 }
 .page_404, .maintenance {
   padding-top: 10%;
@@ -21,11 +21,9 @@
   background-color: white;
 }
 footer {
-  background-color: ;
-  position: absolute;
   height: 50px;
   width:100%;
-  bottom:0;
+  line-height: 50px;
 }
 p.copyright {
   width: 100%;
@@ -42,4 +40,10 @@ input[type=submit]{
 .height_20px {
   height: 20px;
   width: 100%;
+}
+.container{
+  min-height: 800px;
+}
+select{
+  display: block;
 }

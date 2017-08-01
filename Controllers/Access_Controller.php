@@ -121,16 +121,14 @@
                         break;
                       case 2: $info->browser = 'Safari';
                         break;
-                      case 3: $info->browser = 'Opera';
+                      case 3: $info->browser = 'Edge';
                         break;
-                      case 4: $info->browser = 'Edge';
-                        break;
-                      case 5: $info->browser = 'IE';
+                      case 4: $info->browser = 'IE';
                         break;
                       default: $info->browser = 'Other';
                         break;
                     }
-                    $data['2hours'][$info->browser] = 0;
+                    $data['twohours'][$info->browser] = 0;
                     $data['day'][$info->browser]    = 0;
                     $data['month'][$info->browser]  = 0;
                     $data['year'][$info->browser]   = 0;
@@ -138,7 +136,7 @@
                     foreach($timeArray as $time){
                         $period = time() - $time;
                         if ($period < 7200){
-                          $data['2hours'][$info->browser]++;
+                          $data['twohours'][$info->browser]++;
                         }
                         if($period < 86400){
                             $data['day'][$info->browser]++;
