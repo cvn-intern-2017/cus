@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Cybozu URL Shortener </title>
+  <link rel="stylesheet" href="../../UI/css/materialize.min.css">
+  <link rel="stylesheet" href="../../UI/css/style.css">
+  <link rel="stylesheet" href="../../UI/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    ul.a {list-style-type: circle;}
+  </style>
+</head>
+<body>
+  <nav class="light-blue lighten-1">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="." class="brand-logo">Cybozu <span style="font-size:60%;">URL Shortener</span></a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href=".">Home</a></li>
+          <li><a href="#">Documentation</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="documentation">
+    <div class="divider"></div>
+    <div class="section ">
+        <h4>1. Introduction </h4>
+        <p>This is URL Shorterner app, which is the Intern Project at Cybozu Vietnam, on July, 2017. This app can create short link,
+  which help user to not remember long links, complex links. Our product will help people to improve their user experience.</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+      <h4>2. User 's Guide </h4>
+      <div class="sub-section">
+        <p>You can type or paste the url you want to shorten this form. We only handle valid tasks, so you should enter the correct url in the format. Some of the rules when entering url is as follows: </p>
+        <ul class="a">
+          <li><i class="fa fa-check-circle" aria-hidden="true"></i>  The input character can not contain the whole number.</li>
+          <li><i class="fa fa-check-circle" aria-hidden="true"></i>  Contain Hyper Text Transfer Protoco.</li>
+          <li><i class="fa fa-check-circle" aria-hidden="true"></i>  Not contain space.</li>
+          <li><i class="fa fa-check-circle" aria-hidden="true"></i> String length that user input into less than 256 characters.</li>
+        </ul>
+      </div>
+      <div class="sub-section">
+        <p>Click the button "Shorten URl" to process the request and we will return the shortcut that you need below.</p>
+        <p>The red button when clicked will access the analysis page for the link you created</p>
+        <p>We have given you statistics on the number of times the url has been visited, the browser used to access it</p>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="UI/js/jquery-2.1.1.min.js"></script>
+  <script src="UI/js/materialize.min.js"></script>
+  <footer class="light-blue lighten-1">
+    <p class="copyright">Cybozu URL Shortener Copy Right &copy; Cybozu. All rights reserved </p>
+  </footer>
+</body>
+</html>
