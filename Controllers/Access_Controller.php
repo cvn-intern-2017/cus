@@ -1,12 +1,15 @@
 <?php
+<<<<<<< HEAD
     if (!defined('PATH_CONTROLLER')) die ('Bad requested!');
     include_once PATH_CONTROLLER . '/Base_Controller.php';
     include_once 'Base_Controller.php';
+=======
+    if ( ! defined('PATH_CONTROLLER')) die ('Bad requested!');
+>>>>>>> e5669e116a9748160b1bcdbd6276df104f4e9f00
 
     class Access_Controller extends Base_Controller{
         function __construct(){
             try{
-                require_once PATH_MODEL . '/Access_Model.php';
                 $this->model = new Access_Model();
             }
             catch(PDOException $e){

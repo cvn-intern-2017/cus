@@ -1,14 +1,12 @@
 <?php
     if (!defined('PATH_CONTROLLER')) die ('Bad requested!');
     if (!defined('DOMAIN')) die ('Bad requested!');
-    include_once PATH_CONTROLLER . '/Base_Controller.php';
 
     class URL_Controller extends Base_Controller{
         private $_infoLink;
 
         function __construct(){
             try{
-                require_once PATH_MODEL . '/URL_Model.php';
                 $this->model = new URL_Model();
             }
             catch (PDOException $e){
