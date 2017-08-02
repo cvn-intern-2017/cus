@@ -42,7 +42,7 @@ input[type=submit]{
   width: 100%;
 }
 .container{
-  min-height: 920px;
+  /*min-height: 920px;*/
 }
 select{
   display: block;
