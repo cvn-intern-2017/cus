@@ -1,2 +1,2 @@
-/smarty/templates_c/*
-!/smarty/templates_c/.gitkeep
+/vendor/*
+/Views/templates_c/*

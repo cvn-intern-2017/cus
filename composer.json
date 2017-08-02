@@ -1,0 +1,6 @@
+{
+    "description": "Cybozu URL Shortener",
+    "require": {
+        "smarty/smarty": "~3.1.30"
+    }
+}

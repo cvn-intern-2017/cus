@@ -4,7 +4,8 @@
     define('PATH_VIEW',__DIR__ . '/Views/');
     define('PATH_MODEL',__DIR__ . '/Models/');
     define('PATH_LIB',__DIR__ . '/lib/');
-    define('PATH_SMARTY',__DIR__ .'/smarty/');
+    define('PATH_SMARTY',__DIR__ . '/vendor/smarty/smarty/');
+    define('PATH_CONFIG',__DIR__ . '/config/');
     define('ARR_INI',parse_ini_file('config/config.ini',true));
     define('INI_DATABSE',ARR_INI['database']);
     include_once PATH_LIB . 'Utils.php';

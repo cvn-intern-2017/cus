@@ -11,7 +11,7 @@
             $pathFile = PATH_LIB . 'Browser.php';
         }
         else if($className === 'Cus_Smarty') {
-            $pathFile = PATH_SMARTY . 'Cus_Smarty.php';
+            $pathFile = PATH_LIB . 'Cus_Smarty.php';
         }
         else {
             $pathFile = "";

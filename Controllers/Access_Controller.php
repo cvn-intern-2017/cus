@@ -88,8 +88,6 @@
             return null;
         }
 
-
-
         function redirectToRealURL($keyFromURL){
             $lengthKey = strlen($keyFromURL);
             if ($lengthKey == 6) {
