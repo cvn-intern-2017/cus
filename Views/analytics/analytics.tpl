@@ -58,7 +58,7 @@
           minValue: 0
         },
         vAxis: {
-          title: 'All Time',
+          title: '',
         },
         bar: {
           groupWidth: "70%",
@@ -70,11 +70,7 @@
     }
 </script>
 <script>
-    google.charts.load('current', {
-      packages: ['corechart', 'bar']
-    });
-    google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries() {
+    function twohours() {
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.twohours key=browser item=num}
@@ -89,7 +85,7 @@
           width: '50%'
         },
         hAxis: {
-          title: '2 hours',
+          title: '',
           minValue: 0
         },
         vAxis: {
@@ -106,11 +102,7 @@
 </script>
 
 <script>
-    google.charts.load('current', {
-      packages: ['corechart', 'bar']
-    });
-    google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries(){
+    function day(){
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.day key=browser item=num}
@@ -142,11 +134,8 @@
     }
 </script>
 <script>
-    google.charts.load('current', {
-      packages: ['corechart', 'bar']
-    });
-    google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries(){
+
+    function month(){
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.month key=browser item=num}
@@ -178,11 +167,7 @@
     }
 </script>
 <script>
-    google.charts.load('current', {
-      packages: ['corechart', 'bar']
-    });
-    google.charts.setOnLoadCallback(drawMultSeries);
-    function drawMultSeries(){
+    function year(){
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
         {foreach from=$data.year key=browser item=num}
@@ -215,28 +200,47 @@
 </script>
 <script>
   $(document).ready(function(){
-
     $('select#myTimeFrame').on('change',function(){
-      $('#chart_alltime, #chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-      var timeFrame = $("select#myTimeFrame").val();
-      console.log(timeFrame);
-      $('#chart_'+timeFrame).removeClass('hide');
+        $('#chart_alltime, #chart_day, #chart_twohours, #chart_month, #chart_year').removeClass('hide');
+      switch ($("select#myTimeFrame").val()) {
+        case "alltime":
+          drawMultSeries();
+
+          $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
+          break;
+        case "twohours":
+          twohours();
+          $('#chart_alltime, #chart_day, #chart_month, #chart_year').addClass('hide');
+          break;
+        case "day":
+            day();
+            $('#chart_alltime, #chart_twohours, #chart_month, #chart_year').addClass('hide');
+          break;
+        case "month":
+              month();
+              $('#chart_alltime, #chart_day, #chart_twohours, #chart_year').addClass('hide');
+              break;
+        default:
+        year();
+        $('#chart_alltime, #chart_day, #chart_twohours, #chart_month').addClass('hide');
+
+      }
+
     });
   });
 </script>
 <div class="row">
   <div class="col s9">
     <div class="row">
-      <div id="chart_alltime" class="col s12" style="height:500px"></div>
-      <div id="chart_twohours" class="col s12" style="height:500px"></div>
-      <div id="chart_day" class="col s12" style="height:500px"></div>
-      <div id="chart_month" class="col s12" style="height:500px"></div>
-      <div id="chart_year" class="col s12" style="height:500px"></div>
+      <div id="chart_alltime"></div>
+      <div id="chart_twohours"></div>
+      <div id="chart_day"></div>
+      <div id="chart_month"></div>
+      <div id="chart_year"></div>
     </div>
   </div>
   <div class="col s3 input-field">
     <select id="myTimeFrame">
-      <option value="All" selected disabled>All Chart</option>
       <option value="alltime">All Time</option>
       <option value="twohours">Two Hours</option>
       <option value="day">Day ago</option>
