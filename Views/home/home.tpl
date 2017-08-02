@@ -15,7 +15,7 @@
             <input  placeholder="Input your link here" type="text" class="validate" id="input_url" name="link">
           </div>
           <div class="input-field col s3">
-            <input type="submit" class="waves-light btn" value="Shorten URL"/>
+            <input type="submit" class="waves-light btn" name="submit" value="Shorten URL"/>
           </div>
         </div>
       </form>

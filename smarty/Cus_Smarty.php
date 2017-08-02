@@ -1,5 +1,5 @@
 <?php
-   require_once 'libs/Smarty.class.php';
+      require_once 'libs/Smarty.class.php';
 
      class Cus_Smarty extends Smarty{
          function __construct(){

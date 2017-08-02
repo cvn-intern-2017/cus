@@ -9,21 +9,18 @@
     define('INI_DATABSE',ARR_INI['database']);
     include_once PATH_LIB . 'Utils.php';
 
-    
-
     // Trường hợp vào giao diện input URL để nhận shortlink.
-    if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { // cybozu.xyz/
-    		if(isset($_POST['link'])){
-            $_POST['link'] = trim($_POST['link']);
+    if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') {
+    		if(isset($_POST['submit'])){
     			  $controllerObject = new URL_Controller();
             $controllerObject->inputAction();
     		}
     		else{
     		    $controllerObject = new URL_Controller();
             $controllerObject->indexAction();
-       }
+        }
     }
-    // Trường hợp vào shortlink hoặc vào trang data analystics. (Nên xét kĩ 2 trường hợp này ==> có thể có bug)
+    // Trường hợp vào shortlink hoặc vào trang data analystics.
     else{
       	$controllerObject = new Access_Controller();
       	$controllerObject->indexAction();
