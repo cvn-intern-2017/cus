@@ -9,6 +9,7 @@
         <a target="_blank" href="{$data.originallink}">{$data.originallink}</a>
       </p>
     </blockquote>
+  {if isset($data.alltime)}
     <table>
       <thead>
         <tr>
@@ -31,65 +32,70 @@
           </tr>
       </tbody>
     </table>
+  {/if}
   </div>
 </div>
-{include file="Views/analytics/drawchart.tpl"}
-{*
-{literal}
-<script>
-var a = new alltime();
-var data = $data;
-alltime.run(data);
-</script>
-{/literal}
-*}
-<style media="screen">
-  #chart{
-    position: relative;
-  }
-  #chart_alltime{
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-  }
-  #chart_twohours{
-    width: 100%;
-    position: absolute;
-    z-index: 2;
-  }
-  #chart_month{
-    width: 100%;
-    position: absolute;
-    z-index: 3;
-  }
-  #chart_day{
-    width: 100%;
-    position: absolute;
-    z-index: 4;
-  }
-  #chart_year{
-    width: 100%;
-    position: absolute;
-    z-index: 5;
-  }
-</style>
-<div class="row">
-  <div class="col s9">
-    <div class="row" id="chart" style="min-height:500px;">
-      <div id="chart_alltime"></div>
-      <div id="chart_twohours"></div>
-      <div id="chart_day"></div>
-      <div id="chart_month"></div>
-      <div id="chart_year"></div>
+{if isset($data.alltime)}
+  {include file="Views/analytics/drawchart.tpl"}
+  {*
+    {literal}
+      <script>
+        var a = new alltime();
+        var data = $data;
+        alltime.run(data);
+      </script>
+    {/literal}
+  *}
+
+  <style media="screen">
+    #chart{
+      position: relative;
+    }
+    #chart_alltime{
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+    }
+    #chart_twohours{
+      width: 100%;
+      position: absolute;
+      z-index: 2;
+    }
+    #chart_month{
+      width: 100%;
+      position: absolute;
+      z-index: 3;
+    }
+    #chart_day{
+      width: 100%;
+      position: absolute;
+      z-index: 4;
+    }
+    #chart_year{
+      width: 100%;
+      position: absolute;
+      z-index: 5;
+    }
+  </style>
+
+  <div class="row">
+    <div class="col s9">
+      <div class="row" id="chart" style="min-height:500px;">
+        <div id="chart_alltime"></div>
+        <div id="chart_twohours"></div>
+        <div id="chart_day"></div>
+        <div id="chart_month"></div>
+        <div id="chart_year"></div>
+      </div>
+    </div>
+    <div class="col s3 input-field">
+      <select id="myTimeFrame">
+        <option value="alltime">All Time</option>
+        <option value="twohours">Two Hours</option>
+        <option value="day">Day ago</option>
+        <option value="month">Month</option>
+        <option value="year">Year</option>
+      </select>
     </div>
   </div>
-  <div class="col s3 input-field">
-    <select id="myTimeFrame">
-      <option value="alltime">All Time</option>
-      <option value="twohours">Two Hours</option>
-      <option value="day">Day ago</option>
-      <option value="month">Month</option>
-      <option value="year">Year</option>
-    </select>
-  </div>
-</div>
+{/if}

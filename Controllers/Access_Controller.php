@@ -126,7 +126,7 @@
         }
         function getAnalysticsData($keyWithPlusChar){
             $infosLinkFromAccess = $this->model->findInfoLinkFromAccess(substr($keyWithPlusChar,0,-1));
-            if (count($infosLinkFromAccess) > 0) {
+            if ($infosLinkFromAccess) {
                 $data = array('total'=>0);
                 foreach ($infosLinkFromAccess as $info) {
                     $timeArray = explode(' ',$info->clicked_time);
