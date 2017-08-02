@@ -15,25 +15,28 @@
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
                 if($keyFromURL){
-                    if (strlen($keyFromURL) == 6){
+                    if (strlen($keyFromURL) === 6){
                         $browserAccessURL = $this->detectCurrentBrowser();
+                        // Kiểm tra xem có record access của link ngắn này không.
+                        //  + Nếu có thì update lại clicked time mới
+                        //  + Nếu không thì tạo record mới.
                         $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
                         if($clickedTimes) {
                             $clickedTimes = $clickedTimes . " " . time();
                             $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
                             if($updateSuccess) {
-                                $this->redirectToRealURL($keyFromURL);
+                                $this->goToOriginalLink($keyFromURL);
                             }
                         }
                         else {
                             $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
                             if($insertSuccess){
-                                $this->redirectToRealURL($keyFromURL);
+                                $this->goToOriginalLink($keyFromURL);
                             }
                         }
                     }
-                    else {
-                        $this->redirectToRealURL($keyFromURL);
+                    else {  // strlen($keyFromURL) === 7
+                        $this->goToAnalyticsPage($keyFromURL);
                     }
                 }
                 else{
@@ -88,18 +91,18 @@
             return null;
         }
 
-        function redirectToRealURL($keyFromURL){
-            $lengthKey = strlen($keyFromURL);
-            if ($lengthKey == 6) {
-              $this->goToOriginalLink($keyFromURL);
-            }
-            else if ($lengthKey == 7) {
-              $this->goToAnalyticsPage($keyFromURL);
-            }
-            else{
-              $this->goTo404Page();
-            }
-        }
+        // function redirectToRealURL($keyFromURL){
+        //     $lengthKey = strlen($keyFromURL);
+        //     if ($lengthKey == 6) {
+        //
+        //     }
+        //     else if ($lengthKey == 7) {
+        //
+        //     }
+        //     else{
+        //       $this->goTo404Page();
+        //     }
+        // }
         /*
             Browser: Chrome   => 0
                      Firefox  => 1
@@ -124,6 +127,7 @@
                     return 'Others';
             }
         }
+
         function getAnalysticsData($keyWithPlusChar){
             $infosLinkFromAccess = $this->model->findInfoLinkFromAccess(substr($keyWithPlusChar,0,-1));
             if ($infosLinkFromAccess) {
@@ -211,5 +215,4 @@
             }
         }
     }
-
 ?>
