@@ -1,6 +1,3 @@
-
-
-
 <div class="clean100"></div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <div class="row">
@@ -36,8 +33,7 @@
     </table>
   </div>
 </div>
-
-{include file="Views/home/drawchart.tpl"}
+{include file="Views/analytics/drawchart.tpl"}
 {*
 {literal}
 <script>

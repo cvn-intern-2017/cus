@@ -1,9 +1,10 @@
 <?php
     class Access_Model extends Base_Model{
+      
         function __construct(){
             parent::__construct();
         }
-        
+
         function getOriginalLinkByKey($key){
             $this->setQuery("SELECT original_link FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
@@ -69,7 +70,6 @@
             $this->setQuery("SELECT browser, clicked_time FROM access where key_url = ?");
             $result = $this->loadAllRecords(array($key));
             return $result;
-
         }
     }
 ?>
