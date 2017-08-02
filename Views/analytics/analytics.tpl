@@ -46,38 +46,6 @@
       </script>
     {/literal}
   *}
-
-  <style media="screen">
-    #chart{
-      position: relative;
-    }
-    #chart_alltime{
-      position: absolute;
-      width: 100%;
-      z-index: 1;
-    }
-    #chart_twohours{
-      width: 100%;
-      position: absolute;
-      z-index: 2;
-    }
-    #chart_month{
-      width: 100%;
-      position: absolute;
-      z-index: 3;
-    }
-    #chart_day{
-      width: 100%;
-      position: absolute;
-      z-index: 4;
-    }
-    #chart_year{
-      width: 100%;
-      position: absolute;
-      z-index: 5;
-    }
-  </style>
-
   <div class="row">
     <div class="col s9">
       <div class="row" id="chart" style="min-height:500px;">
@@ -96,6 +64,14 @@
         <option value="month">Month</option>
         <option value="year">Year</option>
       </select>
+    </div>
+  </div>
+{else}
+  <div class="row">
+    <div class="col s12">
+      <blockquote>
+        <h6 class="grey-text">Nobody accessed this shorten URL</h6>
+      </blockquote>
     </div>
   </div>
 {/if}
