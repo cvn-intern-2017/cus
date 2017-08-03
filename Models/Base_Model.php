@@ -1,4 +1,5 @@
 <?php
+
     class Base_Model{
         private static $_databaseHandle;
         private $_sql = '';

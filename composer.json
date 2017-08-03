@@ -1,6 +1,11 @@
 {
     "description": "Cybozu URL Shortener",
     "require": {
-        "smarty/smarty": "~3.1.30"
-    }
+        "smarty/smarty": "~3.1.30",
+        "symfony/validator":         "2.1.*",
+        "doctrine/dbal":             "2.2.*",
+        "monolog/monolog":           "dev-master",
+        "jtreminio/test-extensions": "dev-master"
+    },
+    "minimum-stability": "dev"
 }

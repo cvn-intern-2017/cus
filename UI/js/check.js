@@ -6,7 +6,7 @@ function check(){
     document.getElementById("error_client").innerHTML = 'Please input your link';
     return false;
   }
-  if(validateURLType(valueInputUrl)){
+  if(validateURLType(valueInputUrl) && isWhiteSpaceURL(valueInputUrl) == false){
     if(valueInputUrl.length >= 65234){
       document.getElementById("error_client").innerHTML = 'Make sure the URL is less than 65234 characters';
       return false;
@@ -28,6 +28,10 @@ function validateURLType(value){
   else{
     return true;
   }
+}
+function isWhiteSpaceURL(value){
+  var inputURL = new RegExp(" ");
+  return inputURL.test(value.trim()); // true neu co khoang trang, false neu khong co
 }
 /*
 $(document).ready(function(){
