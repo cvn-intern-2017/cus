@@ -14,42 +14,38 @@
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
-                if($keyFromURL){
-                    if (strlen($keyFromURL) === 6){
-                        $browserAccessURL = $this->detectCurrentBrowser();
-                        // Kiểm tra xem có record access của link ngắn này không.
-                        //  + Nếu có thì update lại clicked time mới
-                        //  + Nếu không thì tạo record mới.
-                        $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
-                        if($clickedTimes) {
-                            $clickedTimes = $clickedTimes . " " . time();
-                            $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
-                            if($updateSuccess) {
-                                $this->goToOriginalLink($keyFromURL);
-                            }
-                        }
-                        else {
-                            $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
-                            if($insertSuccess){
-                                $this->goToOriginalLink($keyFromURL);
-                            }
-                        }
-                    }
-                    else {  // strlen($keyFromURL) === 7
-                        $this->goToAnalyticsPage($keyFromURL);
-                    }
-                }
-                else{
+                // Sau khi kiểm tra thì key length chỉ có thể là 6 hoặc 7.
+                if(!$keyFromURL){
                     $this->goTo404Page();
+                    return;
                 }
+                if (strlen($keyFromURL) === URL_KEY_WITH_PLUS_LENGTH){
+                    $this->goToAnalyticsPage($keyFromURL);
+                    return;
+                }
+                $browserAccessURL = $this->detectCurrentBrowser();
+                $this->recordAboutNewLinkAccess($keyFromURL,$browserAccessURL);
+                $this->goToOriginalLink($keyFromURL);
             }
             catch (PDOException $e){
                 $this->goToMaintenancePage();
                 exit();
             }
         }
+        function recordAboutNewLinkAccess($keyFromURL,$browserAccessURL){
+            $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
+            if($clickedTimes) {
+                // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
+                $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
+            }
+            else {
+                // Nếu insert không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
+                $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
+            }
+        }
         // Các hàm tương tác với model.
         function editClickedTimeShortenURL($key,$browser,$clickedTime){
+            $clickedTimes = $clickedTimes . " " . time();
             return $this->model->updateClickedTimeAccessRecord($key,$browser,$clickedTime);
         }
 

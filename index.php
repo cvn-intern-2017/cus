@@ -8,6 +8,9 @@
     define('PATH_CONFIG',__DIR__ . '/config/');
     define('ARR_INI',parse_ini_file('config/config.ini',true));
     define('INI_DATABSE',ARR_INI['database']);
+    // Constant number.
+    define('URL_KEY_LENGTH',6);
+    define('URL_KEY_WITH_PLUS_LENGTH',7);
     include_once PATH_LIB . 'Utils.php';
 
     // Trường hợp vào giao diện input URL để nhận shortlink.
