@@ -14,7 +14,8 @@ function check(){
     else{
       return true;
     }
-  }else{
+  }
+  else{
     document.getElementById("error_client").innerHTML = 'Invalid URL';
     return false;
   }

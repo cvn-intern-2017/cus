@@ -18,39 +18,25 @@
 
         function inputAction() {
             try{
-                if(isset($_POST['link']) && $_POST['link'] !== ''){
-                    $linkInput = trim($_POST['link']);
-                    if($this->validateURL($linkInput)){
-                        $existKey = $this->hadURLInDatabase($linkInput);
-                        if($existKey){
-                          // Sủa thêm đoạn code này vào hàm loadURLInfo
-                            $data = $this->getLinkInfo($existKey);
-                            if($data && strlen($data->original_link) > 64){
-                                $data->original_link = substr($data->original_link,0,64) . '[...]';
-                            }
-                            $this->loadURLInfoToHomePage($data);
-                        }
-                        else{
-                            $lastKey  = $this->model->findLastKeyURLTable();
-                            $newId    = $this->computeIdURLByKey($lastKey) + 1;
-                            $newKey   = $this->computeKeyByIdURL($newId);
-                            $insertSuccess = $this->model->insertURLRecord($newKey,$linkInput);
-                            if($insertSuccess){
-                                $data = $this->getLinkInfo($newKey);
-                                if($data && strlen($data->original_link) > 64){
-                                    $data->original_link = substr($data->original_link,0,64) . '[...]';
-                                }
-                                $this->loadURLInfoToHomePage($data);
-                            }
-                        }
-                    }
-                    else{
-                        $this->goToHomePage();
-                    }
-                }
-                else{
+                if(!isset($_POST['link']) || !($_POST['link'] !== '')){
                     $this->goToHomePage();
+                    return;
                 }
+                $linkInput = trim($_POST['link']);
+                if(!$this->validateURL($linkInput)){
+                    $this->goToHomePage();
+                    return;
+                }
+                // Tìm trong database URL link được input để lấy key.
+                $keyForLoadInfoLink = $this->hadURLInDatabase($linkInput);
+                if(!$keyForLoadInfoLink){
+                    $newKey = $this->getNewKeyForNewRecordURL();
+                    // nếu insert thất bại sẽ bị quăng exception try catch và hiện trang maintenance.
+                    $insertSuccess = $this->addNewURLRecord($newKey,$linkInput);
+                    // Nếu không có key cũ để load thì lấy key mới tạo để load.
+                    $keyForLoadInfoLink = $newKey;
+                }
+                $this->loadURLInfoToHomePage($keyForLoadInfoLink);
             }
             catch(PDOException $e){
                 $this->goToMaintenancePage();
@@ -58,8 +44,15 @@
             }
         }
 
-        function getLinkInfo($key){
-            return $this->model->findDataByKey($key);
+        function getNewKeyForNewRecordURL(){
+            $lastKey  = $this->model->findLastKeyURLTable();
+            $newId    = $this->computeIdURLByKey($lastKey) + 1;
+            $newKey   = $this->computeKeyByIdURL($newId);
+            return $newKey;
+        }
+
+        function addNewURLRecord($newKey,$linkInput){
+            return $this->model->insertURLRecord($newKey,$linkInput);
         }
 
         // get key from id of url, convert id (10-base) to key (62-base)
@@ -81,7 +74,8 @@
             }
         }
 
-        function loadURLInfoToHomePage($data){
+        function loadURLInfoToHomePage($key){
+            $data = $this->model->findDataByKey($key);
             $this->loadView("home",$data);
         }
 
