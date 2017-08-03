@@ -36,7 +36,7 @@
 </div>
 {if isset($data.alltime)}
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="UI/js/drawchart.js"></script>
+  <script src="{$pathPublic}js/drawchart.js"></script>
   <script>
     var arrDataAllTime = [['Browser', 'Clicked Time']];
     var arrDataTwoHours = [['Browser', 'Clicked Time']];

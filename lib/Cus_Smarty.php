@@ -9,6 +9,6 @@
              $this->setCompileDir(PATH_VIEW . '/templates_c/');
              $this->setConfigDir(PATH_CONFIG);
              $this->setCacheDir(PATH_SMARTY . '/cache/');
-             $this->setTemplateDir(PATH_VIEW . '/templates/');
+             $this->setTemplateDir(PATH_VIEW . '/common/');
          }
      }

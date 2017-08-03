@@ -9,6 +9,7 @@
           if (!empty($data)){
               $this->smarty->assign('data', $data);
           }
+          $this->smarty->assign('pathPublic', PATH_PUBLIC);
           $this->smarty->display("master_layout.tpl");
       }
 

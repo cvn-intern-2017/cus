@@ -6,13 +6,13 @@
     define('PATH_LIB',__DIR__ . '/lib/');
     define('PATH_SMARTY',__DIR__ . '/vendor/smarty/smarty/');
     define('PATH_CONFIG',__DIR__ . '/config/');
+    define('PATH_PUBLIC', '/public/');
     define('ARR_INI',parse_ini_file('config/config.ini',true));
     define('INI_DATABSE',ARR_INI['database']);
     // Constant number.
     define('URL_KEY_LENGTH',6);
     define('URL_KEY_WITH_PLUS_LENGTH',7);
     include_once PATH_LIB . 'Utils.php';
-
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') {
     		if(isset($_POST['submit'])){
