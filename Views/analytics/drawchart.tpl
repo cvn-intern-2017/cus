@@ -3,6 +3,7 @@
       packages: ['corechart', 'bar']
     });
     google.charts.setOnLoadCallback(alltime);
+
     function alltime() {
       var data = google.visualization.arrayToDataTable([
         ['Browser', 'Clicked Time'],
