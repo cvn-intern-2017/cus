@@ -45,10 +45,10 @@ input[type=submit]{
 select{
   display: block;
 }
-#chart_day, #chart_alltime, #chart_year, #chart_month, #chart_twohours{
+/*#chart_day, #chart_alltime, #chart_year, #chart_month, #chart_twohours{
   height: 500px;
-}
-#chart{
+}*/
+/*#chart{
   position: relative;
 }
 #chart_alltime{
@@ -75,4 +75,4 @@ select{
   width: 100%;
   position: absolute;
   z-index: 5;
-}
+}*/
