@@ -32,29 +32,19 @@
                 exit();
             }
         }
+
         function recordAboutNewLinkAccess($keyFromURL,$browserAccessURL){
-            $clickedTimes= $this->getClickedTimeShortenURL($keyFromURL,$browserAccessURL);
+            $clickedTimes= $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
                 // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
-                $updateSuccess = $this->editClickedTimeShortenURL($keyFromURL,$browserAccessURL,$clickedTimes);
+                $clickedTimes = $clickedTimes . " " . time();
+
+                $updateSuccess =  $this->model->updateClickedTimeAccessRecord($keyFromURL,$browserAccessURL,$clickedTimes);
             }
             else {
                 // Nếu insert không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
-                $insertSuccess = $this->addNewAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
+                $insertSuccess = $this->model->insertAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
             }
-        }
-        // Các hàm tương tác với model.
-        function editClickedTimeShortenURL($key,$browser,$clickedTime){
-            $clickedTimes = $clickedTimes . " " . time();
-            return $this->model->updateClickedTimeAccessRecord($key,$browser,$clickedTime);
-        }
-
-        function getClickedTimeShortenURL($key,$browser){
-            return $this->model->findClickedTimeShortenURL($key,$browser);
-        }
-
-        function addNewAccessRecord($key,$browser,$time) {
-            return $this->model->insertAccessRecord($key,$browser,$time);
         }
 
         function hasURLKeyInDatabase($key){
@@ -86,19 +76,6 @@
             }
             return null;
         }
-
-        // function redirectToRealURL($keyFromURL){
-        //     $lengthKey = strlen($keyFromURL);
-        //     if ($lengthKey == 6) {
-        //
-        //     }
-        //     else if ($lengthKey == 7) {
-        //
-        //     }
-        //     else{
-        //       $this->goTo404Page();
-        //     }
-        // }
         /*
             Browser: Chrome   => 0
                      Firefox  => 1

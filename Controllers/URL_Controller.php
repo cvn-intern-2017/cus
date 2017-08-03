@@ -32,7 +32,7 @@
                 if(!$keyForLoadInfoLink){
                     $newKey = $this->getNewKeyForNewRecordURL();
                     // nếu insert thất bại sẽ bị quăng exception try catch và hiện trang maintenance.
-                    $insertSuccess = $this->model->insertURLRecord($newKey,$linkInput);
+                    $insertSuccess = $this->addNewURLRecord($newKey,$linkInput);
                     // Nếu không có key cũ để load thì lấy key mới tạo để load.
                     $keyForLoadInfoLink = $newKey;
                 }
@@ -51,8 +51,8 @@
             return $newKey;
         }
 
-        function getLinkInfo($key){
-            return $this->model->findDataByKey($key);
+        function addNewURLRecord($newKey,$linkInput){
+            return $this->model->insertURLRecord($newKey,$linkInput);
         }
 
         // get key from id of url, convert id (10-base) to key (62-base)
@@ -75,7 +75,7 @@
         }
 
         function loadURLInfoToHomePage($key){
-            $data = $this->getLinkInfo($key);
+            $data = $this->model->findDataByKey($key);
             $this->loadView("home",$data);
         }
 
