@@ -147,8 +147,8 @@
         }
 
         function detectCurrentBrowser(){
-            $browser = new Browser();
-            switch($browser->getBrowser()){
+            $browserInfo = get_browser($_SERVER['HTTP_USER_AGENT']);
+            switch($browserInfo->browser){
                 case 'Chrome':
                     return 0;
                 case 'Firefox':
@@ -157,7 +157,7 @@
                     return 2;
                 case 'Edge':
                     return 3;
-                case 'Internet Explorer':
+                case 'IE':
                     return 4;
                 default:
                     return 5;
