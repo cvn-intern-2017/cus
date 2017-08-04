@@ -1,3 +1,6 @@
+#main{
+  min-height: 900px;
+}
 .clean100{
   clear: both;
   height: 90px;
@@ -21,10 +24,10 @@
   background-color: white;
 }
 footer {
-  position: absolute;
   height: 50px;
   width:100%;
   bottom:0;
+  line-height: 50px;
 }
 p.copyright{
   width: 100%;
@@ -49,32 +52,3 @@ select{
   height: 500px;
   width: 100%;
 }
-/*#chart{
-  position: relative;
-}
-#chart_alltime{
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-}
-#chart_twohours{
-  width: 100%;
-  position: absolute;
-  z-index: 2;
-}
-#chart_month{
-  width: 100%;
-  position: absolute;
-  z-index: 3;
-}
-#chart_day{
-  width: 100%;
-  position: absolute;
-  z-index: 4;
-}
-#chart_year{
-  width: 100%;
-  position: absolute;
-  z-index: 5;
-}*/
->>>>>>> 7a98219d5dcd9b3e6b8046b32a4b907faf04d6e5

@@ -41,6 +41,20 @@
         		return $this->_cursor;
         }
 
+        public function startTransaction($mode='READ COMMITTED'){
+            $setLevelSuccess = $this->_databaseHandle->exec('SET TRANSACTION ISOLATION LEVEL '.$mode);
+            $startSuccess = $this->_databaseHandle->beginTransaction();
+            return $setLevelSuccess && $startSuccess;
+        }
+
+        public function commit() {
+            return $this->_databaseHandle->commit();
+        }
+
+        public function rollBack() {
+            return $this->_databaseHandle->rollBack();
+        }
+
         public function loadAllRecords($options = array()){
             if(!$options) {
                 if(!$result = $this->execute()){
