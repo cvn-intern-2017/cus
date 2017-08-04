@@ -23,8 +23,7 @@
                     $this->goToAnalyticsPage($keyFromURL);
                     return;
                 }
-                $browserAccessURL = $this->detectCurrentBrowser();
-                $this->recordAboutNewLinkAccess($keyFromURL,$browserAccessURL);
+                $this->recordAboutNewLinkAccess($keyFromURL);
                 $this->goToOriginalLink($keyFromURL);
             }
             catch (PDOException $e){
@@ -33,12 +32,33 @@
             }
         }
 
-        function recordAboutNewLinkAccess($keyFromURL,$browserAccessURL){
+        function recordAboutNewLinkAccess($keyFromURL) {
+            $browserAccessURL = $this->detectCurrentBrowser();
+            $retry = 0;
+            $notDone = true;
+            while($notDone && $retry < 10) {
+                try{
+                    // start transaction với isolation level là serializable
+                    $this->model->startTransaction('SERIALIZABLE');
+                    $this->addNewLinkAccessRecord($keyFromURL,$browserAccessURL);
+                    $this->model->commit();
+                    $notDone = false;
+                }
+                catch (Exception $e){
+                    $this->model->rollBack();
+                    $retry++;
+                }
+            }
+            if($retry >= 10){
+                throw new PDOExpception(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
+            }
+        }
+
+        function addNewLinkAccessRecord($keyFromURL,$browserAccessURL){
             $clickedTimes= $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
-                // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
                 $clickedTimes = $clickedTimes . " " . time();
-
+                  // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
                 $updateSuccess =  $this->model->updateClickedTimeAccessRecord($keyFromURL,$browserAccessURL,$clickedTimes);
             }
             else {
