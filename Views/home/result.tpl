@@ -12,7 +12,7 @@
       </thead>
       <tbody id ="tbody">
         <tr>
-          <td width="50%">{substr($data->original_link,0,63)|cat: ' ...'}</td>
+          <td width="50%">{if $data->original_link|count_characters >64} {substr($data->original_link,0,63)|cat: ' ...'}{else}{$data->original_link}{/if}</td>
           <td><a target="_blank" href="{#DOMAIN#}{$data->key_url}">{#domain#}{$data->key_url}</a></td>
           <td class="centered"><a target="_blank" href="{#domain#}{$data->key_url}+" class="btn-floating waves-effect waves-light red"><i class="tiny material-icons">insert_chart</i></a></td>
         </tr>
@@ -43,11 +43,11 @@ else {
 }
 var result = localStorage.getItem('Data');
 //console.log(JSON.parse(result));
-// localStorage.clear();
+//  localStorage.clear();
 var len = data.length;
 
 // localStorage.clear();
-for(var i = 1; i < len; i++){
+for(var i = 1; i < 5; i++){
   if(i === 5){
     console.log(JSON.parse(result)[5]);
   }
@@ -59,11 +59,12 @@ for(var i = 1; i < len; i++){
  }
   console.log(len);
   console.log(JSON.parse(result));
-  if (len > 5){
-    for(var i = len-1; i > 5; i-- ){
-      JSON.parse(result).pop();
-      console.log(JSON.parse(result));
-      console.log('lon hon 5');
-    }
+  if (len = 5){
+    // for(var i = len-1; i > 5; i-- ){
+    //   JSON.parse(result).pop();
+    //   console.log(JSON.parse(result));
+    //   console.log('lon hon 5');
+    // }
+  data.pop();
   }
 </script>
