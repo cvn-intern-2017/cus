@@ -30,9 +30,7 @@
                 // Tìm trong database URL link được input để lấy key.
                 $keyForLoadInfoLink = $this->hadURLInDatabase($linkInput);
                 if(!$keyForLoadInfoLink){
-                    $newKey = $this->getNewKeyForNewRecordURL();
-                    // nếu insert thất bại sẽ bị quăng exception try catch và hiện trang maintenance.
-                    $insertSuccess = $this->addNewURLRecord($newKey,$linkInput);
+                    $newKey = $this->addNewURLRecord($linkInput);
                     // Nếu không có key cũ để load thì lấy key mới tạo để load.
                     $keyForLoadInfoLink = $newKey;
                 }
@@ -51,8 +49,29 @@
             return $newKey;
         }
 
-        function addNewURLRecord($newKey,$linkInput){
-            return $this->model->insertURLRecord($newKey,$linkInput);
+        function addNewURLRecord($linkInput){
+            // Code xử lý concurrent access.....
+            $retry = 0;
+            $notDone = true;
+            while($notDone && $retry < 10) {
+                try{
+                    // start transaction với isolation level là serializable
+                    $this->model->startTransaction('SERIALIZABLE');
+                    $newKey = $this->getNewKeyForNewRecordURL();
+                      // nếu insert thất bại sẽ bị quăng exception try catch và hiện trang maintenance.
+                    $this->model->insertURLRecord($newKey,$linkInput);
+                    $this->model->commit();
+                    $notDone = false;
+                }
+                catch (Exception $e){
+                    $this->model->rollBack();
+                    $retry++;
+                }
+            }
+            if($retry >= 10){
+                throw new PDOExpception(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
+            }
+            return $newKey;
         }
 
         // get key from id of url, convert id (10-base) to key (62-base)

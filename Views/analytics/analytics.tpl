@@ -5,7 +5,7 @@
       <p><b>Creation time of the short URL: </b>{$data.createdtime}</p>
       <p>
         <b>Original URL: </b>
-        <a target="_blank" href="{$data.originallink}">{$data.originallink}</a>
+        <a target="_blank" href="{$data.originallink}">{substr($data.originallink,0,127)|cat:'...'}</a>
       </p>
     </blockquote>
   {if isset($data.alltime)}
