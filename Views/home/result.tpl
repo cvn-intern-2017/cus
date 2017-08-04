@@ -1,3 +1,4 @@
+
 <div class="row">
   <div class="col s12">
     <div class="clean100"></div>
@@ -19,3 +20,23 @@
     </table>
   </div>
 </div>
+<script type="text/javascript">
+  function saveLink(){
+    var dataObject = {
+        'original_link' : "{substr($data->original_link,0,63)|cat: ' ...'}",
+        'shorten_link'  : "{#domain#}{$data->key_url}"
+    };
+    var data = localStorage.getItem('Data');
+    if(data){
+      data = JSON.parse(data).concat([dataObject]);
+      localStorage.setItem('Data',JSON.stringify(data));
+    }
+    else {
+      data = [dataObject];
+      localStorage.setItem('Data',JSON.stringify(data));
+    }
+  }
+  if({$data}){
+    saveLink();
+  }
+</script>
