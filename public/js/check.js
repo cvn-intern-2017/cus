@@ -1,3 +1,5 @@
+
+
 function check(){
   var txtInputUrl     = document.getElementById('input_url');
   var valueInputUrl   = txtInputUrl.value;
