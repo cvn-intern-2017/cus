@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2017 at 06:28 AM
+-- Generation Time: Aug 07, 2017 at 07:59 AM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -153,6 +153,9 @@ DELIMITER $$
 CREATE TRIGGER `set_key_url` BEFORE INSERT ON `url` FOR EACH ROW BEGIN
    DECLARE next_id BIGINT;
    SET next_id = (SELECT MAX(id) FROM `url`) + 1;
+   IF ISNULL(next_id) THEN
+   		SET next_id = 1;
+   END IF;
    SET NEW.key_url=convert_10_to_62(next_id);
 END
 $$
@@ -172,7 +175,7 @@ ALTER TABLE `access`
 -- Indexes for table `url`
 --
 ALTER TABLE `url`
-  ADD PRIMARY KEY (`id`,`key_url`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -182,7 +185,7 @@ ALTER TABLE `url`
 -- AUTO_INCREMENT for table `url`
 --
 ALTER TABLE `url`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;COMMIT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
