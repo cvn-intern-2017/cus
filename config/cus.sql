@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2017 at 07:59 AM
+-- Generation Time: Aug 07, 2017 at 09:31 AM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -39,14 +39,22 @@ END$$
 -- Functions
 --
 CREATE DEFINER=`root`@`localhost` FUNCTION `convert_10_to_62` (`id_num` INT) RETURNS VARCHAR(6) CHARSET latin1 BEGIN
-	DECLARE key_url VARCHAR(6);
+    DECLARE key_url VARCHAR(6);
     DECLARE remainder INT;
+    DECLARE count_i INT;
     SET key_url = '';
-	WHILE id_num > 0 DO
+    SET count_i = 0;
+	WHILE count_i < 6  DO
         SET remainder = id_num % 62;
+    	IF id_num > 0 THEN
+        	SET key_url = CONCAT(convert_one_char(remainder), key_url);
+        ELSE
+        	SET key_url = CONCAT('0', key_url);
+        END IF;
         SET id_num = ROUND(id_num / 62 - 0.5);
-        SET key_url = CONCAT(convert_one_char(remainder), key_url);
+        SET count_i = count_i + 1;
   	END WHILE;
+    
     RETURN key_url;
 END$$
 
@@ -141,10 +149,17 @@ CREATE TABLE `access` (
 
 CREATE TABLE `url` (
   `id` bigint(20) NOT NULL,
-  `key_url` varchar(6) COLLATE utf32_bin NOT NULL,
+  `key_url` char(6) COLLATE utf32_bin NOT NULL,
   `original_link` text COLLATE utf32_bin NOT NULL,
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+--
+-- Dumping data for table `url`
+--
+
+INSERT INTO `url` (`id`, `key_url`, `original_link`, `created_time`) VALUES
+(1, '000001', 'https://www.google.co.jp/search?q=google+dich&oq=google+dich&gs_l=psy-ab.3..35i39k1l2j0i67k1l2.2659.5523.0.5718.12.9.0.0.0.0.278.715.2-3.3.0....0...1.1.64.psy-ab..9.3.713.6..0.u3abi41TjxY', '2017-08-07 07:31:00');
 
 --
 -- Triggers `url`
@@ -185,7 +200,7 @@ ALTER TABLE `url`
 -- AUTO_INCREMENT for table `url`
 --
 ALTER TABLE `url`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;COMMIT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
