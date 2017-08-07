@@ -38,10 +38,12 @@ function isWhiteSpaceURL(value){
 }
 
 function isCharacterUTF8(value){
-  for (var i = 0, n = value.length; i < n; i++) {
-       if (value.charCodeAt( i ) > 127) { return true; }
-   }
-   return false;
+  for (var i = 0, n = value.length; i < n; i++){
+    if (value.charCodeAt( i ) > 127){
+      return true;
+    }
+  }
+  return false;
 }
 /*
 $(document).ready(function(){
