@@ -33,7 +33,6 @@
                     $newKey = $this->addNewURLRecord($linkInput);
                     // Nếu không có key cũ để load thì lấy key mới tạo để load.
                     $keyForLoadInfoLink = $newKey;
-                    echo $newKey;
                 }
                 $this->loadURLInfoToHomePage($keyForLoadInfoLink);
             }
@@ -54,7 +53,6 @@
             $newId = $this->model->getLastId();
             $newKey = $this->computeKeyByIdURL($newId);
             return $newKey;
-
         }
 
         // get key from id of url, convert id (10-base) to key (62-base)
@@ -78,7 +76,6 @@
 
         function loadURLInfoToHomePage($key){
             $data = $this->model->findDataByKey($key);
-            var_dump($data);  
             $this->loadView("home",$data);
         }
 

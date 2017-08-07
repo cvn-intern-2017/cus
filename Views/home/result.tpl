@@ -22,7 +22,7 @@
 </div>
 <script type="text/javascript">
 var dataObject = {
-    'original_link' : "{if $data->original_link|count_characters >64} {substr($data->original_link,0,63)|cat: ' ...'}{else}{$data->original_link}{/if}",
+    'original_link' : "{if $data->original_link|count_characters > 64} {substr($data->original_link,0,63)|cat: '...'}{else}{$data->original_link}{/if}",
     'shorten_link'  : "{#domain#}{$data->key_url}"
 };
 var data = localStorage.getItem('Data');
