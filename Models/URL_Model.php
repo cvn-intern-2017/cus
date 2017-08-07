@@ -42,7 +42,6 @@
         function findDataByKey($key){
             $this->setQuery("SELECT * FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
-            var_dump($result);
             return $result;
         }
 
