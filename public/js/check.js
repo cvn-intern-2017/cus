@@ -8,7 +8,7 @@ function check(){
     document.getElementById("error_client").innerHTML = 'Please input your link';
     return false;
   }
-  if(validateURLType(valueInputUrl) && isWhiteSpaceURL(valueInputUrl) == false){
+  if(validateURLType(valueInputUrl) && isWhiteSpaceURL(valueInputUrl) == false && isCharacterUTF8(valueInputUrl) == false){
     if(valueInputUrl.length >= 65234){
       document.getElementById("error_client").innerHTML = 'Make sure the URL is less than 65234 characters';
       return false;
@@ -35,6 +35,13 @@ function validateURLType(value){
 function isWhiteSpaceURL(value){
   var inputURL = new RegExp(" ");
   return inputURL.test(value.trim()); // true neu co khoang trang, false neu khong co
+}
+
+function isCharacterUTF8(value){
+  for (var i = 0, n = value.length; i < n; i++) {
+       if (value.charCodeAt( i ) > 127) { return true; }
+   }
+   return false;
 }
 /*
 $(document).ready(function(){

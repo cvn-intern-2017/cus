@@ -33,6 +33,7 @@
                     $newKey = $this->addNewURLRecord($linkInput);
                     // Nếu không có key cũ để load thì lấy key mới tạo để load.
                     $keyForLoadInfoLink = $newKey;
+                    echo $newKey;
                 }
                 $this->loadURLInfoToHomePage($keyForLoadInfoLink);
             }
@@ -46,32 +47,14 @@
             $lastKey  = $this->model->findLastKeyURLTable();
             $newId    = $this->computeIdURLByKey($lastKey) + 1;
             $newKey   = $this->computeKeyByIdURL($newId);
-            return $newKey;
         }
 
         function addNewURLRecord($linkInput){
-            // Code xử lý concurrent access.....
-            $retry = 0;
-            $notDone = true;
-            while($notDone && $retry < 10) {
-                try{
-                    // start transaction với isolation level là serializable
-                    $this->model->startTransaction('SERIALIZABLE');
-                    $newKey = $this->getNewKeyForNewRecordURL();
-                      // nếu insert thất bại sẽ bị quăng exception try catch và hiện trang maintenance.
-                    $this->model->insertURLRecord($newKey,$linkInput);
-                    $this->model->commit();
-                    $notDone = false;
-                }
-                catch (Exception $e){
-                    $this->model->rollBack();
-                    $retry++;
-                }
-            }
-            if($retry >= 10){
-                throw new PDOExpception(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
-            }
+            $result = $this->model->insertURLRecord($linkInput);
+            $newId = $this->model->getLastId();
+            $newKey = $this->computeKeyByIdURL($newId);
             return $newKey;
+
         }
 
         // get key from id of url, convert id (10-base) to key (62-base)
@@ -95,6 +78,7 @@
 
         function loadURLInfoToHomePage($key){
             $data = $this->model->findDataByKey($key);
+            var_dump($data);  
             $this->loadView("home",$data);
         }
 

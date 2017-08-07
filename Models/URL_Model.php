@@ -27,9 +27,9 @@
             }
         }
 
-        function insertURLRecord($key,$originalLink){
-            $this->setQuery("INSERT INTO url (key_url, original_link) VALUES (?,?)");
-            $result = $this->execute(array($key,$originalLink));
+        function insertURLRecord($originalLink){
+            $this->setQuery("INSERT INTO url (original_link) VALUES (?)");
+            $result = $this->execute(array($originalLink));
             if($result){
               return true;
             }
@@ -42,6 +42,7 @@
         function findDataByKey($key){
             $this->setQuery("SELECT * FROM url WHERE key_url = ?");
             $result = $this->loadOneRecord(array($key));
+            var_dump($result);
             return $result;
         }
 
