@@ -167,21 +167,34 @@
         }
 
         function detectCurrentBrowser(){
-            $browserInfo = get_browser($_SERVER['HTTP_USER_AGENT']);
-            switch($browserInfo->browser){
-                case 'Chrome':
-                    return 0;
-                case 'Firefox':
-                    return 1;
-                case 'Safari':
-                    return 2;
-                case 'Edge':
-                    return 3;
-                case 'IE':
-                    return 4;
-                default:
-                    return 5;
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            if (preg_match("/.*(Chrome\/).*(Safari\/)[0-9]*(.)[0-9]*$/",$userAgent)) {
+                return 0;
+            }else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
+                return 2;
+            }else if(strpos($userAgent,'MSIE') !== false){
+                return 4;
+            }else if(strpos($userAgent,'Firefox/') !== false){
+                return 1;
+            }else if(strpos($userAgent,'Edge/') !== false){
+                return 3;
+            }else{
+                return 5;
             }
+            // switch($browserInfo->browser){
+            //     case 'Chrome':
+            //         return 0;
+            //     case 'Firefox':
+            //         return 1;
+            //     case 'Safari':
+            //         return 2;
+            //     case 'Edge':
+            //         return 3;
+            //     case 'IE':
+            //         return 4;
+            //     default:
+            //         return 5;
+            // }
         }
 
         function goToAnalyticsPage($key){

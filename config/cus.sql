@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2017 at 09:31 AM
--- Server version: 10.1.24-MariaDB
--- PHP Version: 7.1.6
+-- Generation Time: Aug 07, 2017 at 11:45 AM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -24,22 +24,10 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_test` (`var1` INT)  BEGIN   
-    DECLARE start  INT unsigned DEFAULT 1;  
-    DECLARE finish INT unsigned DEFAULT 10;
-
-    SELECT  var1, start, finish;
-
-    SELECT * FROM places WHERE place BETWEEN start AND finish; 
-END$$
-
---
 -- Functions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `convert_10_to_62` (`id_num` INT) RETURNS VARCHAR(6) CHARSET latin1 BEGIN
-    DECLARE key_url VARCHAR(6);
+CREATE DEFINER=`root`@`localhost` FUNCTION `convert_10_to_62` (`id_num` INT) RETURNS CHAR(6) CHARSET latin1 BEGIN
+    DECLARE key_url CHAR(6);
     DECLARE remainder INT;
     DECLARE count_i INT;
     SET key_url = '';
@@ -58,7 +46,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `convert_10_to_62` (`id_num` INT) RET
     RETURN key_url;
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `convert_one_char` (`i` INT) RETURNS VARCHAR(1) CHARSET latin1 BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `convert_one_char` (`i` INT) RETURNS CHAR(1) CHARSET latin1 BEGIN
     DECLARE result VARCHAR(1);
 	CASE i 
         WHEN 0 THEN SET result = '0';
@@ -136,10 +124,10 @@ DELIMITER ;
 --
 
 CREATE TABLE `access` (
-  `key_url` varchar(6) COLLATE utf32_bin NOT NULL,
+  `id` bigint(11) NOT NULL,
   `browser` tinyint(1) NOT NULL,
-  `clicked_time` text COLLATE utf32_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+  `clicked_time` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -148,18 +136,18 @@ CREATE TABLE `access` (
 --
 
 CREATE TABLE `url` (
-  `id` bigint(20) NOT NULL,
-  `key_url` char(6) COLLATE utf32_bin NOT NULL,
-  `original_link` text COLLATE utf32_bin NOT NULL,
-  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+  `id` bigint(11) NOT NULL,
+  `key_url` char(6) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `original_link` text NOT NULL,
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `url`
 --
 
 INSERT INTO `url` (`id`, `key_url`, `original_link`, `created_time`) VALUES
-(1, '000001', 'https://www.google.co.jp/search?q=google+dich&oq=google+dich&gs_l=psy-ab.3..35i39k1l2j0i67k1l2.2659.5523.0.5718.12.9.0.0.0.0.278.715.2-3.3.0....0...1.1.64.psy-ab..9.3.713.6..0.u3abi41TjxY', '2017-08-07 07:31:00');
+(1, '000001', 'https://stackoverflow.com/questions/559363/matching-a-space-in-regex', '2017-08-07 09:33:53');
 
 --
 -- Triggers `url`
@@ -184,7 +172,7 @@ DELIMITER ;
 -- Indexes for table `access`
 --
 ALTER TABLE `access`
-  ADD PRIMARY KEY (`key_url`,`browser`);
+  ADD PRIMARY KEY (`id`,`browser`);
 
 --
 -- Indexes for table `url`
@@ -200,7 +188,17 @@ ALTER TABLE `url`
 -- AUTO_INCREMENT for table `url`
 --
 ALTER TABLE `url`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;COMMIT;
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `access`
+--
+ALTER TABLE `access`
+  ADD CONSTRAINT `access_ibfk_1` FOREIGN KEY (`id`) REFERENCES `url` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
