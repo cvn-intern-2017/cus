@@ -5,9 +5,9 @@
     define('PATH_MODEL',__DIR__ . '/Models/');
     define('PATH_LIB',__DIR__ . '/lib/');
     define('PATH_SMARTY',__DIR__ . '/vendor/smarty/smarty/');
-    define('PATH_CONFIG',__DIR__ . '/config/');
+    define('PATH_CONFIG',__DIR__ . '/configure/');
     define('PATH_PUBLIC',DOMAIN . '/public/');
-    define('ARR_INI',parse_ini_file('config/config.ini',true));
+    define('ARR_INI',parse_ini_file('configure/config.ini',true));
     define('INI_DATABSE',ARR_INI['database']);
     // Constant number.
     define('URL_KEY_CHARS',6);
