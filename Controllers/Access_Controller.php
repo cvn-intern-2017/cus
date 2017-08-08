@@ -19,7 +19,7 @@
                     $this->goTo404Page();
                     return;
                 }
-                if (strlen($keyFromURL) === URL_KEY_WITH_PLUS_LENGTH){
+                if (strlen($keyFromURL) === URL_KEY_WITH_PLUS_CHARS){
                     $this->goToAnalyticsPage($keyFromURL);
                     return;
                 }
@@ -36,7 +36,7 @@
             $browserAccessURL = $this->detectCurrentBrowser();
             $retry = 0;
             $notDone = true;
-            while($notDone && $retry < 10) {
+            while($notDone && $retry < MAX_RETRY_ROLLBACK) {
                 try{
                     // start transaction với isolation level là serializable
                     $this->model->startTransaction('SERIALIZABLE');
@@ -49,8 +49,8 @@
                     $retry++;
                 }
             }
-            if($retry >= 10){
-                throw new PDOExpception(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
+            if($retry >= MAX_RETRY_ROLLBACK){
+                throw new PDOException(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
             }
         }
 
@@ -170,31 +170,22 @@
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (preg_match("/.*(Chrome\/).*(Safari\/)[0-9]*(.)[0-9]*$/",$userAgent)) {
                 return 0;
-            }else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
+            }
+            else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
                 return 2;
-            }else if(strpos($userAgent,'MSIE') !== false){
+            }
+            else if(strpos($userAgent,'MSIE') !== false){
                 return 4;
-            }else if(strpos($userAgent,'Firefox/') !== false){
+            }
+            else if(strpos($userAgent,'Firefox/') !== false){
                 return 1;
-            }else if(strpos($userAgent,'Edge/') !== false){
+            }
+            else if(strpos($userAgent,'Edge/') !== false){
                 return 3;
-            }else{
+            }
+            else{
                 return 5;
             }
-            // switch($browserInfo->browser){
-            //     case 'Chrome':
-            //         return 0;
-            //     case 'Firefox':
-            //         return 1;
-            //     case 'Safari':
-            //         return 2;
-            //     case 'Edge':
-            //         return 3;
-            //     case 'IE':
-            //         return 4;
-            //     default:
-            //         return 5;
-            // }
         }
 
         function goToAnalyticsPage($key){
