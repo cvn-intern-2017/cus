@@ -18,7 +18,7 @@
         }
 
         function insertAccessRecord($key,$browser,$clickedTimes){
-            $this->setQuery("INSERT INTO access (key_url,browser,clicked_time) VALUES (?,?,?)");
+            $this->setQuery("INSERT INTO access (id, browser, clicked_time) VALUES ((SELECT id FROM url WHERE key_url = ?), ?, ?)");
             $result = $this->execute(array($key,$browser,$clickedTimes));
             if ($result){
                 return true;
@@ -29,7 +29,7 @@
         }
 
         function updateClickedTimeAccessRecord($key,$browser,$clickedTimes){
-            $this->setQuery("UPDATE access SET clicked_time = ? WHERE key_url = ? AND browser = ?");
+            $this->setQuery("UPDATE access SET clicked_time = ? WHERE id = (SELECT id FROM url WHERE key_url = ?) AND browser = ?");
             $result = $this->execute(array($clickedTimes,$key,$browser));
             if ($result){
                 return true;
@@ -51,7 +51,7 @@
         }
 
         function findClickedTimeShortenURL($key,$browser){
-            $this->setQuery("SELECT clicked_time FROM access WHERE key_url = ? AND browser = ?");
+            $this->setQuery("SELECT clicked_time FROM access, url WHERE url.id = access.id AND url.key_url = ? AND browser = ?");
             $result = $this->loadOneRecord(array($key,$browser));
             if($result){
                 return $result->clicked_time;
@@ -68,7 +68,7 @@
         }
 
         function findInfoLinkFromAccess($key){
-            $this->setQuery("SELECT browser, clicked_time FROM access where key_url = ?");
+            $this->setQuery("SELECT browser, clicked_time FROM access, url where url.id = access.id AND key_url = ?");
             $result = $this->loadAllRecords(array($key));
             return $result;
         }
