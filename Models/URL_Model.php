@@ -5,25 +5,14 @@
             parent::__construct();
         }
 
-        function findKeyRecordOfURL($url){
-            $this->setQuery("SELECT key_url FROM url WHERE original_link = ?");
+        function findIdRecordOfURL($url){
+            $this->setQuery("SELECT id FROM url WHERE original_link = ?");
             $result = $this->loadOneRecord(array($url));
             if($result){
-                return $result->key_url;
+                return $result->id;
             }
             else{
-                return false;
-            }
-        }
-
-        function findLastKeyURLTable(){
-            $this->setQuery('SELECT key_url FROM url WHERE created_time = (SELECT MAX(created_time) FROM url)');
-            $result = $this->loadOneRecord();
-            if($result){
-                return $result->key_url;
-            }
-            else{
-                return false;
+                return null;
             }
         }
 
@@ -36,15 +25,13 @@
             else{
               return false;
             }
-
         }
 
-        function findDataByKey($key){
-            $this->setQuery("SELECT * FROM url WHERE key_url = ?");
-            $result = $this->loadOneRecord(array($key));
+        function findDataById($id){
+            $this->setQuery("SELECT * FROM url WHERE id = ?");
+            $result = $this->loadOneRecord(array($id));
             return $result;
         }
-
    }
 
 ?>
