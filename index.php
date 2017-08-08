@@ -14,6 +14,8 @@
     define('URL_KEY_WITH_PLUS_CHARS',7);
     define('MAX_RETRY_ROLLBACK',10);
     define('MAX_URL_CHARS',65234);
+    define('NUM_SECOND_2HOURS',7200);
+    define('NUM_SECOND_DAY',86400);
     include_once PATH_LIB . 'Utils.php';
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') {
