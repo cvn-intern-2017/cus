@@ -14,7 +14,7 @@
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
-                // Sau khi kiểm tra thì key length chỉ có thể là 6 hoặc 7.
+                // Sau khi kiểm tra: $keyFromURL length chỉ có thể là 6 hoặc 7 hoặc null
                 if(!$keyFromURL){
                     $this->goTo404Page();
                     return;
@@ -55,7 +55,7 @@
         }
 
         function addNewLinkAccessRecord($keyFromURL,$browserAccessURL){
-            $clickedTimes= $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
+            $clickedTimes = $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
                 $clickedTimes = $clickedTimes . " " . time();
                   // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
@@ -81,29 +81,23 @@
             $keyFromURL = end($arrayOfURI);
             if(sizeof($arrayOfURI) === 2) {
                 $lengthKey = strlen($keyFromURL);
-                if($lengthKey == 6){
+                if($lengthKey == URL_KEY_CHARS){
                     $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
                     if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
+
                         return $keyFromURL;
                     }
                 }
-                else if($lengthKey == 7){
+                else if($lengthKey == URL_KEY_WITH_PLUS_CHARS){
                     $hasRightPattern = preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
-                    if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,6))){
+                    if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,URL_KEY_CHARS))){
                         return $keyFromURL;
                     }
                 }
             }
             return null;
         }
-        /*
-            Browser: Chrome   => 0
-                     Firefox  => 1
-                     Safari   => 2
-                     Edge     => 3
-                     IE       => 4
-                     Other    => 5
-        */
+
         function convertBrowserIdToRealName($browserId){
             switch ($browserId) {
                 case 0:
@@ -135,16 +129,16 @@
                     $data['alltime'][$browserName]= 0;
                     foreach($timeArray as $time){
                         $period = time() - $time;
-                        if ($period < 7200){
+                        if ($period < NUM_SECOND_2HOURS){
                           $data['twohours'][$browserName]++;
                         }
-                        if($period < 86400){
+                        if($period < NUM_SECOND_DAY){
                             $data['day'][$browserName]++;
                         }
-                        if($period < 86400*30){
+                        if($period < NUM_SECOND_DAY*30){
                             $data['month'][$browserName]++;
                         }
-                        if($period < 86400*365){
+                        if($period < NUM_SECOND_DAY*365){
                             $data['year'][$browserName]++;
                         }
                         $data['alltime'][$browserName]++;
