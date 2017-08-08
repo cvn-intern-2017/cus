@@ -158,14 +158,6 @@
             return $data;
         }
 
-        function computeTotalClick($accessInfo){
-            $totalClick = 0;
-            foreach ($accessInfo as $accessItem){
-                $totalClick = $totalClick + $accessItem->number_of_clicks;
-            }
-            return $totalClick;
-        }
-
         function detectCurrentBrowser(){
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (preg_match("/.*(Chrome\/).*(Safari\/)[0-9]*(.)[0-9]*$/",$userAgent)) {
