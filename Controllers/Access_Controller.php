@@ -13,8 +13,9 @@
         function indexAction() {
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
+
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
-                // Sau khi kiểm tra thì key length chỉ có thể là 6 hoặc 7.
+                // Sau khi kiểm tra: $keyFromURL length chỉ có thể là 6 hoặc 7 hoặc null
                 if(!$keyFromURL){
                     $this->goTo404Page();
                     return;
@@ -55,7 +56,7 @@
         }
 
         function addNewLinkAccessRecord($keyFromURL,$browserAccessURL){
-            $clickedTimes= $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
+            $clickedTimes = $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
                 $clickedTimes = $clickedTimes . " " . time();
                   // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
@@ -84,6 +85,7 @@
                 if($lengthKey == 6){
                     $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
                     if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
+
                         return $keyFromURL;
                     }
                 }
@@ -170,15 +172,20 @@
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (preg_match("/.*(Chrome\/).*(Safari\/)[0-9]*(.)[0-9]*$/",$userAgent)) {
                 return 0;
-            }else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
+            }
+            else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
                 return 2;
-            }else if(strpos($userAgent,'MSIE') !== false){
+            }
+            else if(strpos($userAgent,'MSIE') !== false){
                 return 4;
-            }else if(strpos($userAgent,'Firefox/') !== false){
+            }
+            else if(strpos($userAgent,'Firefox/') !== false){
                 return 1;
-            }else if(strpos($userAgent,'Edge/') !== false){
+            }
+            else if(strpos($userAgent,'Edge/') !== false){
                 return 3;
-            }else{
+            }
+            else{
                 return 5;
             }
             // switch($browserInfo->browser){
