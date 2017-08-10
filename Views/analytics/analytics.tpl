@@ -35,7 +35,7 @@
   </div>
 </div>
 {if isset($data.alltime)}
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="{$pathPublic}js/loader.js"></script>
   <script src="{$pathPublic}js/drawchart.js"></script>
 
   <script>

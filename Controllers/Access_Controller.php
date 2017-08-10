@@ -1,5 +1,6 @@
 <?php
     class Access_Controller extends Base_Controller{
+
         function __construct(){
             try{
                 $this->model = new Access_Model();
@@ -14,7 +15,7 @@
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
-                // Sau khi kiểm tra: $keyFromURL length chỉ có thể là 6 hoặc 7 hoặc null
+                //$keyFromURL 's length: 6,7 or null
                 if(!$keyFromURL){
                     $this->goTo404Page();
                     return;
@@ -38,7 +39,8 @@
             $notDone = true;
             while($notDone && $retry < MAX_RETRY_ROLLBACK) {
                 try{
-                    // start transaction với isolation level là serializable
+                    //isolation level: serializable
+                    //Can't update/delete/insert data if transaction not commit yet
                     $this->model->startTransaction('SERIALIZABLE');
                     $this->addNewLinkAccessRecord($keyFromURL,$browserAccessURL);
                     $this->model->commit();
@@ -50,7 +52,7 @@
                 }
             }
             if($retry >= MAX_RETRY_ROLLBACK){
-                throw new PDOException(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
+                throw new PDOException(); // display maintenance page
             }
         }
 
@@ -58,11 +60,11 @@
             $clickedTimes = $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
                 $clickedTimes = $clickedTimes . " " . time();
-                  // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
+                  // (Update) not success: throw expcetion and try catch, display maintenance page
                 $updateSuccess =  $this->model->updateClickedTimeAccessRecord($keyFromURL,$browserAccessURL,$clickedTimes);
             }
             else {
-                // Nếu insert không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
+                // (Update) not success: throw expcetion and try catch, display maintenance page
                 $insertSuccess = $this->model->insertAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
             }
         }
@@ -71,28 +73,27 @@
             return $this->model->checkURLKey($key);
         }
         /*
-          + Kiem tra URI
-          + Kiem tra pattern cua key_url
-          + Kiem tra key co trong database khong.
-          return key or null
+          + Check: URI, key_url 's pattern
+          + Check: has URLKey in database ?
+          + Return key or null
         */
         function verifyKeyFromURI($URIOnAddressBar){
             $arrayOfURI = explode('/',$URIOnAddressBar);
+            if(sizeof($arrayOfURI) !== 2) {
+              return null;
+            }
             $keyFromURL = end($arrayOfURI);
-            if(sizeof($arrayOfURI) === 2) {
-                $lengthKey = strlen($keyFromURL);
-                if($lengthKey == URL_KEY_CHARS){
-                    $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
-                    if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
-
-                        return $keyFromURL;
-                    }
+            $lengthKey = strlen($keyFromURL);
+            if($lengthKey == URL_KEY_CHARS){
+                $hasRightPattern = preg_match("/([A-Za-z0-9]){6}/",$keyFromURL);
+                if($hasRightPattern && $this->hasURLKeyInDatabase($keyFromURL)){
+                    return $keyFromURL;
                 }
-                else if($lengthKey == URL_KEY_WITH_PLUS_CHARS){
-                    $hasRightPattern = preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
-                    if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,URL_KEY_CHARS))){
-                        return $keyFromURL;
-                    }
+            }
+            else if($lengthKey == URL_KEY_WITH_PLUS_CHARS){
+                $hasRightPattern = preg_match("/([A-Za-z0-9]){6}\+/",$keyFromURL);
+                if($hasRightPattern && $this->hasURLKeyInDatabase(substr($keyFromURL,0,URL_KEY_CHARS))){
+                    return $keyFromURL;
                 }
             }
             return null;
@@ -100,25 +101,29 @@
 
         function convertBrowserIdToRealName($browserId){
             switch ($browserId) {
-                case 0:
+                case CHROME_NUM:
                     return 'Chrome';
-                case 1:
+                case FIREFOX_NUM:
                     return 'Firefox';
-                case 2:
+                case SAFARI_NUM:
                     return 'Safari';
-                case 3:
+                case EDGE_NUM:
                     return 'Edge';
-                case 4:
+                case INTERNET_EXPLORER_NUM:
                     return 'IE';
-                default:
+                case OTHER_BROWSER_NUM:
                     return 'Others';
             }
         }
-
+        /*
+        Return array for:
+          + chart: $data[timeframe][broser]
+          + info:  $data['originallink'], $data['createdtime']
+        */
         function getAnalysticsData($keyWithPlusChar){
             $infosLinkFromAccess = $this->model->findInfoLinkFromAccess(substr($keyWithPlusChar,0,-1));
             if ($infosLinkFromAccess) {
-                $data = array('total'=>0);
+                $data = array('total' => 0);
                 foreach ($infosLinkFromAccess as $info) {
                     $timeArray = explode(' ',$info->clicked_time);
                     $browserName = $this->convertBrowserIdToRealName($info->browser);
@@ -155,22 +160,22 @@
         function detectCurrentBrowser(){
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (preg_match("/.*(Chrome\/).*(Safari\/)[0-9]*(.)[0-9]*$/",$userAgent)) {
-                return 0;
+                return CHROME_NUM;
             }
             else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
-                return 2;
+                return SAFARI_NUM;
             }
             else if(strpos($userAgent,'MSIE') !== false){
-                return 4;
+                return INTERNET_EXPLORER_NUM;
             }
             else if(strpos($userAgent,'Firefox/') !== false){
-                return 1;
+                return FIREFOX_NUM;
             }
             else if(strpos($userAgent,'Edge/') !== false){
-                return 3;
+                return EDGE_NUM;
             }
             else{
-                return 5;
+                return OTHER_BROWSER_NUM;
             }
         }
 

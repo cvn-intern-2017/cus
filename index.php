@@ -16,6 +16,12 @@
     define('MAX_URL_CHARS',65234);
     define('NUM_SECOND_2HOURS',7200);
     define('NUM_SECOND_DAY',86400);
+    define('CHROME_NUM',0);
+    define('FIREFOX_NUM',1);
+    define('SAFARI_NUM',2);
+    define('EDGE_NUM',3) ;
+    define('INTERNET_EXPLORER_NUM',4);
+    define('OTHER_BROWSER_NUM',5);
     include_once PATH_LIB . 'Utils.php';
     // Trường hợp vào giao diện input URL để nhận shortlink.
     if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') {
