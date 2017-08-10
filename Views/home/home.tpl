@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="row">
-      <form class="col s12" action="" method="post" onsubmit="return check()">
+      <form class="col s12" action="" method="post" onsubmit="return checkURL()">
         <div class="row">
           <div class="input-field col s9">
             <input  placeholder="Input your link here" type="text" class="validate" id="input_url" name="link">

@@ -18,10 +18,6 @@
             }
         }
 
-        public function disconnect(){
-    	  	  $this->_databaseHandle = NULL;
-    	  }
-
         public function setQuery($sql){
             $this->_sql = $sql;
         }
