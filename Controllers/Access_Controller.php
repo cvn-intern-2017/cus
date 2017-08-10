@@ -6,7 +6,8 @@
                 $this->model = new Access_Model();
             }
             catch (PDOException $e){
-                $this->goToMaintenancePage();
+                $data =  substr($e->getMessage(),0,15);
+                $this->goToMaintenancePage($data);
                 exit();
             }
         }
@@ -28,8 +29,9 @@
                 $this->goToOriginalLink($keyFromURL);
             }
             catch (PDOException $e){
-                $this->goToMaintenancePage();
-                exit();
+              $data =  substr($e->getMessage(),0,15);
+              $this->goToMaintenancePage($data);
+              exit();
             }
         }
 
@@ -52,7 +54,8 @@
                 }
             }
             if($retry >= MAX_RETRY_ROLLBACK){
-                throw new PDOException(); // display maintenance page
+                //MAX_RETRY_ROLLBACK exceeding, show maintenance page by exception.
+                throw new PDOException();
             }
         }
 
@@ -60,11 +63,11 @@
             $clickedTimes = $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
                 $clickedTimes = $clickedTimes . " " . time();
-                  // (Update) not success: throw expcetion and try catch, display maintenance page
+                  // if  update fail, show maintenance page by exception.
                 $updateSuccess =  $this->model->updateClickedTimeAccessRecord($keyFromURL,$browserAccessURL,$clickedTimes);
             }
             else {
-                // (Update) not success: throw expcetion and try catch, display maintenance page
+                  // if  insert fail, show maintenance page by exception.
                 $insertSuccess = $this->model->insertAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
             }
         }
@@ -73,9 +76,10 @@
             return $this->model->checkURLKey($key);
         }
         /*
-          + Check: URI, key_url 's pattern
-          + Check: has URLKey in database ?
-          + Return key or null
+          + Check URI
+          + Check key_url's pattern
+          + Check whether the key is in the database
+          return key or null
         */
         function verifyKeyFromURI($URIOnAddressBar){
             $arrayOfURI = explode('/',$URIOnAddressBar);
@@ -140,10 +144,10 @@
                         if($period < NUM_SECOND_DAY){
                             $data['day'][$browserName]++;
                         }
-                        if($period < NUM_SECOND_DAY*30){
+                        if($period < NUM_SECOND_DAY * 30){
                             $data['month'][$browserName]++;
                         }
-                        if($period < NUM_SECOND_DAY*365){
+                        if($period < NUM_SECOND_DAY * 365){
                             $data['year'][$browserName]++;
                         }
                         $data['alltime'][$browserName]++;
@@ -181,19 +185,20 @@
 
         function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);
-            $this->loadView("analytics",$data);
+            $this->loadView(PAGE_ANALYTICS,$data);
         }
 
-        function goToMaintenancePage(){
-            $this->loadView("maintenance");
+        function goToMaintenancePage($data){
+            $this->loadView(PAGE_MAINTENANCE,$data);
         }
 
         function goTo404Page(){
-            $this->loadView("404");
+            $this->loadView(PAGE_404);
         }
 
         function goToOriginalLink($keyWithoutPlusChar){
             $originalLink = $this->model->getOriginalLinkByKey($keyWithoutPlusChar);
+            echo $originalURL;
             if($originalLink){
                 header("Location: " . $originalLink);
                 exit;

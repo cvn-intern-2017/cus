@@ -17,7 +17,9 @@
 </div>
 <script src="{$pathPublic}js/result.js"></script>
 <script type="text/javascript">
-addNewRecord({$data});
+if(!hasInLocalStorage({$data})){
+  addNewRecord({$data});
+}
 printRecords();
 removeOlderRecord();
 </script>
