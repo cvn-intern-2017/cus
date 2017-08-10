@@ -19,7 +19,8 @@
         function inputAction() {
             try{
                 if(!isset($_POST['link']) || !($_POST['link'] !== '')){
-                    $this->goToHomePage();
+                    $data['error'] = 'Please Input Your URL';
+                    $this->goToHomePage($data);
                     return;
                 }
                 $linkInput = trim($_POST['link']); // Remove whitespace before and after url
