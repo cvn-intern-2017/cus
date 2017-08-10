@@ -60,6 +60,7 @@
 
         function loadURLInfoToHomePage($id){
             $data = $this->model->findDataById($id);
+            $data  = json_encode($data);
             $this->loadView("home",$data);
         }
 
