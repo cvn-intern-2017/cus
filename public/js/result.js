@@ -1,7 +1,7 @@
 function addNewRecord(data){
   var dataObject = {
        'original_link' : (data.original_link.length > 64)?(data.original_link.substr(0,64)+'...'):data.original_link,
-       'shorten_link'  : 'cus.dev.cybozu.xyz/' + data.key_url
+       'shorten_link'  : 'http://cus.dev.cybozu.xyz/' + data.key_url
   };
   var result = localStorage.getItem('Data');
   if(result){
@@ -35,7 +35,7 @@ function removeOlderRecord(){
 
 function hasInLocalStorage(data){
   var result = localStorage.getItem('Data');
-  var shortenLink = 'cus.dev.cybozu.xyz/' + data.key_url;
+  var shortenLink = 'http://cus.dev.cybozu.xyz/' + data.key_url;
   var lenghtStorage = result.length;
   for(var i = 0; i < 5; i++){
      var shortenLinkAtStorage = JSON.parse(result)[i].shorten_link;
