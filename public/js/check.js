@@ -1,6 +1,6 @@
 
 
-function check(){
+function checkURL(){
   var txtInputUrl     = document.getElementById('input_url');
   var valueInputUrl   = txtInputUrl.value;
   var hostname = extractHostname(valueInputUrl);
