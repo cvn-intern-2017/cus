@@ -24,7 +24,8 @@
                 }
                 $linkInput = trim($_POST['link']); // Loại bỏ khoản trống trước và sau url.
                 if(!$this->validateURL($linkInput)){
-                    $this->goToHomePage();
+                    $data['error'] = 'Invalid URL';
+                    $this->goToHomePage($data);
                     return;
                 }
                 // Tìm trong database URL link được input để lấy key.
@@ -60,12 +61,13 @@
 
         function loadURLInfoToHomePage($id){
             $data = $this->model->findDataById($id);
-            $data  = json_encode($data);
+            
+            $data = json_encode($data);
             $this->loadView("home",$data);
         }
 
-        function goToHomePage(){
-            $this->loadView("home");
+        function goToHomePage($data=array()){
+            $this->loadView("home",json_encode($data));
         }
 
         function goToMaintenancePage(){
