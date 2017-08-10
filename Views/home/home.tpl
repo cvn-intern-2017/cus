@@ -1,10 +1,11 @@
+{assign var=dataDecode value=$data|json_decode:true}
 <div class="clean100"></div>
 <div class="row">
   <div class="col s6 offset-s3">
     <div class="row">
       <div class="col s12">
         <div class="height_20px">
-          <span class="pink-text" id='error_client'></span>
+          <span class="pink-text" id='error_client'>{if isset($dataDecode.error)} {$dataDecode.error} {/if}</span>
         </div>
       </div>
     </div>
@@ -22,6 +23,6 @@
     </div>
   </div>
 </div>
-{if isset($data)}
+{if isset($dataDecode.original_link) && !(isset($dataDecode.error)) }
   {include file="Views/home/result.tpl"}
 {/if}
