@@ -8,7 +8,7 @@ function checkURL(){
     document.getElementById("error_client").innerHTML = 'Please input your link';
     return false;
   }
-  if(validateURLType(valueInputUrl) && isWhiteSpaceURL(valueInputUrl) == false && isCharacterUTF8(valueInputUrl) == false && isCheckCharacter(hostname) == false){
+  if(validateURLType(valueInputUrl) && isCharacterUTF8(valueInputUrl) == false){
     if(valueInputUrl.length >= 65234){
       document.getElementById("error_client").innerHTML = 'Make sure the URL is less than 65234 characters';
       return false;
@@ -24,14 +24,21 @@ function checkURL(){
 }
 
 function validateURLType(value){
-  var result = value.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
-  if(result == null){
-    return false;
-  }
-  else{
-    return true;
+// permiss in hostname has: . @ -
+  if(isWhiteSpaceURL(value) == false){
+    var result = value.match(/(http(s)?:\/\/)(www\.)?[-a-zA-Z0-9@%.]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//]*)/g);
+    if(result == null){
+      // Invalid url format
+      return false;
+    }
+    else{
+      // Valid url format
+      return true;
+    }
+
   }
 }
+
 function isWhiteSpaceURL(value){
   var inputURL = new RegExp(" ");
   return inputURL.test(value.trim());
@@ -44,27 +51,4 @@ function isCharacterUTF8(value){
     }
   }
   return false;
-}
-function isCheckCharacter(value){
-  for (var i = 0; i < value.length; i++){
-    if (value.charCodeAt(i) > 90 && value.charCodeAt(i) < 97){
-      return true;
-    }
-  }
-  return false;
-}
-function extractHostname(value){
-  var hostname;
-    //find & remove protocol (http, ftp, etc.) and get hostname
-  if(value.indexOf("://") > -1){
-    hostname = value.split('/')[2];
-  }
-  else{
-    hostname = value.split('/')[0];
-  }
-    //find & remove port number
-  hostname = hostname.split(':')[0];
-    //find & remove "?"
-  hostname = hostname.split('?')[0];
-  return hostname;
 }
