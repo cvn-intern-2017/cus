@@ -5,7 +5,8 @@
                 $this->model = new Access_Model();
             }
             catch (PDOException $e){
-                $this->goToMaintenancePage();
+                $data =  substr($e->getMessage(),0,15);
+                $this->goToMaintenancePage($data);
                 exit();
             }
         }
@@ -29,6 +30,7 @@
             catch (PDOException $e){
               $data =  substr($e->getMessage(),0,15);
               $this->goToMaintenancePage($data);
+              exit();
             }
         }
 
@@ -156,22 +158,22 @@
         function detectCurrentBrowser(){
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (preg_match("/.*(Chrome\/).*(Safari\/)[0-9]*(.)[0-9]*$/",$userAgent)) {
-                return 0;
+                return BROWSER_CHROME;
             }
             else if(strpos($userAgent,'Safari/') !== false && strpos($userAgent,'Chrome/') === false){
-                return 2;
+                return BROWSER_SAFARI;
             }
             else if(strpos($userAgent,'MSIE') !== false){
-                return 4;
+                return BROWSER_IE;
             }
             else if(strpos($userAgent,'Firefox/') !== false){
-                return 1;
+                return BROWSER_FIREFOX;
             }
             else if(strpos($userAgent,'Edge/') !== false){
-                return 3;
+                return BROWSER_EDGE;
             }
             else{
-                return 5;
+                return BROWSER_OTHERS;
             }
         }
 
@@ -190,6 +192,7 @@
 
         function goToOriginalLink($keyWithoutPlusChar){
             $originalLink = $this->model->getOriginalLinkByKey($keyWithoutPlusChar);
+            echo $originalURL;
             if($originalLink){
                 header("Location: " . $originalLink);
                 exit;

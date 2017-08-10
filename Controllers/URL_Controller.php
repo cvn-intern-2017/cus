@@ -7,8 +7,9 @@
                 $this->model = new URL_Model();
             }
             catch (PDOException $e){
-                $this->goToMaintenancePage();
-                exit();
+              $data =  substr($e->getMessage(),0,15);
+              $this->goToMaintenancePage($data);
+              exit();
             }
         }
 
@@ -41,6 +42,7 @@
             catch(PDOException $e){
                  $data =  substr($e->getMessage(),0,15);
                  $this->goToMaintenancePage($data);
+                 exit();
             }
         }
 

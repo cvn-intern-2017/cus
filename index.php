@@ -22,6 +22,7 @@
     define('BROWSER_SAFARI',2);
     define('BROWSER_EDGE',3);
     define('BROWSER_IE',4);
+    define('BROWSER_OTHERS',5);
     // Constant View page
     define('PAGE_MAINTENANCE','maintenance');
     define('PAGE_404','404');
