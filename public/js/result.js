@@ -1,7 +1,7 @@
 function addNewRecord(data){
   var dataObject = {
        'original_link' : (data.original_link.length > 64)?(data.original_link.substr(0,64)+'...'):data.original_link,
-       'shorten_link'  : data.key_url
+       'shorten_link'  : 'cus.dev.cybozu.xyz/' + data.key_url
   };
   var result = localStorage.getItem('Data');
   if(result){
@@ -16,7 +16,6 @@ function addNewRecord(data){
 
 function printRecords(){
   var result = localStorage.getItem('Data');
-  var lenghtStorage = result.length;
   for(var i = 0; i < 5; i++){
      var originallink = JSON.parse(result)[i].original_link;
      var shortenlink = JSON.parse(result)[i].shorten_link;
@@ -32,4 +31,15 @@ function removeOlderRecord(){
     data = (JSON.parse(data)).slice(0,5);
     localStorage.setItem('Data',JSON.stringify(data));
   }
+}
+
+function hasInLocalStorage(data){
+  var result = localStorage.getItem('Data');
+  var shortenLink = 'cus.dev.cybozu.xyz/' + data.key_url;
+  var lenghtStorage = result.length;
+  for(var i = 0; i < 5; i++){
+     var shortenLinkAtStorage = JSON.parse(result)[i].shorten_link;
+     if(shortenLink === shortenLinkAtStorage) return true;
+   }
+   return false;
 }
