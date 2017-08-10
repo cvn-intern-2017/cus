@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2017 at 11:45 AM
+-- Generation Time: Aug 10, 2017 at 12:02 PM
 -- Server version: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -126,8 +126,25 @@ DELIMITER ;
 CREATE TABLE `access` (
   `id` bigint(11) NOT NULL,
   `browser` tinyint(1) NOT NULL,
-  `clicked_time` text NOT NULL
+  `clicked_time` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `access`
+--
+
+INSERT INTO `access` (`id`, `browser`, `clicked_time`) VALUES
+(7, 0, '1502158879 1502158880 1502158881 1502158889 1502161340 1502163363 1502327983'),
+(7, 4, '1502162049'),
+(7, 5, '1502162040 1502351183'),
+(8, 0, '1502161370'),
+(8, 1, '1502161923'),
+(8, 5, '1502161896 1502161902'),
+(9, 0, '1502349009 1502351038'),
+(9, 5, '1502349309 1502349338'),
+(11, 0, '1502344775'),
+(12, 0, '1502348700 1502349060'),
+(13, 5, '1502348963');
 
 -- --------------------------------------------------------
 
@@ -147,7 +164,18 @@ CREATE TABLE `url` (
 --
 
 INSERT INTO `url` (`id`, `key_url`, `original_link`, `created_time`) VALUES
-(1, '000001', 'https://stackoverflow.com/questions/559363/matching-a-space-in-regex', '2017-08-07 09:33:53');
+(5, '000005', 'http://cus.dev.cybozu.xyz/00000B', '2017-08-07 09:55:26'),
+(6, '000006', 'http://bongdaplus.vn/', '2017-08-07 09:56:07'),
+(7, '000007', 'http://bongdaplus.vn/tin-tuc/chuyen-nhuong/tong-hop-chuyen-nhuong/tin-chuyen-nhuong-7-8-m-u-chi-40-trieu-euro-cho-sergi-roberto-1934441708.html', '2017-08-07 09:56:58'),
+(8, '000008', 'http://sandbox.onlinephpfunctions.com/', '2017-08-08 03:02:48'),
+(9, '000009', 'https://stackoverflow.com/questions/1285514/howto-generate-json-with-smarty', '2017-08-10 04:17:05'),
+(10, '00000a', 'http://localhost/phpmyadmin/sql.php?server=1&db=cus&table=url&pos=0', '2017-08-10 04:25:35'),
+(11, '00000b', 'https://stackoverflo#w.com/questions/1285514/howto-generate-json-with-smarty', '2017-08-10 05:55:52'),
+(12, '00000c', 'https://docs.microsoft.com/en-us/sql/odbc/reference/develop-app/transaction-isolation-levels', '2017-08-10 07:03:57'),
+(13, '00000d', 'https://tenten.vn/', '2017-08-10 07:04:11'),
+(14, '00000e', 'https://bozuman.cybozu.com/g/space/top.csp?spid=1881&nid=31970457&tid=16359#tid=16359&cmid=715058', '2017-08-10 07:09:32'),
+(15, '00000f', 'https://github.com/cvn-intern-2017/cus', '2017-08-10 07:15:32'),
+(16, '00000g', 'http://www.msn.com/?pc=UE01&ocid=UE01DHP', '2017-08-10 07:17:08');
 
 --
 -- Triggers `url`
@@ -188,7 +216,7 @@ ALTER TABLE `url`
 -- AUTO_INCREMENT for table `url`
 --
 ALTER TABLE `url`
-  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- Constraints for dumped tables
 --
