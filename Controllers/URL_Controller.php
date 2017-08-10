@@ -19,7 +19,8 @@
         function inputAction() {
             try{
                 if(!isset($_POST['link']) || !($_POST['link'] !== '')){
-                    $this->goToHomePage();
+                    $data['error'] = 'Please Input Your URL';
+                    $this->goToHomePage($data);
                     return;
                 }
                 $linkInput = trim($_POST['link']); // Loại bỏ khoản trống trước và sau url.
@@ -61,7 +62,7 @@
 
         function loadURLInfoToHomePage($id){
             $data = $this->model->findDataById($id);
-            
+
             $data = json_encode($data);
             $this->loadView("home",$data);
         }
