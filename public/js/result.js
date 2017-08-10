@@ -16,7 +16,8 @@ function addNewRecord(data){
 
 function printRecords(){
   var result = localStorage.getItem('Data');
-  for(var i = 0; i < 5; i++){
+  var lengthStorage = JSON.parse(result).length;
+  for(var i = 0; i < lengthStorage; i++){
      var originallink = JSON.parse(result)[i].original_link;
      var shortenlink = JSON.parse(result)[i].shorten_link;
      var content = document.getElementById('tbody');
@@ -36,8 +37,11 @@ function removeOlderRecord(){
 function hasInLocalStorage(data){
   var result = localStorage.getItem('Data');
   var shortenLink = 'http://cus.dev.cybozu.xyz/' + data.key_url;
-  var lenghtStorage = result.length;
-  for(var i = 0; i < 5; i++){
+  if(result === null) {
+    return;
+  }
+  var lengthStorage = JSON.parse(result).length;
+  for(var i = 0; i < lengthStorage; i++){
      var shortenLinkAtStorage = JSON.parse(result)[i].shorten_link;
      if(shortenLink === shortenLinkAtStorage) return true;
    }
