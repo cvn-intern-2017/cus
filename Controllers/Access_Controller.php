@@ -14,7 +14,7 @@
             try{
                 $URIOnAddressBar = $_SERVER['REQUEST_URI'];
                 $keyFromURL = $this->verifyKeyFromURI($URIOnAddressBar);
-                // Sau khi kiểm tra: $keyFromURL length chỉ có thể là 6 hoặc 7 hoặc null
+                //$keyFromURL.lenght can only be 6 or 7
                 if(!$keyFromURL){
                     $this->goTo404Page();
                     return;
@@ -38,7 +38,7 @@
             $notDone = true;
             while($notDone && $retry < MAX_RETRY_ROLLBACK) {
                 try{
-                    // start transaction với isolation level là serializable
+                    // Start transaction with isolation level is SERIALIZABLE
                     $this->model->startTransaction('SERIALIZABLE');
                     $this->addNewLinkAccessRecord($keyFromURL,$browserAccessURL);
                     $this->model->commit();
@@ -50,7 +50,8 @@
                 }
             }
             if($retry >= MAX_RETRY_ROLLBACK){
-                throw new PDOException(); // Quăng exception để inputAction bắt lỗi try-catch, hiện trang maintenance.
+                //MAX_RETRY_ROLLBACK exceeding, show maintenance page by exception.
+                throw new PDOException();
             }
         }
 
@@ -58,11 +59,11 @@
             $clickedTimes = $this->model->findClickedTimeShortenURL($keyFromURL,$browserAccessURL);
             if($clickedTimes) {
                 $clickedTimes = $clickedTimes . " " . time();
-                  // Nếu update không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
+                  // if  update fail, show maintenance page by exception.
                 $updateSuccess =  $this->model->updateClickedTimeAccessRecord($keyFromURL,$browserAccessURL,$clickedTimes);
             }
             else {
-                // Nếu insert không thành công sẽ quăng expcetion và bị bắt try catch, hiện trang maintenance.
+                  // if  insert fail, show maintenance page by exception.
                 $insertSuccess = $this->model->insertAccessRecord($keyFromURL,$browserAccessURL,strval(time()));
             }
         }
@@ -71,9 +72,9 @@
             return $this->model->checkURLKey($key);
         }
         /*
-          + Kiem tra URI
-          + Kiem tra pattern cua key_url
-          + Kiem tra key co trong database khong.
+          + Check URI
+          + Check key_url's pattern
+          + Check whether the key is in the database
           return key or null
         */
         function verifyKeyFromURI($URIOnAddressBar){
@@ -100,15 +101,15 @@
 
         function convertBrowserIdToRealName($browserId){
             switch ($browserId) {
-                case 0:
+                case BROWSER_CHROME:
                     return 'Chrome';
-                case 1:
+                case BROWSER_FIREFOX:
                     return 'Firefox';
-                case 2:
+                case BROWSER_SAFARI:
                     return 'Safari';
-                case 3:
+                case BROWSER_EDGE:
                     return 'Edge';
-                case 4:
+                case BROWSER_IE:
                     return 'IE';
                 default:
                     return 'Others';
@@ -176,15 +177,15 @@
 
         function goToAnalyticsPage($key){
             $data = $this->getAnalysticsData($key);
-            $this->loadView("analytics",$data);
+            $this->loadView(PAGE_ANALYTICS,$data);
         }
 
         function goToMaintenancePage(){
-            $this->loadView("maintenance");
+            $this->loadView(PAGE_MAINTENANCE);
         }
 
         function goTo404Page(){
-            $this->loadView("404");
+            $this->loadView(PAGE_404);
         }
 
         function goToOriginalLink($keyWithoutPlusChar){
