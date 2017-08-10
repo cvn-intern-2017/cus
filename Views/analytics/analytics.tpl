@@ -37,57 +37,24 @@
 {if isset($data.alltime)}
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="{$pathPublic}js/drawchart.js"></script>
-  <script>
-    var arrDataAllTime = [['Browser', 'Clicked Time']];
-    var arrDataTwoHours = [['Browser', 'Clicked Time']];
-    var arrDataDay = [['Browser', 'Clicked Time']];
-    var arrDataMonth = [['Browser', 'Clicked Time']];
-    var arrDataYear = [['Browser', 'Clicked Time']];
-    {foreach from = $data.alltime key = browser item = num}
-        arrDataAllTime.push(['{$browser}', {$num}]);
-    {/foreach}
-    {foreach from = $data.twohours key = browser item = num}
-        arrDataTwoHours.push(['{$browser}', {$num}]);
-    {/foreach}
-    {foreach from = $data.day key = browser item = num}
-        arrDataDay.push(['{$browser}', {$num}]);
-    {/foreach}
-    {foreach from = $data.month key = browser item = num}
-        arrDataMonth.push(['{$browser}', {$num}]);
-    {/foreach}
-    {foreach from = $data.year key = browser item = num}
-        arrDataYear.push(['{$browser}', {$num}]);
-    {/foreach}
 
-    $(document).ready(function(){
-      draw('alltime',arrDataAllTime);
-      $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-      $('select#myTimeFrame').on('change',function(){
-        $('#chart_alltime, #chart_day, #chart_twohours, #chart_month, #chart_year').removeClass('hide');
-        switch ($("select#myTimeFrame").val()) {
-          case "alltime":
-            draw('alltime',arrDataAllTime);
-            $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-            break;
-          case "twohours":
-            draw('twohours',arrDataTwoHours);
-            $('#chart_alltime, #chart_day, #chart_month, #chart_year').addClass('hide');
-            break;
-          case "day":
-            draw('day',arrDataDay);
-            $('#chart_alltime, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-            break;
-          case "month":
-            draw('month',arrDataMonth);
-            $('#chart_alltime, #chart_day, #chart_twohours, #chart_year').addClass('hide');
-            break;
-          case "year":
-            draw('year',arrDataYear);
-            $('#chart_alltime, #chart_day, #chart_twohours, #chart_month').addClass('hide');
-        }
-      });
-    });
+  <script>
+  var dataAllTimeObj = {$data.alltime|@json_encode};
+  sendDataToJs(dataAllTimeObj,'all');
+
+  var dataTwoHoursObj = {$data.twohours|@json_encode};
+  sendDataToJs(dataTwoHoursObj,'2hours');
+
+  var dataDayObj = {$data.day|@json_encode};
+  sendDataToJs(dataDayObj,'day');
+
+  var dataMonthObj = {$data.month|@json_encode};
+  sendDataToJs(dataMonthObj,'month');
+
+  var dataYearObj = {$data.year|@json_encode};
+  sendDataToJs(dataYearObj,'year');
   </script>
+
   <div class="row">
     <div class="col s9">
       <div class="row" id="chart" style="min-height:500px;">
