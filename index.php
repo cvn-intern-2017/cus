@@ -26,8 +26,9 @@
     define('PAGE_MAINTENANCE','maintenance');
     define('PAGE_404','404');
     define('PAGE_ANALYTICS','analytics');
+    define('PAGE_HOME','home');
     include_once PATH_LIB . 'Utils.php';
-    // Trường hợp vào giao diện input URL để nhận shortlink.
+    // In case access  PAGE_HOME to get shortlink.
     if($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') {
     		if(isset($_POST['submit'])){
     			  $controllerObject = new URL_Controller();
@@ -38,7 +39,7 @@
             $controllerObject->indexAction();
         }
     }
-    // Trường hợp vào shortlink hoặc vào trang data analystics.
+    // In case redirect originalURL or PAGE_ANALYTICS.
     else{
       	$controllerObject = new Access_Controller();
       	$controllerObject->indexAction();

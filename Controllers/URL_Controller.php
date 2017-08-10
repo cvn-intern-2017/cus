@@ -22,17 +22,17 @@
                     $this->goToHomePage();
                     return;
                 }
-                $linkInput = trim($_POST['link']); // Loại bỏ khoản trống trước và sau url.
+                $linkInput = trim($_POST['link']); // Remove whitespace before and after url
                 if(!$this->validateURL($linkInput)){
                     $data['error'] = 'Invalid URL';
                     $this->goToHomePage($data);
                     return;
                 }
-                // Tìm trong database URL link được input để lấy key.
+                // Find key in database url
                 $idForLoadInfoLink = $this->hadURLInDatabase($linkInput);
                 if(!$idForLoadInfoLink){
                     $newId = $this->addNewURLRecord($linkInput);
-                    // Nếu không có key cũ để load thì lấy key mới tạo để load.
+                    // If the key does not exist then create a new key to load
                     $idForLoadInfoLink = $newId;
                 }
                 $this->loadURLInfoToHomePage($idForLoadInfoLink);
@@ -50,8 +50,8 @@
         }
 
         function validateURL($url){
-            $inputURLWithoutScriptTags = strip_tags($url); // Lọc những tags của javascript để tránh XSS attack
-            if(filter_var($inputURLWithoutScriptTags,FILTER_VALIDATE_URL) && strlen($url) < MAX_URL_CHARS){  // Kiểm tra xem input có phải URL không.
+            $inputURLWithoutScriptTags = strip_tags($url); // Filtering tags of javascript to avoid XSS attack
+            if(filter_var($inputURLWithoutScriptTags,FILTER_VALIDATE_URL) && strlen($url) < MAX_URL_CHARS){  // Check if the input is a URL.
                 return true;
             }
             else{
@@ -61,17 +61,17 @@
 
         function loadURLInfoToHomePage($id){
             $data = $this->model->findDataById($id);
-            
+
             $data = json_encode($data);
-            $this->loadView("home",$data);
+            $this->loadView(PAGE_HOME,$data);
         }
 
         function goToHomePage($data=array()){
-            $this->loadView("home",json_encode($data));
+            $this->loadView(PAGE_HOME,json_encode($data));
         }
 
         function goToMaintenancePage(){
-            $this->loadView("maintenance");
+            $this->loadView(PAGE_MAINTENANCE);
         }
 
         function hadURLInDatabase($originalURL){
