@@ -27,8 +27,8 @@
                 $this->goToOriginalLink($keyFromURL);
             }
             catch (PDOException $e){
-                $this->goToMaintenancePage();
-                exit();
+              $data =  substr($e->getMessage(),0,15);
+              $this->goToMaintenancePage($data);
             }
         }
 
@@ -180,8 +180,8 @@
             $this->loadView(PAGE_ANALYTICS,$data);
         }
 
-        function goToMaintenancePage(){
-            $this->loadView(PAGE_MAINTENANCE);
+        function goToMaintenancePage($data){
+            $this->loadView(PAGE_MAINTENANCE,$data);
         }
 
         function goTo404Page(){

@@ -38,8 +38,8 @@
                 $this->loadURLInfoToHomePage($idForLoadInfoLink);
             }
             catch(PDOException $e){
-                $this->goToMaintenancePage();
-                exit();
+                 $data =  substr($e->getMessage(),0,15);
+                 $this->goToMaintenancePage($data);
             }
         }
 
@@ -70,8 +70,8 @@
             $this->loadView(PAGE_HOME,json_encode($data));
         }
 
-        function goToMaintenancePage(){
-            $this->loadView(PAGE_MAINTENANCE);
+        function goToMaintenancePage($data){
+            $this->loadView(PAGE_MAINTENANCE,$data);
         }
 
         function hadURLInDatabase($originalURL){
@@ -83,5 +83,6 @@
                 return false;
             }
         }
+
     }
 ?>
