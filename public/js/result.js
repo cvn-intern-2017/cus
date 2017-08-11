@@ -16,7 +16,7 @@ function addNewRecord(data){
 
 function printRecords(){
   var result = localStorage.getItem('Data');
-  var lengthStorage = JSON.parse(result).length;
+  var lengthStorage = (JSON.parse(result).length > 5) ? 5 : JSON.parse(result).length ;
   for(var i = 0; i < lengthStorage; i++){
      var originallink = JSON.parse(result)[i].original_link;
      var shortenlink = JSON.parse(result)[i].shorten_link;
@@ -40,7 +40,7 @@ function hasInLocalStorage(data){
   if(result === null) {
     return;
   }
-  var lengthStorage = JSON.parse(result).length;
+  var lengthStorage = (JSON.parse(result).length > 5) ? 5 : JSON.parse(result).length ;
   for(var i = 0; i < lengthStorage; i++){
      var shortenLinkAtStorage = JSON.parse(result)[i].shorten_link;
      if(shortenLink === shortenLinkAtStorage) return true;
