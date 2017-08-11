@@ -1,7 +1,4 @@
-
-
 function checkURL(){
-  console.log('2');
   var txtInputUrl     = document.getElementById('input_url');
   var valueInputUrl   = txtInputUrl.value;
 
@@ -9,6 +6,7 @@ function checkURL(){
     document.getElementById("error_client").innerHTML = 'Please input your link';
     return false;
   }
+  
   if(validateURLType(valueInputUrl) && isCharacterUTF8(valueInputUrl) == false){
     if(valueInputUrl.length >= 65234){
       document.getElementById("error_client").innerHTML = 'Make sure the URL is less than 65234 characters';
@@ -27,7 +25,6 @@ function checkURL(){
 
 function validateURLType(value){
 // permiss in hostname has: . @ -
-
   if(isWhiteSpaceURL(value) == false){
     var result = value.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
 
