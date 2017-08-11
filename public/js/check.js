@@ -1,9 +1,10 @@
 
 
 function checkURL(){
+  console.log('2');
   var txtInputUrl     = document.getElementById('input_url');
   var valueInputUrl   = txtInputUrl.value;
-  var hostname = extractHostname(valueInputUrl);
+
   if(valueInputUrl == ''){
     document.getElementById("error_client").innerHTML = 'Please input your link';
     return false;
@@ -21,12 +22,15 @@ function checkURL(){
     document.getElementById("error_client").innerHTML = 'Invalid URL';
     return false;
   }
+
 }
 
 function validateURLType(value){
 // permiss in hostname has: . @ -
+
   if(isWhiteSpaceURL(value) == false){
-    var result = value.match(/(http(s)?:\/\/)(www\.)?[-a-zA-Z0-9@%.]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//]*)/g);
+    var result = value.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+
     if(result == null){
       // Invalid url format
       return false;
