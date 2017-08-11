@@ -61,33 +61,33 @@ function sendDataToJs(objDataTimeFrame,timeFrame){
       }
       break;
   }
-  $(document).ready(function(){
-    draw('alltime',arrDataAllTime);
-    $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-    $('select#myTimeFrame').on('change',function(){
-      $('#chart_alltime, #chart_day, #chart_twohours, #chart_month, #chart_year').removeClass('hide');
-      switch ($("select#myTimeFrame").val()) {
-        case "alltime":
-          draw('alltime',arrDataAllTime);
-          $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-          break;
-        case "twohours":
-          draw('twohours',arrDataTwoHours);
-          $('#chart_alltime, #chart_day, #chart_month, #chart_year').addClass('hide');
-          break;
-        case "day":
-          draw('day',arrDataDay);
-          $('#chart_alltime, #chart_twohours, #chart_month, #chart_year').addClass('hide');
-          break;
-        case "month":
-          draw('month',arrDataMonth);
-          $('#chart_alltime, #chart_day, #chart_twohours, #chart_year').addClass('hide');
-          break;
-        case "year":
-          draw('year',arrDataYear);
-          $('#chart_alltime, #chart_day, #chart_twohours, #chart_month').addClass('hide');
-      }
-    });
-  });
-
 }
+
+$(document).ready(function(){
+  draw('alltime',arrDataAllTime);
+  $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
+  $('select#myTimeFrame').on('change',function(){
+    $('#chart_alltime, #chart_day, #chart_twohours, #chart_month, #chart_year').removeClass('hide');
+    switch ($("select#myTimeFrame").val()) {
+      case "alltime":
+        draw('alltime',arrDataAllTime);
+        $('#chart_day, #chart_twohours, #chart_month, #chart_year').addClass('hide');
+        break;
+      case "twohours":
+        draw('twohours',arrDataTwoHours);
+        $('#chart_alltime, #chart_day, #chart_month, #chart_year').addClass('hide');
+        break;
+      case "day":
+        draw('day',arrDataDay);
+        $('#chart_alltime, #chart_twohours, #chart_month, #chart_year').addClass('hide');
+        break;
+      case "month":
+        draw('month',arrDataMonth);
+        $('#chart_alltime, #chart_day, #chart_twohours, #chart_year').addClass('hide');
+        break;
+      case "year":
+        draw('year',arrDataYear);
+        $('#chart_alltime, #chart_day, #chart_twohours, #chart_month').addClass('hide');
+    }
+  });
+});
